@@ -1,8 +1,8 @@
 import {Route, Routes} from "react-router-dom";
 import styled from "styled-components";
-import Nav from "../../layouts/Nav";
+import Nav from "../layouts/Nav";
 
-const User = () => {
+const Main = () => {
   return (
     <>
       <Nav />
@@ -12,7 +12,7 @@ const User = () => {
   );
 };
 
-export default User;
+export default Main;
 
 const Section = styled.section`
   padding-top: 45px;
