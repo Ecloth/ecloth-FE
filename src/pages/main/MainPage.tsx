@@ -1,15 +1,44 @@
-import React, {useEffect} from "react";
 import styled from "styled-components";
 import {SlMagnifier} from "react-icons/sl";
 import {BiCurrentLocation} from "react-icons/Bi";
-import useGeolocation from "./useGeolocation";
+import {useState} from "react";
+import axios from "axios";
 
-export default function Main() {
-  const location = useGeolocation();
+export default function MainPage() {
+  const [locationObj, setLocationObj] = useState<any>({});
+  const [latitude, setLatitude] = useState<number>();
+  const [longitude, setLongitude] = useState<number>();
 
-  const handleLocationButton = () => {
-    {
-      location.loaded ? JSON.stringify(location) : "Location data not available yet.";
+  navigator.geolocation.getCurrentPosition(position => {
+    const {latitude, longitude} = position.coords;
+    // Show a map centered at latitude / longitude.
+    setLatitude(latitude);
+    setLongitude(longitude);
+    console.log(latitude, longitude);
+  });
+
+  const API = import.meta.env.VITE_APP_apikey;
+  console.log("aa", API);
+  const handleLocationButton = async () => {
+    try {
+      const res = await axios
+        .get(`https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${longitude}&y=${latitude}`, {
+          headers: {
+            Authorization: `KakaoAK ${API}`,
+          },
+        })
+        .then(res => {
+          const location = res.data.documents[0];
+          setLocationObj({
+            si: location.address.region_1depth_name,
+            gu: location.address.region_2depth_name,
+            dong: location.address.region_3depth_name,
+            address_name: location.address.address_name,
+          });
+        });
+      console.log("tt", location);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -25,10 +54,12 @@ export default function Main() {
       </Topdiv>
       <Divmenu>
         <Weather>
-          <Text>날씨 이미지 첨부</Text>
+          <Text>
+            {latitude} {longitude}
+          </Text>
         </Weather>
         <Clothing>
-          <Text>온도별 옷차림</Text>
+          <Text>{locationObj.si}</Text>
         </Clothing>
       </Divmenu>
     </Body>
