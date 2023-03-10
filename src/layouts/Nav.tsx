@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export default function Nav() {
   const buttonList = [
-    {text: "Community", path: "/"},
+    {text: "Feed", path: "/"},
     {text: "Chat", path: "/"},
   ];
 
