@@ -4,7 +4,7 @@ import ItemFooter from "./ItemFooter";
 import ItemHeader from "./ItemHeader";
 import ItemImage from "./ItemImage";
 
-function CommunityItem() {
+function FeedItem() {
   return (
     <ItemWrapper>
       <ItemImage />
@@ -15,7 +15,7 @@ function CommunityItem() {
   );
 }
 
-export default CommunityItem;
+export default FeedItem;
 
 const ItemWrapper = styled.span`
   display: block;
@@ -23,7 +23,7 @@ const ItemWrapper = styled.span`
   flex-direction: column;
   justify-content: space-between;
   margin: 10px 3px;
-  min-width: 250px;
+  min-width: 200px;
   width: 22%;
   padding: 15px 5px;
   height: 470px;

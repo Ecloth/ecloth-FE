@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import CommunityItem from "./FeedItem";
+import FeedItem from "./FeedItem";
 
 function CommunityBody() {
   return (
     <BodyWrapper>
-      <CommunityItem></CommunityItem>
-      <CommunityItem></CommunityItem>
-      <CommunityItem></CommunityItem>
-      <CommunityItem></CommunityItem>
+      <FeedItem></FeedItem>
+      <FeedItem></FeedItem>
+      <FeedItem></FeedItem>
+      <FeedItem></FeedItem>
     </BodyWrapper>
   );
 }
@@ -20,5 +20,5 @@ const BodyWrapper = styled.article`
   flex: 1;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
