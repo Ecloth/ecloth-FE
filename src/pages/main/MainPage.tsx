@@ -1,67 +1,61 @@
-import styled from "styled-components";
-import {SlMagnifier} from "react-icons/sl";
-import {BiCurrentLocation} from "react-icons/Bi";
-import {useState} from "react";
-import axios from "axios";
+import styled from 'styled-components';
+import { useState } from 'react';
+import MapSearch from './MapSearch';
+import WeatherGraph from './WeatherGraph';
+import LoadImg from './SeasonBg';
+import Temperature from './Temperature';
+import dfs_xy_conv from './GridTransformation.ts';
+import {
+  CurrentXState,
+  CurrentYState,
+  GridXState,
+  GridYState,
+} from '../../atoms/Atom';
+import { useRecoilState } from 'recoil';
+import ClothePage from './ClothePage';
+import SeasonBg from './SeasonBg';
 
 export default function MainPage() {
-  const [locationObj, setLocationObj] = useState<any>({});
-  const [latitude, setLatitude] = useState<number>();
-  const [longitude, setLongitude] = useState<number>();
+  const [latitude, setLatitude] = useState<number | any>();
+  const [longitude, setLongitude] = useState<number | any>();
+  const [gridX, setGridX] = useRecoilState<number | any>(GridXState);
+  const [gridY, setGridY] = useRecoilState<number | any>(GridYState);
+  const [currentX, setCurrentX] = useRecoilState<number | any>(CurrentXState);
+  const [currentY, setCurrentY] = useRecoilState<number | any>(CurrentYState);
 
-  navigator.geolocation.getCurrentPosition(position => {
-    const {latitude, longitude} = position.coords;
-    // Show a map centered at latitude / longitude.
+  navigator.geolocation.getCurrentPosition((position) => {
+    const { latitude, longitude } = position.coords;
     setLatitude(latitude);
     setLongitude(longitude);
-    console.log(latitude, longitude);
   });
 
-  const API = import.meta.env.VITE_APP_apikey;
-  console.log("aa", API);
-  const handleLocationButton = async () => {
-    try {
-      const res = await axios
-        .get(`https://dapi.kakao.com/v2/local/geo/coord2address.json?input_coord=WGS84&x=${longitude}&y=${latitude}`, {
-          headers: {
-            Authorization: `KakaoAK ${API}`,
-          },
-        })
-        .then(res => {
-          const location = res.data.documents[0];
-          setLocationObj({
-            si: location.address.region_1depth_name,
-            gu: location.address.region_2depth_name,
-            dong: location.address.region_3depth_name,
-            address_name: location.address.address_name,
-          });
-        });
-      console.log("tt", location);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // LCC DFS 좌표변환 ( code : "toXY"(위경도->좌표, v1:위도, v2:경도), "toLL"(좌표->위경도,v1:x, v2:y) )
+  const rs = dfs_xy_conv('toXY', currentY, currentX);
+  const rx = dfs_xy_conv('toXY', gridY, gridX);
   return (
     <Body>
       <Topdiv>
-        <Input type="text" placeholder="주요지명으로 입력" />
-        <SlMagnifierButon>
-          <SlMagnifier />
-        </SlMagnifierButon>
-        <SlMagnifierButon type="button" onClick={handleLocationButton}>
-          <BiCurrentLocation />
-        </SlMagnifierButon>
+        <MapSearch latitude={latitude} longitude={longitude} />
       </Topdiv>
-      <Divmenu>
+      <Main>
         <Weather>
-          <Text>
-            {latitude} {longitude}
-          </Text>
+          <TemperatureDiv>
+            <Temperature
+              latitude={currentY}
+              longitude={currentX}
+              gridX={gridX}
+              gridY={gridY}
+            />
+          </TemperatureDiv>
+          <GraphDiv>
+            <WeatherGraph />
+          </GraphDiv>
+          <SeasonBg />
         </Weather>
         <Clothing>
-          <Text>{locationObj.si}</Text>
+          <ClothePage />
         </Clothing>
-      </Divmenu>
+      </Main>
     </Body>
   );
 }
@@ -74,54 +68,60 @@ const Topdiv = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  margin-top: 30px;
-`;
-const Input = styled.input`
-  font-size: 18px;
-  padding: 15px;
-  box-sizing: border-box;
-  margin-left: 30px;
-  margin-right: 10px;
-  width: 45%;
-  background: papayawhip;
-  border: none;
-  border-radius: 3px;
-  ::placeholder {
-    color: palevioletred;
-  }
+  margin-top: 10px;
 `;
 
-const SlMagnifierButon = styled.button`
-  width: 50px;
-  height: 45px;
-  margin: 0px;
-  padding: 0px;
-`;
-
-const Divmenu = styled.div`
+const TemperatureDiv = styled.div`
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  margin-left: auto;
+  background-color: #2b90d9;
+  width: 30%;
+  height: 20%;
+  border-radius: 50px;
+  text-align: center;
   display: flex;
+  align-items: center;
+  opacity: 80%;
+`;
+
+const GraphDiv = styled.div`
+  position: absolute;
+  left: 50%;
+  bottom: 0px;
+  transform: translate(-50%, -20%);
+  margin-left: auto;
+  background-color: #2b90d9;
+  width: 90%;
+  height: 30%;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 80%;
+`;
+
+const Main = styled.main`
+  display: flex;
+  justify-content: center;
+  height: 600px;
 `;
 const Weather = styled.div`
-  padding: 15px;
-  margin-top: 30px;
-  margin-left: 30px;
-  border: 1px solid black;
-  height: 450px;
-  width: 800px;
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 90%;
+  border: 1px solid transparent;
+  border-radius: 5px;
   box-sizing: border-box;
+  background-size: cover;
+  position: relative;
 `;
 const Clothing = styled.div`
   padding: 15px;
-  margin-top: 30px;
-  margin-left: 30px;
-  border: 1px solid black;
-  height: 450px;
-  width: 500px;
+  margin-right: 10px;
+  width: 40%;
   box-sizing: border-box;
-`;
-
-const Text = styled.span`
-  display: flex;
-  justify-content: center;
-  text-align: center;
 `;
