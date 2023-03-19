@@ -1,12 +1,13 @@
 import styled from "styled-components";
+import {dummy} from "../feed/FeedBody";
 import TopFiveItem from "./TopFiveItem";
 
 function TopFiveBody() {
   return (
     <ItemWrppaer>
-      <TopFiveItem />
-      <TopFiveItem />
-      <TopFiveItem />
+      {dummy.map(item => (
+        <TopFiveItem key={item.post_id} itemProps={item} />
+      ))}
     </ItemWrppaer>
   );
 }
