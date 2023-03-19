@@ -1,25 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ImBubble } from 'react-icons/im';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
+import { KAKAO_AUTH_URL } from '../../api/API_KEY';
+import axios from 'axios';
 
 export default function Login() {
-  const REST_API_KEY = 'ffca549b185c4443af1113843fd7582c';
-  const REDIRECT_URI = 'http://localhost:5173/KakaoLogin';
-
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+  const [email, setEmail] = useState<string>()
+  const [password, setPassword] = useState<string>()
 
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  const open = useDaumPostcodePopup(postcodeScriptUrl);
-
-  const handleClick = () => {
-    open({ onComplete: handleKakaoLogin });
+  const login = () => {
+    axios({
+      url: "http://localhost:8123/login",
+      method: "POST",
+      withCredentials: true,
+      data: {
+        email: email,
+        password: password,
+      },
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open('/', '_self')
+      }
+    });
   };
+
   return (
     <>
       <Main>
@@ -35,12 +46,12 @@ export default function Login() {
                   </LogoImgDiv>
                 </LogoBox>
                 <IdPassWordBox>
-                  <IdPassWordForm>
+                  <IdPassWordForm onSubmit={login}>
                     <LoginInpoDiv>
                       <InputDiv>
                         <InputDivDetail>
                           <InputLabel>
-                            <IdPwInput placeholder="이메일" />
+                            <IdPwInput type={email} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="이메일" />
                           </InputLabel>
                         </InputDivDetail>
                       </InputDiv>
@@ -49,13 +60,13 @@ export default function Login() {
                       <InputDiv>
                         <InputDivDetail>
                           <InputLabel>
-                            <IdPwInput placeholder="비밀번호" />
+                            <IdPwInput type={password} onChange={(e) => setPassword(e.target.value)} value={password} placeholder="비밀번호" />
                           </InputLabel>
                         </InputDivDetail>
                       </InputDiv>
                     </LoginInpoDiv>
                     <LoginButtonDiv>
-                      <LoginButton>로그인</LoginButton>
+                      <LoginButton type='submit'>로그인</LoginButton>
                     </LoginButtonDiv>
                     <StrokMainDiv>
                       <StrokDiv />
