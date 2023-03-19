@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ImBubble } from 'react-icons/im';
@@ -15,10 +15,11 @@ export default function Login() {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  const login = () => {
+  const handleLoginButton = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     axios({
-      url: "http://localhost:8123/login",
-      method: "POST",
+      url: 'http://localhost:8123/login',
+      method: 'POST',
       withCredentials: true,
       data: {
         email: email,
@@ -26,8 +27,9 @@ export default function Login() {
       },
     }).then((result) => {
       if (result.status === 200) {
-        window.open('/', '_self')
+        window.open('/', '_self');
       }
+      console.log(result);
     });
   };
 
@@ -46,7 +48,7 @@ export default function Login() {
                   </LogoImgDiv>
                 </LogoBox>
                 <IdPassWordBox>
-                  <IdPassWordForm onSubmit={login}>
+                  <IdPassWordForm onSubmit={handleLoginButton}>
                     <LoginInpoDiv>
                       <InputDiv>
                         <InputDivDetail>
