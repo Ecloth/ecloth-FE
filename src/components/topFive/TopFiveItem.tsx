@@ -25,7 +25,6 @@ function TopFiveItem({itemProps}: {itemProps: IPost}) {
           </Icon>
         </Icons>
       </Link>
-    </ItemWrapper>
   );
 }
 

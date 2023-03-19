@@ -23,7 +23,6 @@ export default FeedItem;
 
 const ItemWrapper = styled.span`
   display: block;
-
   margin: 10px 5px;
   min-width: 200px;
   width: 22%;
