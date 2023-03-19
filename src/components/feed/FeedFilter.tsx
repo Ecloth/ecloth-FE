@@ -10,7 +10,7 @@ interface Item {
   };
 }
 
-function CommunityFilter() {
+function FeedFilter() {
   const [limit, setLimit] = useState(12);
   const [page, setPage] = useState(1);
   const [items, setItems] = useState(8);
@@ -76,4 +76,4 @@ const Filter = styled.select`
   border: 1px solid rgba(0, 0, 0, 0.7);
   border-radius: 10px;
 `;
-export default CommunityFilter;
+export default FeedFilter;
