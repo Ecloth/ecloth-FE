@@ -1,86 +1,14 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { ImBubble } from 'react-icons/im';
 import styled from 'styled-components';
 import { KAKAO_AUTH_URL } from '../../api/API_KEY';
+
 export default function SignUpPage() {
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
-  const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [nickName, setNickName] = useState<string>();
-  const [phonNumber, setPhonNumber] = useState<string>("");
-  const [emailErrorMessage, setemailErrorMessage] = useState<string>('');
-  const [PasswordMessage, setePasswordMessage] = useState<string>('');
-  const [confirmPasswordMessage, seteconfirmPasswordMessage] = useState<string>('');
-  const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false)
-
-  const emailRegEx =
-    /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-  const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-
-  const handleOnSubmit = (e : FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    fetch('http://localhost:8000/auth/register', {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json;charset=utf-8' },
-      body: JSON.stringify({
-        email : email,
-        password : password,
-
-      }),
-    }).then((response)=> response.json())
-    .then((data) => console.log(data))
-  
-  }
-  const emailCheck = (email: string) => {
-    setemailErrorMessage(
-      emailRegEx.test(email) ? '' : '이메일을 확인해주세요.',
-    );
-  };
-
-  const passwordCheck = (password: string) => {
-    setePasswordMessage(
-      passwordRegEx.test(password)
-        ? ''
-        : '비밀번호는 6자리 이상 특수문자를 사용해주새요',
-    );
-  };
-
-  const handelEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.currentTarget.value);
-    emailCheck(e.target.value);
-  };
-  const handelPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.currentTarget.value);
-    passwordCheck(e.currentTarget.value);
-  };
-
-  const handelConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
-      const passwordConfirmCurrent = (e.currentTarget.value);
-      setConfirmPassword(passwordConfirmCurrent)
-    if (password === passwordConfirmCurrent) {
-        seteconfirmPasswordMessage('비밀번호가 같습니다.')
-        setIsPasswordConfirm(false)
-      } else {
-        seteconfirmPasswordMessage('비밀번호가 틀려요. 다시 확인해주세요 ㅜ ㅜ')
-        setIsPasswordConfirm(true)
-      }
-  };
-
-  const handlePhonNumber = (e: ChangeEvent<HTMLInputElement>) => {
-    setPhonNumber(e.currentTarget.value)
-  }
 
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
-
-  // 전화번호 자동 하이픈 정규식 표현
-  useEffect(() => {
-    if(phonNumber.length === 11) {
-        setPhonNumber(phonNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'))
-      }
-  }, [phonNumber])
 
   return (
     <Main>
@@ -92,7 +20,7 @@ export default function SignUpPage() {
             </LogoDiv>
           </LogoBoxDiv>
           <MemberInfo>
-            <MemberInfoForm onSubmit={handleOnSubmit}>
+            <MemberInfoForm>
               <TopMent>친구들의 사진과 게시글을 보려면 가입하세요.</TopMent>
               <KaKaoLoginDiv>
                 <KakaoLoginButton type="button" onClick={handleKakaoLogin}>
@@ -106,60 +34,20 @@ export default function SignUpPage() {
                 <StrokDiv />
               </StrokMainDiv>
               <InfoDiv>
-                <NickNameInfo>
-                  <EmailInfoInput
-                    placeholder="이메일을 입력해주세요."
-                    name="signup_id"
-                    type="email"
-                    value={email}
-                    onChange={handelEmail}
-                  />
-                </NickNameInfo>
-                <Duplication>중복확인</Duplication>
-              </InfoDiv>
-              {
-                <div
-                  style={{ fontSize: '13px', marginLeft: '45px', color: 'red' }}
-                >
-                  {emailErrorMessage}
-                </div>
-              }
-              <InfoDiv>
                 <Info>
-                  <EmailInfoInput
-                    type="password"
-                    placeholder="비밀번호를 입력해주세요"
-                    value={password}
-                    onChange={handelPassword}
-                  />
+                  <EmailInfoInput placeholder="이메일을 입력해주세요." />
                 </Info>
               </InfoDiv>
-              {
-                <div
-                  style={{ fontSize: '13px', marginLeft: '45px', color: 'red' }}
-                >
-                  {PasswordMessage}
-                </div>
-              }
               <InfoDiv>
                 <Info>
-                  {
-                    <EmailInfoInput
-                      type="password"
-                      placeholder="비밀번호를 다시 입력해주세요"
-                      value={confirmPassword}
-                      onChange={handelConfirmPassword}
-                    />
-                  }
+                  <EmailInfoInput placeholder="비밀번호를 입력해주세요" />
                 </Info>
               </InfoDiv>
-              {isPasswordConfirm && 
-                <div
-                  style={{ fontSize: '13px', marginLeft: '45px', color: 'red' }}
-                >
-                  {confirmPasswordMessage}
-                </div>
-              }
+              <InfoDiv>
+                <Info>
+                  <EmailInfoInput placeholder="비밀번호를 다시 입력해주세요" />
+                </Info>
+              </InfoDiv>
               <InfoDiv>
                 <NickNameInfo>
                   <EmailInfoInput placeholder="닉네임을 입력해주세요." />
@@ -168,7 +56,7 @@ export default function SignUpPage() {
               </InfoDiv>
               <InfoDiv>
                 <Info>
-                  <EmailInfoInput placeholder="전화번호를 입력해주세요." value={phonNumber} onChange={handlePhonNumber} />
+                  <EmailInfoInput placeholder="전화번호를 입력해주세요." />
                 </Info>
               </InfoDiv>
               <Condition>
@@ -176,39 +64,13 @@ export default function SignUpPage() {
                 <input type="checkbox" />
               </Condition>
               <KaKaoLoginDiv>
-                <SignUpButton type="submit" >
-                  <span style={{ fontSize: '14px', color: 'white' }}>
-                    가입하기
-                  </span>
+                <SignUpButton type="button" onClick={handleKakaoLogin}>
+                 <span style={{ fontSize: '14px', color: "white"}}>가입하기</span>
                 </SignUpButton>
               </KaKaoLoginDiv>{' '}
             </MemberInfoForm>
           </MemberInfo>
         </TopBoxDiv>
-        <LoginpageBox>
-          <p
-            style={{
-              fontSize: '14px',
-              margin: '15px',
-              textAlign: 'center',
-              color: 'rgb(38 38 38)',
-            }}
-          >
-            계정이 있으신가요?
-            <FindYourPW href="/Login">
-              <span
-                style={{
-                  marginLeft: '5px',
-                  fontSize: '14px',
-                  fontWeight: '600',
-                  color: 'rgb(0 149 246)',
-                }}
-              >
-                로그인
-              </span>
-            </FindYourPW>
-          </p>
-        </LoginpageBox>
       </MainDiv>
     </Main>
   );
@@ -272,7 +134,7 @@ const LogoDiv = styled.div`
 `;
 
 const LogoImg = styled.i`
-  /* background-image: url('https://campingagains3.s3.ap-northeast-2.amazonaws.com/medium_IMG_20230307_171648_359_e736fe65cb.jpg'); */
+  /* background-image: url(https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png); */
   background-position: 0px -52px;
   background-size: auto;
   width: 175px;
@@ -477,10 +339,8 @@ const Duplication = styled.button`
   padding-left: 1rem;
   padding-right: 1rem;
   margin-left: auto;
-
   height: 30px;
   font-size: 12px;
-
   background: #228be6;
   &:hover {
     background: #339af0;
@@ -501,49 +361,4 @@ const Condition = styled.p`
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-`;
-
-const LoginpageBox = styled.div`
-  align-items: center;
-  background-color: rgb(255 255 255);
-  border: 1px solid rgb(219 219 219);
-  border-radius: 1px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  font: inherit;
-  font-size: 100%;
-  margin: 0 0 10px;
-  padding: 10px 0;
-  position: relative;
-  vertical-align: baseline;
-`;
-
-const FindYourPW = styled.a`
-  margin-left: 5px;
-  color: rgb(0, 149, 246);
-  font-size: 14px;
-  line-height: 16px;
-  margin-top: 12px !important;
-  text-align: center !important;
-  display: inline;
-  padding-left: 0;
-  background-color: transparent;
-  touch-action: manipulation;
-  padding-top: 0;
-  list-style: none;
-  border-left: 0;
-  margin-bottom: 0;
-  border-bottom: 0;
-  box-sizing: border-box;
-  border-top: 0;
-  padding-right: 0;
-  cursor: pointer;
-  margin-left: 0;
-  -webkit-tap-highlight-color: transparent;
-  border-right: 0;
-  outline: none;
-  padding-bottom: 0;
-  margin-right: 0;
 `;
