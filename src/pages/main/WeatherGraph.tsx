@@ -42,11 +42,9 @@ export default function WeatherGraph() {
         return <BsFillCloudSnowFill size={'70px'} color={'white'} />;
       }
     })
-    console.log(test)
     const data2 = PTYForm.map((el) => (
       {name : el}
     ))
-      console.log(data2)
   return (
     <>
     <HorizontalScroll style={{top: "0px", width:800}}>

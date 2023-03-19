@@ -55,10 +55,9 @@ export default function Temperature(props: MapSearchProps) {
 
   const solution : string = closeHours + 100 > hours ? closeHours - 300 : closeHours;
   const curBaseTime : string = solution < "1000" ? "0" + solution : solution;
-
+  console.log(closeHours)
   // 금일 날짜 ex) 20230312
   const currentDate = Number(`${year}${month}${date}`);
-
   // 격자 X Y 값
   const rs = dfs_xy_conv(
     'toXY',
@@ -99,7 +98,6 @@ export default function Temperature(props: MapSearchProps) {
     // 기상청 open api 호출 코드
     remote
       .get(
-        // `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=j9KQz2ZxxGr5ucZ9DnsdSDqYKrmNLwG7z8lKA0RoFYGiS8cQHHIxDAWi3YVNOcFI35TY1h%2F6i2lvysGWy3X%2BHA%3D%3D&numOfRows=280&pageNo=1&dataType=JSON&base_date=${currentDate}&base_time=${solution}&nx=${rs.x}&ny=${rs.y}`,
         `http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=AUAtxZM0Y3JjyLVDdxQAvOobhLHtdxSd5MBrSFmUOHFrDfjfEl4TlLcbE6atZvQrSSYwiXIZo%2BOnQJP7j3JUGg%3D%3D&numOfRows=310&pageNo=1&dataType=JSON&base_date=${currentDate}&base_time=${curBaseTime}&nx=${rs.x}&ny=${rs.y}`,
       )
       .then((responseData) => {
@@ -108,7 +106,7 @@ export default function Temperature(props: MapSearchProps) {
         const PTY = result.filter((el: any) => el.category === 'PTY');
         setHourTempa(TMP);
         setPrecipitation(PTY);
-        console.log(TMP);
+        console.log(responseData)
       })
       .catch((error) => {
         console.log(error);
