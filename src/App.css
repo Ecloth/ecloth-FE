@@ -1,11 +1,3 @@
-:root{
-  --mainColor: #6AAFE6;
-  --blueColor: #8EC0E4;
-  --blueColor2 : #2b90d9;
-  --grayColor : #D4DFE6;
-  --grayColor2 : #CADBE9;
-
-}
 * {
   list-style: none;
   font-size: 20px;

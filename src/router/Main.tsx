@@ -8,6 +8,7 @@ import ChatId from "../pages/chat/ChatId";
 import Feed from "../pages/feed/Feed";
 import FeedPage from "../pages/feed/FeedPage";
 import Edit from "../pages/profile/Edit";
+import MainPage from "../pages/main/MainPage";
 
 const Main = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const Main = () => {
         <Route path="/feed/:id" element={<DetailModal />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/chat/:id" element={<ChatId />} />
+        <Route path="/" element={<MainPage />} />
       </Routes>
       <Footer />
     </>
