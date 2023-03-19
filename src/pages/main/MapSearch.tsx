@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {SlMagnifier} from "react-icons/sl";
@@ -14,18 +14,19 @@ interface MapSearchProps {
 }
 
 export default function MapSearch(props: MapSearchProps) {
-  const [locationObj, setLocationObj] = useState<any>({});
+  const [locationObj, setLocationObj] = useState<any>(localStorage.getItem("location"));
   const [fullAddress, setFullAddress] = useState<string>();
   const [gridX, setGridX] = useRecoilState(GridXState);
   const [gridY, setGridY] = useRecoilState(GridYState);
   const [currentX, setCurrentX] = useRecoilState(CurrentXState);
   const [currentY, setCurrentY] = useRecoilState(CurrentYState);
+  const [test, setTest] = useState<boolean>(false)
 
   const API = import.meta.env.VITE_APP_apikey;
   const handleLocationButton = async () => {
     if(gridX && gridY != null) {
-      setGridX("");
-      setGridY("");
+      setGridX(null);
+      setGridY(null);
     }
     try {
       const res = await axios
@@ -39,22 +40,19 @@ export default function MapSearch(props: MapSearchProps) {
         )
         .then(res => {
           const location = res.data.documents[0];
-          setLocationObj({
-            si: location.address.region_1depth_name,
-            gu: location.address.region_2depth_name,
-            dong: location.address.region_3depth_name,
-            address_name: location.address.address_name,
-          });
+          localStorage.setItem("location", location.address.address_name)
+          setLocationObj(location.address.address_name)
         });
         setFullAddress("");
     } catch (error) {
       console.log(error);
     }
   };
-
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
   const handleComplete = (data: any) => {
+    if(currentX && currentY != null){
+    }
     let fullAddress = data.jibunAddress;
     let extraAddress = "";
     if (data.addressType === "J") {
@@ -70,16 +68,16 @@ export default function MapSearch(props: MapSearchProps) {
     setFullAddress(fullAddress);
     setLocationObj("");
   };
-
-  const locationText = locationObj.si ? locationObj.si : "지역을 설정해주세요.";
+  // localstorage 현재위치 저장
+  const location = localStorage.getItem("location")
+  const locationText = location ? location : "지역을 설정해주세요.";
 
   const handleClick = () => {
     open({onComplete: handleComplete});
     if(currentX && currentY != null){
-      setCurrentX("");
-      setCurrentY("");
+      setCurrentX(null);
+      setCurrentY(null);
     }
-
   };
 
   const remote = axios.create();
@@ -101,12 +99,13 @@ export default function MapSearch(props: MapSearchProps) {
     });
 
   remote
-    .get(`https://dapi.kakao.com/v2/local/search/address.json?query="${locationObj.address_name}"`, {
+    .get(`https://dapi.kakao.com/v2/local/search/address.json?query="${locationObj}"`, {
       headers: {
         Authorization: `KakaoAK ${API}`,
       },
     })
     .then(responseData => {
+      console.log(responseData)
       const currentX = responseData.data.documents[0].x;
       const currentY = responseData.data.documents[0].y;
       setCurrentX(currentX);

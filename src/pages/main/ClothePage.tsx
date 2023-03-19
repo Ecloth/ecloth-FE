@@ -19,10 +19,7 @@ export default function ClothePage() {
       return Number(el.fcstValue)
     }
   });
-  // console.log(tmpTime)
-
   const TMPTime = tmpTime.filter((el) => el).find((a) => a)
-
   const currentTemp : number | undefined = TMPTime;
   let ClotheImg = "";
 
