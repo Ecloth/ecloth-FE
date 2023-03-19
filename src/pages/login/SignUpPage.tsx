@@ -2,7 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { ImBubble } from 'react-icons/im';
 import styled from 'styled-components';
-
+import { KAKAO_AUTH_URL } from '../../api/API_KEY';
 export default function SignUpPage() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
@@ -18,8 +18,19 @@ export default function SignUpPage() {
     /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
   const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 
-  const onSubmit = (e : FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = (e : FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    fetch('http://localhost:8000/auth/register', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify({
+        email : email,
+        password : password,
+
+      }),
+    }).then((response)=> response.json())
+    .then((data) => console.log(data))
+  
   }
   const emailCheck = (email: string) => {
     setemailErrorMessage(
@@ -60,11 +71,6 @@ export default function SignUpPage() {
     setPhonNumber(e.currentTarget.value)
   }
 
-  const REST_API_KEY = 'ffca549b185c4443af1113843fd7582c';
-  const REDIRECT_URI = 'http://localhost:5173/KakaoLogin';
-
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
-
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
@@ -86,7 +92,7 @@ export default function SignUpPage() {
             </LogoDiv>
           </LogoBoxDiv>
           <MemberInfo>
-            <MemberInfoForm onSubmit={onSubmit}>
+            <MemberInfoForm onSubmit={handleOnSubmit}>
               <TopMent>친구들의 사진과 게시글을 보려면 가입하세요.</TopMent>
               <KaKaoLoginDiv>
                 <KakaoLoginButton type="button" onClick={handleKakaoLogin}>
@@ -100,7 +106,7 @@ export default function SignUpPage() {
                 <StrokDiv />
               </StrokMainDiv>
               <InfoDiv>
-                <Info>
+                <NickNameInfo>
                   <EmailInfoInput
                     placeholder="이메일을 입력해주세요."
                     name="signup_id"
@@ -108,7 +114,8 @@ export default function SignUpPage() {
                     value={email}
                     onChange={handelEmail}
                   />
-                </Info>
+                </NickNameInfo>
+                <Duplication>중복확인</Duplication>
               </InfoDiv>
               {
                 <div
@@ -169,7 +176,7 @@ export default function SignUpPage() {
                 <input type="checkbox" />
               </Condition>
               <KaKaoLoginDiv>
-                <SignUpButton type="button" onClick={handleKakaoLogin}>
+                <SignUpButton type="submit" >
                   <span style={{ fontSize: '14px', color: 'white' }}>
                     가입하기
                   </span>
@@ -265,7 +272,7 @@ const LogoDiv = styled.div`
 `;
 
 const LogoImg = styled.i`
-  /* background-image: url(https://static.cdninstagram.com/rsrc.php/v3/yS/r/ajlEU-wEDyo.png); */
+  /* background-image: url('https://campingagains3.s3.ap-northeast-2.amazonaws.com/medium_IMG_20230307_171648_359_e736fe65cb.jpg'); */
   background-position: 0px -52px;
   background-size: auto;
   width: 175px;
