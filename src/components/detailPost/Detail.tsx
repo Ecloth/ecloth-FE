@@ -1,25 +1,41 @@
 import styled from "styled-components";
 import ItemUser from "../feed/ItemUser";
 import FollowButtonList from "../myPage/FollowButtonList";
-import CommentList from "./CommentList";
+import CommentList, {dummyCommentList} from "./CommentList";
 import CommentInput from "./CommentInput";
 import LikeViews from "./LikeViews";
 import PostContent from "./PostContent";
 import PostImage from "./PostImage";
+import {useParams} from "react-router-dom";
+import {dummy} from "../feed/FeedBody";
+import {useEffect, useState} from "react";
+
+export const LOGIN_ID = "test123";
 
 function Detail() {
+  const {id} = useParams();
+  const item = dummy[parseInt(id as string, 10) - 1];
+  const [isLogin, setIsLogin] = useState(item.member_id === LOGIN_ID);
+
+  console.log(id, dummy[parseInt(id as string, 10) - 1]);
+
+  // comment -------------------
+  const [commentList, setCommentList] = useState(
+    dummyCommentList.filter(comment => parseInt(id as string, 10) === comment.post_id),
+  );
+  // useEffect(() => {}, [commentList]);
   return (
     <DetailWrapper>
-      <PostImage />
+      <PostImage imgs={item.images} />
       <ContentWrapper>
         <UserWrapper>
-          <ItemUser />
-          <FollowButtonList following={true} />
+          <ItemUser id={item.member_id} img="" />
+          {isLogin ? <div>option</div> : <FollowButtonList following={true} />}
         </UserWrapper>
-        <PostContent />
-        <CommentList />
+        <PostContent title={item.title} text={item.content} />
+        <CommentList commentList={commentList} />
 
-        <LikeViews />
+        <LikeViews likes={item.like} views={item.view} />
         <CommentInput />
       </ContentWrapper>
     </DetailWrapper>

@@ -1,25 +1,28 @@
 import styled from "styled-components";
+import {IComment} from "../../types/postType";
 import RecordTime from "../commons/RecordTime";
 import ItemUser from "../feed/ItemUser";
 
-function CommentItem() {
+function CommentItem({comment}: {comment: IComment}) {
   return (
     <CommentWrapper>
-      <ItemUser />
-      <Comment>옷이 예쁘네요.</Comment>
-      <RecordTime date={"2022.05.13"} />
+      <ItemUser id={comment.member_id} img="" />
+      <Comment>{comment.content}</Comment>
+      <RecordTime date={comment.create_date} />
     </CommentWrapper>
   );
 }
 
 export default CommentItem;
 
-const CommentWrapper = styled.div`
+const CommentWrapper = styled.li`
   display: flex;
+  padding: 0;
   flex-direction: row;
   align-items: center;
-  width: 90%;
-  margin: 5px auto;
+  width: 100%;
+  justify-content: space-evenly;
+  margin: 3px 0;
 `;
 const Comment = styled.span`
   width: 50%;
