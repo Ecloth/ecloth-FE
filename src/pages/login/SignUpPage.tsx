@@ -2,12 +2,9 @@ import React from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { ImBubble } from 'react-icons/im';
 import styled from 'styled-components';
+import { KAKAO_AUTH_URL } from '../../api/API_KEY';
 
 export default function SignUpPage() {
-  const REST_API_KEY = 'ffca549b185c4443af1113843fd7582c';
-  const REDIRECT_URI = 'http://localhost:5173/KakaoLogin';
-
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
 
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
@@ -342,10 +339,8 @@ const Duplication = styled.button`
   padding-left: 1rem;
   padding-right: 1rem;
   margin-left: auto;
-
   height: 30px;
   font-size: 12px;
-
   background: #228be6;
   &:hover {
     background: #339af0;

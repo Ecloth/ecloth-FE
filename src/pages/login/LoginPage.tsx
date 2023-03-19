@@ -1,100 +1,157 @@
-import React from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ImBubble } from 'react-icons/im';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
+import axios from 'axios';
+import { KAKAO_AUTH_URL } from '../../api/API_KEY';
 
 export default function Login() {
-  const REST_API_KEY = 'ffca549b185c4443af1113843fd7582c';
-  const REDIRECT_URI = 'http://localhost:5173/KakaoLogin';
+  const [isLogin, setIsLogin] = useState(false);
+  const [user, setUser] = useState({});
 
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+
+  const handleLoginButton = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios({
+      url: 'http://localhost:8123/login',
+      method: 'POST',
+      withCredentials: true,
+      data: {
+        email: email,
+        password: password,
+      },
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open('/', '_self');
+      }
+      console.log(result);
+    });
+  };
 
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
 
-  const open = useDaumPostcodePopup(postcodeScriptUrl);
-
-  const handleClick = () => {
-    open({ onComplete: handleKakaoLogin });
+  const logout = () => {
+    axios({
+      url: 'http://localhost:8123/logout',
+      method: 'POST',
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open('/Login', '_self');
+      }
+    });
   };
+
   return (
     <>
+      {/* <button onClick={refreshToken}>엑세스토큰 갱신 (리프레시 토큰)</button> */}
       <Main>
         <MainDiv>
-          <SubDiv>
-            <LoginBox>
-              <LoginDetails>
-                <LogoBox>
-                  <LogoImgDiv>
-                    <Link to="/">
-                      <LogoImg>로고자리</LogoImg>
-                    </Link>
-                  </LogoImgDiv>
-                </LogoBox>
-                <IdPassWordBox>
-                  <IdPassWordForm>
-                    <LoginInpoDiv>
-                      <InputDiv>
-                        <InputDivDetail>
-                          <InputLabel>
-                            <IdPwInput placeholder="이메일" />
-                          </InputLabel>
-                        </InputDivDetail>
-                      </InputDiv>
-                    </LoginInpoDiv>
-                    <LoginInpoDiv>
-                      <InputDiv>
-                        <InputDivDetail>
-                          <InputLabel>
-                            <IdPwInput placeholder="비밀번호" />
-                          </InputLabel>
-                        </InputDivDetail>
-                      </InputDiv>
-                    </LoginInpoDiv>
-                    <LoginButtonDiv>
-                      <LoginButton>로그인</LoginButton>
-                    </LoginButtonDiv>
-                    <StrokMainDiv>
-                      <StrokDiv />
-                      <StrokTextDiv>또는</StrokTextDiv>
-                      <StrokDiv />
-                    </StrokMainDiv>
-                    <LoginButtonDiv>
-                      <KakaoLoginButton
-                        type="button"
-                        onClick={handleKakaoLogin}
+          {isLogin ? (
+            <>
+              <h3>{user.username}님이 로그인했습니다.</h3>
+              <button onClick={logout}>로그아웃</button>
+            </>
+          ) : (
+            <SubDiv>
+              <LoginBox>
+                <LoginDetails>
+                  <LogoBox>
+                    <LogoImgDiv>
+                      <Link to="/">
+                        <LogoImg>로고자리</LogoImg>
+                      </Link>
+                    </LogoImgDiv>
+                  </LogoBox>
+                  <IdPassWordBox>
+                    <IdPassWordForm onSubmit={handleLoginButton}>
+                      <LoginInpoDiv>
+                        <InputDiv>
+                          <InputDivDetail>
+                            <InputLabel>
+                              <IdPwInput
+                                placeholder="이메일"
+                                value={email}
+                                onChange={(e) => {
+                                  setEmail(e.target.value);
+                                }}
+                              />
+                            </InputLabel>
+                          </InputDivDetail>
+                        </InputDiv>
+                      </LoginInpoDiv>
+                      <LoginInpoDiv>
+                        <InputDiv>
+                          <InputDivDetail>
+                            <InputLabel>
+                              <IdPwInput
+                                placeholder="비밀번호"
+                                value={password}
+                                onChange={(e) => {
+                                  setPassword(e.target.value);
+                                }}
+                              />
+                            </InputLabel>
+                          </InputDivDetail>
+                        </InputDiv>
+                      </LoginInpoDiv>
+                      <LoginButtonDiv>
+                        <LoginButton type="submit">로그인</LoginButton>
+                      </LoginButtonDiv>
+                      <StrokMainDiv>
+                        <StrokDiv />
+                        <StrokTextDiv>또는</StrokTextDiv>
+                        <StrokDiv />
+                      </StrokMainDiv>
+                      <LoginButtonDiv>
+                        <KakaoLoginButton
+                          type="button"
+                          onClick={handleKakaoLogin}
+                        >
+                          <ImBubble
+                            size={'20px'}
+                            style={{ marginRight: '7px' }}
+                          />{' '}
+                          카카오로 로그인
+                        </KakaoLoginButton>
+                      </LoginButtonDiv>
+                      <FindYourPW href="/"> 비밀번호를 잊으셨나요?</FindYourPW>
+                    </IdPassWordForm>
+                  </IdPassWordBox>
+                </LoginDetails>
+              </LoginBox>
+              <SignTopDiv>
+                <SignUpDiv>
+                  <p
+                    style={{
+                      color: 'rgb(38 38 38',
+                      fontSize: '14px',
+                      margin: '15px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    계정이 없으신가요?{' '}
+                    <FindYourPW href="/SignUp">
+                      <span
+                        style={{
+                          fontSize: '15px',
+                          fontWeight: '600',
+                          color: 'rgb(0 149 246)',
+                        }}
                       >
-                        <ImBubble
-                          size={'20px'}
-                          style={{ marginRight: '7px' }}
-                        />{' '}
-                        카카오로 로그인
-                      </KakaoLoginButton>
-                    </LoginButtonDiv>
-                    <FindYourPW href="/"> 비밀번호를 잊으셨나요?</FindYourPW>
-                  </IdPassWordForm>
-                </IdPassWordBox>
-              </LoginDetails>
-            </LoginBox>
-            <SignTopDiv>
-              <SignUpDiv>
-                <p
-                  style={{
-                    color: 'rgb(38 38 38',
-                    fontSize: '14px',
-                    margin: '15px',
-                    textAlign: 'center',
-                  }}
-                >
-                  계정이 없으신가요?{' '}
-                  <FindYourPW href='/SignUp'><span style={{fontSize: "15px", fontWeight: "600", color: "rgb(0 149 246)"}}>가입하기</span></FindYourPW>
-                </p>
-              </SignUpDiv>
-            </SignTopDiv>
-          </SubDiv>
+                        가입하기
+                      </span>
+                    </FindYourPW>
+                  </p>
+                </SignUpDiv>
+              </SignTopDiv>
+            </SubDiv>
+          )}
         </MainDiv>
       </Main>
     </>
@@ -115,7 +172,7 @@ const Main = styled.main`
   justify-content: center;
 `;
 const MainDiv = styled.div`
-margin-top: 30px;
+  margin-top: 30px;
   overflow: hidden;
   min-height: 100%;
   flex: 1 1 auto;
@@ -344,7 +401,7 @@ const StrokTextDiv = styled.div`
 `;
 
 const KakaoLoginButton = styled.button`
-  background-color: #FEE500;
+  background-color: #fee500;
   -webkit-appearance: none;
   border: none;
   box-sizing: border-box;
@@ -411,9 +468,9 @@ const SignTopDiv = styled.div`
 `;
 
 const SignUpDiv = styled.div`
-      display: block;
-      color: rgb(142 142 142);
-      font-size: 14px;
-    line-height: 18px;
-    margin: -3px 0 -4px;
+  display: block;
+  color: rgb(142 142 142);
+  font-size: 14px;
+  line-height: 18px;
+  margin: -3px 0 -4px;
 `;
