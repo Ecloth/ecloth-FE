@@ -1,10 +1,13 @@
 import styled from "styled-components";
 
-function ItemDesc({title, content}: {title: string; content: string}) {
+function ItemDesc() {
   return (
     <DescWrapper>
-      <TitleWrapper>{title}</TitleWrapper>
-      <TextWrapper>{content}</TextWrapper>
+      <TitleWrapper>Title</TitleWrapper>
+      <TextWrapper>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde tenetur impedit pariatur nostrum blanditiis animi
+        soluta magnam est dolorum nulla repellat, eius, esse inventore tempora molestiae? aaaaa
+      </TextWrapper>
     </DescWrapper>
   );
 }

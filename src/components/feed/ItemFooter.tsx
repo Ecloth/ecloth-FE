@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import ItemUser from "./ItemUser";
-import testImg from "../../assets/images/test.jpg";
 
-function ItemFooter({id, img, views}: {id: string; img?: string; views: number}) {
+function ItemFooter() {
   return (
     <FooterWrapper>
-      <ItemUser id={id} img={testImg} />
-      <Views>조회수 {views}</Views>
+      <ItemUser />
+      <Views>조회수 35</Views>
     </FooterWrapper>
   );
 }
@@ -15,7 +14,6 @@ export default ItemFooter;
 
 const FooterWrapper = styled.div`
   width: 90%;
-  height: 40px;
   margin: 10px auto;
   display: flex;
   flex-direction: row;
