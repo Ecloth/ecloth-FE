@@ -1,14 +1,56 @@
-import React, {useState} from "react";
-import {Link, NavLink} from "react-router-dom";
-import styled from "styled-components";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 export default function Nav() {
+  const [isLogin, setIsLogin] = useState(false);
   const buttonList = [
-    {text: "Community", path: "/"},
-    {text: "Chat", path: "/"},
+    { text: 'Community', path: '/' },
+    { text: 'Chat', path: '/' },
   ];
 
-  const [color, setColor] = useState("black");
+  useEffect(() => {
+    axios.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      (error) => {
+        const {
+          response: { status },
+        } = error;
+        if (status === 401) {
+          try {
+              axios({
+                url: 'http://localhost:8123/refreshtoken',
+                method: 'GET',
+                withCredentials: true,
+              });
+          } catch (err) {
+            console.log(err);
+          }
+        }
+        return Promise.reject(error);
+      },
+    );
+    try {
+      axios({
+        url: 'http://localhost:8123/login/success',
+        method: 'GET',
+        withCredentials: true,
+      })
+        .then((result) => {
+          if (result.data) {
+            setIsLogin(true);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isLogin]);
 
   return (
     <Navbar>
@@ -19,7 +61,7 @@ export default function Nav() {
           </Logo>
         </Navbar__Start>
         <Navmenu>
-          {buttonList.map(item => {
+          {buttonList.map((item) => {
             return (
               <UnderLine to={`/${item.text}`} key={item.text}>
                 {item.text}
@@ -27,7 +69,11 @@ export default function Nav() {
             );
           })}
           <LoginButton>
-            <StyledLink to={"Login"}> Login / Sign Up </StyledLink>
+            {!isLogin ? (
+              <StyledLink to={'Login'}> Login / Sign Up </StyledLink>
+            ) : (
+              <StyledLink to={'mypage'}> my-page </StyledLink>
+            )}
           </LoginButton>
         </Navmenu>
       </Navbar__Normal>
