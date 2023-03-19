@@ -5,14 +5,14 @@ import TopFive from "../../components/topFive/TopFive";
 
 function Feed() {
   return (
-    <CommunityWrapper>
+    <FeedWrapper>
       <TopFive />
       <CommunityHeader />
       <CommunityBody />
-    </CommunityWrapper>
+    </FeedWrapper>
   );
 }
-const CommunityWrapper = styled.section`
+const FeedWrapper = styled.section`
   width: 90%;
   margin: 0 auto;
 `;

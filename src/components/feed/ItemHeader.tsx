@@ -2,14 +2,16 @@ import styled from "styled-components";
 import {AiTwotoneHeart} from "react-icons/ai";
 import {AiOutlineComment} from "react-icons/ai";
 
-function ItemHeader() {
+function ItemHeader({date, likes, comments}: {date: string; likes: number; comments: number}) {
   return (
     <HeaderWrapper>
-      <ItemDate>2023.03.07</ItemDate>
+      <ItemDate>{date}</ItemDate>
       <>
         <ItemIcon>
-          <AiTwotoneHeart size="15" />2
-          <AiOutlineComment size="15" />5
+          <AiTwotoneHeart size="15" />
+          {likes}
+          <AiOutlineComment size="15" className="commentIcon" />
+          {comments}
         </ItemIcon>
       </>
     </HeaderWrapper>
@@ -34,6 +36,10 @@ const ItemIcon = styled.span`
   font-weight: 700;
   font-size: 14px;
   line-height: 17px;
+
+  .commentIcon {
+    margin-left: 5px;
+  }
 `;
 
 const ItemDate = styled.span`
