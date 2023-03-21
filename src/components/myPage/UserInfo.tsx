@@ -4,8 +4,10 @@ import testImg from "../../assets/images/test.jpg";
 import {useParams} from "react-router-dom";
 import FollowModal from "./FollowModal";
 import {useState} from "react";
-import OptionButton from "./OptionButton";
+import OptionButton from "./ProfileOption";
 import {LOGIN_ID} from "../detailPost/Detail";
+import MessageSendButton from "./MessageSendButton";
+import { dummyData } from "./FollowList";
 
 function UserInfo() {
   const param = useParams().id;
@@ -20,7 +22,11 @@ function UserInfo() {
       <UserDesc>
         <NickNameFollow>
           <p className="nickName">{param}</p>
-          {isOwner ? <OptionButton /> : <FollowButtonList following={true} />}
+          {isOwner ? <OptionButton /> : <>
+          <FollowButtonList following={true} />
+          <MessageSendButton />
+          </>
+          }
         </NickNameFollow>
         <FollowList>
           <div className="FollwWrapper">
@@ -29,7 +35,7 @@ function UserInfo() {
           </div>
           <div className="FollwWrapper">
             <FollowModal isFollow={true} />
-            <span>팔로우 {followList[1]}명</span>
+            <span>팔로우 {dummyData.length}명</span>
           </div>
         </FollowList>
       </UserDesc>

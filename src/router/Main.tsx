@@ -9,11 +9,13 @@ import Feed from "../pages/feed/Feed";
 import FeedPage from "../pages/feed/FeedPage";
 import Edit from "../pages/profile/Edit";
 import MainPage from "../pages/main/MainPage";
+import WriteModal from "../components/writePost/WriteModal";
+import EditModal from "../components/writePost/EditModal";
+
 
 const Main = () => {
   const location = useLocation();
 
-  const background = location.state && location.state.background;
 
   return (
     <>
@@ -30,6 +32,8 @@ const Main = () => {
         <Route path="/chat" element={<Chat />} />
         <Route path="/chat/:id" element={<ChatId />} />
         <Route path="/" element={<MainPage />} />
+        <Route path="/post/edit/*" element={<Feed /> } />
+        <Route path="/post/edit/:postId" element={<EditModal />} />
       </Routes>
       <Footer />
     </>
