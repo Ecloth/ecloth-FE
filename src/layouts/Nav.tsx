@@ -6,8 +6,8 @@ import styled from 'styled-components';
 export default function Nav() {
   const [isLogin, setIsLogin] = useState(false);
   const buttonList = [
-    { text: 'Community', path: '/' },
-    { text: 'Chat', path: '/' },
+    {text: "Feed", path: "/"},
+    {text: "Chat", path: "/"},
   ];
 
   useEffect(() => {

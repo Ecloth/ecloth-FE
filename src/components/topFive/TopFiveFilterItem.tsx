@@ -1,44 +1,22 @@
-import { useState } from "react";
-import { useRecoilState } from "recoil";
+import {useState} from "react";
 import styled from "styled-components";
-import { SelectedTopFiveFilterState } from "../../atoms/postAtom";
 
-export const filterItems = ["좋아요", "조회수"];
-function TopFiveFilter() {
-  const [selected, setSelected] = useRecoilState<string | any>(SelectedTopFiveFilterState);
-  const [checkedInputs, setCheckedInputs] = useState(selected);
-  // setSelected(filterItems[0]);
-  console.log(checkedInputs)
+const TopFiveFilterItem = ({item}: {item: string}) => {
+  const [checkedInputs, setCheckedInputs] = useState("");
 
   const changeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setCheckedInputs(e.target.id);
-      setSelected(checkedInputs);
     }
   };
-
-
   return (
-    <FilterWrapper>
-      {filterItems.map((item, idx) => (
-        <div key={idx}>
+    <>
       <FilterItem type="radio" name="filterItem" value={checkedInputs} id={item} onChange={changeRadio} />
-      <ItemText htmlFor={item}>{item}</ItemText>
-
-        </div>
-      ))}
-    </FilterWrapper>
+      <ItemText for={item}>{item}</ItemText>
+    </>
   );
-}
+};
 
-export default TopFiveFilter;
-
-const FilterWrapper = styled.form`
-  display: block;
-  margin-top: 50px;
-  margin-bottom: 10px;
-  height: 50px;
-`;
 const ItemText = styled.label`
   cursor: pointer;
   font-size: 1rem;
@@ -65,3 +43,5 @@ const FilterItem = styled.input.attrs({type: "radio"})`
     color: var(--blueColor2);
   }
 `;
+
+export default TopFiveFilterItem;

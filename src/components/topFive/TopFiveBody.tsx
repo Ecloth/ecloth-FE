@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { SelectedTopFiveFilterState } from "../../atoms/postAtom";
 import { IPost } from "../../types/postType";
 import {dummy} from "../feed/FeedBody";
-import { filterItems } from "./TopFiveFilter";
-
 import TopFiveItem from "./TopFiveItem";
 
 function TopFiveBody() {
