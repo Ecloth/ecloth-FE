@@ -1,7 +1,11 @@
 import {useState} from "react";
 import styled from "styled-components";
 import {BiSliderAlt} from "react-icons/bi";
-const selectList = ["최신", "좋아요", "조회수"];
+import { dummy } from "./FeedBody";
+import { IPost } from "../../types/postType";
+import { useRecoilState } from "recoil";
+import { SelectedFilterState } from "../../atoms/postAtom";
+export const selectList = ["", "최신", "좋아요", "조회수", "댓글"];
 
 interface Item {
   productSlice: {
@@ -11,35 +15,11 @@ interface Item {
 }
 
 function FeedFilter() {
-  const [limit, setLimit] = useState(12);
-  const [page, setPage] = useState(1);
-  const [items, setItems] = useState(8);
-
-  const offset = (page - 1) * limit;
-
-  const [selected, setSelected] = useState("");
-
-  // const Itemlist = useSelector((state: Item) => state.productSlice.productList);
-  // const pricearr = [...Itemlist];
-  // let selectedList: any = Itemlist;
-  // let selectedList: any = [];
-  // console.log(Itemlist);
-  // if (selected === "") {
-  //   selectedList = Itemlist.filter(
-  //     (item: any) => item.category === "",
-  //   );
-  // } else if (selected === "") {
-  //   selectedList = Itemlist.filter((item: any) => item.category === "");
-  // } else if (selected === "") {
-  //   selectedList = Itemlist.filter((item: any) => item.category === "");
-  // } else if (selected === "") {
-  //   selectedList = pricearr.sort((a, b) => a.price - b.price);
-  // } else if (selected === "") {
-  //   selectedList = pricearr.sort((a, b) => b.rating.rate - a.rating.rate);
-  // }
+  const [selected, setSelected] = useRecoilState<string | any>(SelectedFilterState);
 
   const handleSelect = (e: any) => {
-    setSelected(e.target.value);
+    setSelected(e.target.value as string);
+    console.log(selected)
   };
 
   return (

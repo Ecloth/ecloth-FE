@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import RecordTime from "../commons/RecordTime";
 
-function PostContent() {
+function PostContent({title, text}: {title: string; text: string}) {
   return (
     <PostWrapper>
-      <span className="title">제목입니다.</span>
-      <span className="text">
-        내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.내용입니다.
-      </span>
+      <div>
+        <span className="title">{title}</span>
+        <span className="text">{text}</span>
+      </div>
       <RecordTime date={new Date().getDate() + "시간"} />
     </PostWrapper>
   );
@@ -17,10 +17,12 @@ export default PostContent;
 const PostWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   margin: 10px auto 0px;
   padding: 0 3%;
   max-height: 45%;
   width: 90%;
+  height: 25%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   & .title {

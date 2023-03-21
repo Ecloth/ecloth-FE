@@ -12,6 +12,7 @@ import MainPage from "../pages/main/MainPage";
 import WriteModal from "../components/writePost/WriteModal";
 import EditModal from "../components/writePost/EditModal";
 
+
 const Main = () => {
   const location = useLocation();
 
