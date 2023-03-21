@@ -6,34 +6,30 @@ export interface IFollow {
   target_id: string;
   follow_status: boolean;
 }
-
 export interface IFollowResponse {
   target_id: string;
   nickname: string;
   profile_image_path: string;
+}
+export interface IFollowMemberInfo{
   follow_cnt: number;
-  follower_cnt: number;
   follow_status: boolean;
+  follower_cnt: number;
+  nickName: string;
+  profile_image_path: string;
+  target_id: number;
 }
-
+export interface IPage {
+  page:number;
+  size:number;
+  sortBy: string;
+  sortOrder : string;
+}
 export interface IFollowList {
-  requester_id: number;
+  member_id: number;
   point_direction: followType;
   total: number;
-  page_number: number;
-  record_size: number;
-  sort_by: string;
-  sort_order: string;
+  page: IPage;
   follow_list: IFollowResponse[];
 }
 
-export interface IFollwerList {
-  requester_id: number;
-  point_direction: followType;
-  total: number;
-  page_number: number;
-  record_size: number;
-  sort_by: string;
-  sort_order: string;
-  follow_list: IFollowResponse[];
-}
