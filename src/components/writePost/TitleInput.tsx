@@ -1,7 +1,7 @@
 import {useState} from "react";
 import styled from "styled-components";
 
-function TitleInput() {
+function TitleInput({value} : {value?:string}) {
   const [title, setTitle] = useState("");
 
   const handleSetTitleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -9,7 +9,7 @@ function TitleInput() {
   };
   return (
     <>
-      <Input value={title} onChange={handleSetTitleOnChange} placeholder="제목"></Input>
+      <Input value={value || title} onChange={handleSetTitleOnChange} placeholder="제목"></Input>
     </>
   );
 }
