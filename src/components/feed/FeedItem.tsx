@@ -24,7 +24,7 @@ export default FeedItem;
 const ItemWrapper = styled.span`
   display: block;
   margin: 10px 5px;
-  min-width: 200px;
+  min-width: 250px;
   width: 22%;
   height: 470px;
   padding: 15px 5px;
