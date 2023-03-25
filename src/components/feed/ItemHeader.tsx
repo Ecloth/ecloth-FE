@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import {AiTwotoneHeart} from "react-icons/ai";
 import {AiOutlineComment} from "react-icons/ai";
+import dayjs from "dayjs";
+import RecordTime from "../commons/RecordTime";
 
-function ItemHeader({date, likes, comments}: {date: string; likes: number; comments: number}) {
+function ItemHeader({date, likes, comments}: {date: Date; likes: number; comments: number}) {
   return (
     <HeaderWrapper>
-      <ItemDate>{date}</ItemDate>
+      <RecordTime date={date}/>
+      {/* <ItemDate>{dayjs(date).format("YYYY-MM-DD")}</ItemDate> */}
       <>
         <ItemIcon>
           <AiTwotoneHeart size="15" />

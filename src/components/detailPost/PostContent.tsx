@@ -1,22 +1,14 @@
 import styled from "styled-components";
 import RecordTime from "../commons/RecordTime";
 
-<<<<<<< Updated upstream
-function PostContent({title, text}: {title: string; text: string}) {
-=======
 function PostContent({title, text, date}: {title: string; text: string, date:Date}) {
->>>>>>> Stashed changes
   return (
     <PostWrapper>
       <div>
         <span className="title">{title}</span>
         <span className="text">{text}</span>
       </div>
-<<<<<<< Updated upstream
-      <RecordTime date={new Date().getDate() + "시간"} />
-=======
       <RecordTime date={date} />
->>>>>>> Stashed changes
     </PostWrapper>
   );
 }
