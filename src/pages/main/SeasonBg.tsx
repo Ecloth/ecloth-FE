@@ -17,7 +17,10 @@ export default function SeasonBg() {
       return (el.fcstValue)
     }
   })
+
+  // 현재 기상에 맞는 배경이미지 전시
   const currentWeather = curPrecipaitation.filter((el) => el).find((a) => a)
+  // const currentWeather = 1
 
   let backgroundImg = "";
   const winter = currentWeather == "3";
