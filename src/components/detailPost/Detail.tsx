@@ -11,7 +11,7 @@ import {dummy} from "../feed/FeedBody";
 import {useEffect, useState} from "react";
 import DetailOption from "./DetailOption";
 
-export const LOGIN_ID = "test123";
+export const LOGIN_ID = 1;
 
 function Detail() {
   const {id} = useParams();
@@ -31,9 +31,9 @@ function Detail() {
       <ContentWrapper>
         <UserWrapper>
           <ItemUser id={item.member_id} img="" />
-          {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} />}
+          {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} memberId={item.member_id}/>}
         </UserWrapper>
-        <PostContent title={item.title} text={item.content} />
+        <PostContent title={item.title} text={item.content} date={item.create_date}/>
         <CommentList commentList={commentList} />
 
         <LikeViews likes={item.like} views={item.view} />

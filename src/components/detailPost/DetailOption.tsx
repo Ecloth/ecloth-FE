@@ -5,6 +5,10 @@ import styled from "styled-components";
 
 function DetailOption ({postId} : {postId:number}) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleDeletePost =(e:React.MouseEvent<HTMLButtonElement>) => {
+    console.log("delete post");
+  }
   return(
     <ButtonWrapper className="buttonWrapper">
 
@@ -17,8 +21,8 @@ function DetailOption ({postId} : {postId:number}) {
             </Link>
           </li>
         <li>
-          <Link to={`/post/delete/${postId}`}  className="linkItem">삭제하기
-            </Link>
+          <button className="linkItem" onClick={handleDeletePost}>삭제하기
+            </button>
           </li>
       </ul>
     </OptionWrapper>}
@@ -47,21 +51,25 @@ const OptionWrapper = styled.span`
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);
 
-  & ul{
+   ul{
     width: fit-content;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     
+    
     & li{
       padding: 5px;
-      margin: 0;
       cursor: pointer;
       z-index: 4;
       border-bottom: 1px solid rgba(0, 0, 0, 0.3);
       .linkItem{
+        background-color: #fff;
         color:#000;
+        padding: 0;
+        margin: 0;
+        border: 0;
       }
     }
 

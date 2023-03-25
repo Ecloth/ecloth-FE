@@ -17,3 +17,8 @@ export const PreviewImgsState = atom({
     key : "PreviewImgsState",
     default : ["",],
 })
+
+export const ChatMessageState = atom({
+    key : "ChatMessageState",
+    default : "",
+})

@@ -14,19 +14,16 @@ import EditModal from "../components/writePost/EditModal";
 
 
 const Main = () => {
-  const location = useLocation();
-
-
   return (
     <>
       <Nav />
       <Section />
       <Routes>
-        {/* 메인 / 커뮤니티 / 채팅 페이지 들어가는 부분 */}
         <Route path="/profile/edit" element={<Edit />} />
-        <Route path="/profile/*" element={<Edit />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/profile/delete" element={<Delete />} />
+        <Route path="/profile/logout" element={<Logout />} />
         <Route path="/myPage/:id" element={<FeedPage />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/feed/*" element={<Feed />} />
         <Route path="/feed/:id" element={<DetailModal />} />
         <Route path="/chat" element={<Chat />} />
