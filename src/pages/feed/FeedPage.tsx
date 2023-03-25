@@ -5,20 +5,8 @@ import MainFeed from "../../components/myPage/MainFeed";
 import UserInfo from "../../components/myPage/UserInfo";
 
 function FeedPage() {
-<<<<<<< Updated upstream
   const {id} = useParams();
   const posts = dummy.filter(item => id === item.member_id);
-=======
-<<<<<<< Updated upstream
-=======
-  const {id} = useParams();
-<<<<<<< Updated upstream
-  const posts = dummy.filter(item => id === item.member_id);
-=======
-  const posts = dummy.filter(item => parseInt(id as string, 10) === item.member_id);
->>>>>>> Stashed changes
->>>>>>> Stashed changes
->>>>>>> Stashed changes
   return (
     <SectionWrapper>
       <UserInfo />
