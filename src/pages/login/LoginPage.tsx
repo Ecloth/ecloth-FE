@@ -1,18 +1,22 @@
-import React, { FormEvent, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ImBubble } from 'react-icons/im';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { postcodeScriptUrl } from 'react-daum-postcode/lib/loadPostcode';
-import { KAKAO_AUTH_URL } from '../../api/API_KEY';
 import axios from 'axios';
+import { REDIRECT_URI, REST_API_KEY } from '../../api/API_KEY';
+import LogoImamge from '../../assets/images/LOGO.png'
 
 export default function Login() {
-  const [email, setEmail] = useState<string>()
+  const [email, setEmail] = useState<string | any>()
   const [password, setPassword] = useState<string>()
+  const navigate = useNavigate();
 
+  // let {id} = useParams()
+
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  
   const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    window.location.href = KAKAO_AUTH_URI;
   };
 
   const handleLoginButton = (e: FormEvent<HTMLFormElement>) => {
@@ -28,9 +32,12 @@ export default function Login() {
     }).then((result) => {
       if (result.status === 200) {
         window.open('/', '_self');
+      } else {
+        alert("로그인 실패")
+        console.log(result);
       }
-      console.log(result);
     });
+    localStorage.setItem("email", email)
   };
 
   return (
@@ -43,7 +50,7 @@ export default function Login() {
                 <LogoBox>
                   <LogoImgDiv>
                     <Link to="/">
-                      <LogoImg>로고자리</LogoImg>
+                      <LogoImg><img src={LogoImamge} alt="" /></LogoImg>
                     </Link>
                   </LogoImgDiv>
                 </LogoBox>
@@ -87,7 +94,7 @@ export default function Login() {
                         카카오로 로그인
                       </KakaoLoginButton>
                     </LoginButtonDiv>
-                    <FindYourPW href="/"> 비밀번호를 잊으셨나요?</FindYourPW>
+                    <FindYourPW href="/ResetPassword"> 비밀번호를 잊으셨나요?</FindYourPW>
                   </IdPassWordForm>
                 </IdPassWordBox>
               </LoginDetails>
@@ -175,8 +182,9 @@ const LoginDetails = styled.div`
 `;
 
 const LogoBox = styled.div`
-  margin-top: calc(50px);
-  margin-bottom: calc(12px);
+  margin-top: 40px;
+  margin-bottom: calc(40px);
+  margin-right: 20px;
   flex: 0 0 auto;
   justify-content: flex-start;
   flex-direction: column;
@@ -192,7 +200,8 @@ const LogoImgDiv = styled.div`
 `;
 
 const LogoImg = styled.i`
-  background-position: 0px -52px;
+  /* background-image: url("https://blogfiles.pstatic.net/MjAyMzAzMjJfMTQx/MDAxNjc5NDY5NjAwODc3.YKuGCqRpCkC9RFErMsB-OzLVxi72cl4efpDmzCVAzQsg.LTp-t1Ptu9MMDUfE7GNcLSt1vZtK8oGcXZ_lvRM4W0kg.PNG.janggi92/LOGO.png"); */
+  background-position: 0px -50px;
   background-size: auto;
   width: 175px;
   height: 51px;

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import TopFiveItem from "../topFive/TopFiveItem";
-
 import {dummy} from "../feed/FeedBody";
 import {useEffect} from "react";
 import {IPost} from "../../types/postType";

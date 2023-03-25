@@ -10,20 +10,20 @@ import {useParams} from "react-router-dom";
 import {dummy} from "../feed/FeedBody";
 import {useEffect, useState} from "react";
 
-export const LOGIN_ID = "test123";
+export const LOGIN_ID = localStorage.getItem("email");
 
 function Detail() {
+
   const {id} = useParams();
   const item = dummy[parseInt(id as string, 10) - 1];
   const [isLogin, setIsLogin] = useState(item.member_id === LOGIN_ID);
 
-  console.log(id, dummy[parseInt(id as string, 10) - 1]);
+  // console.log(id, dummy[parseInt(id as string, 10) - 1]);
 
   // comment -------------------
   const [commentList, setCommentList] = useState(
     dummyCommentList.filter(comment => parseInt(id as string, 10) === comment.post_id),
   );
-  // useEffect(() => {}, [commentList]);
   return (
     <DetailWrapper>
       <PostImage imgs={item.images} />

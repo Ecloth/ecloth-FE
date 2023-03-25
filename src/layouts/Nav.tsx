@@ -1,10 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import LogoImamge from '../assets/images/LOGO.png'
+import { isLoginState } from '../atoms/Atom';
+
+export const LOGIN_ID = localStorage.getItem("email");
 
 export default function Nav() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  
+
   const buttonList = [
     {text: "Feed", path: "/"},
     {text: "Chat", path: "/"},
@@ -13,6 +20,7 @@ export default function Nav() {
   useEffect(() => {
     axios.interceptors.response.use(
       (response) => {
+        setIsLogin(true)  
         return response;
       },
       (error) => {
@@ -21,11 +29,11 @@ export default function Nav() {
         } = error;
         if (status === 401) {
           try {
-              axios({
-                url: 'http://localhost:8123/refreshtoken',
-                method: 'GET',
-                withCredentials: true,
-              });
+            axios({
+              url: 'http://localhost:8123/refreshtoken',
+              method: 'GET',
+              withCredentials: true,
+            });
           } catch (err) {
             console.log(err);
           }
@@ -57,7 +65,11 @@ export default function Nav() {
       <Navbar__Normal>
         <Navbar__Start>
           <Logo>
-            <StyledLink to="/">로고자리</StyledLink>
+            <StyledLink to="/">
+            <LogoImg>
+              <img src={LogoImamge} alt=""width={"150px"} height={"50px"}  />
+              </LogoImg>
+              </StyledLink>
           </Logo>
         </Navbar__Start>
         <Navmenu>
@@ -72,8 +84,8 @@ export default function Nav() {
             {!isLogin ? (
               <StyledLink to={'Login'}> Login / Sign Up </StyledLink>
             ) : (
-              <StyledLink to={'mypage'}> my-page </StyledLink>
-            )}
+              <StyledLink to={`/myPage/${LOGIN_ID}`}> my-page </StyledLink>
+              )}
           </LoginButton>
         </Navmenu>
       </Navbar__Normal>
@@ -93,6 +105,7 @@ const Navbar = styled.nav`
   font-weight: 500;
   transition: background 300ms ease-out 0s;
   padding: 0px;
+  background-color: white;
 `;
 const Navbar__Normal = styled.div`
   display: flex;
@@ -119,7 +132,14 @@ const Logo = styled.div`
   width: 9.11111rem;
   height: 2.22222rem;
   font-size: 20px;
-  margin-top: 10px;
+`;
+const LogoImg = styled.i`
+  background-position: 0px -50px;
+  background-size: auto;
+  width: 175px;
+  height: 51px;
+  background-repeat: no-repeat;
+  display: block;
 `;
 
 const Navmenu = styled.nav`
