@@ -1,7 +1,12 @@
-import {Route, Routes} from "react-router-dom";
-import styled from "styled-components";
-import Nav from "../layouts/Nav";
-import MainPage from "../pages/main/MainPage";
+import { Route, Routes } from 'react-router-dom';
+import styled from 'styled-components';
+import Delete from '../components/profileEdit/Delete';
+import Logout from '../components/profileEdit/Logout';
+import Footer from '../layouts/Footer';
+import Nav from '../layouts/Nav';
+import FeedPage from '../pages/feed/FeedPage';
+import MainPage from '../pages/main/MainPage';
+import Edit from '../pages/profile/Edit';
 
 const Main = () => {
   return (
@@ -9,8 +14,13 @@ const Main = () => {
       <Nav />
       <Section />
       <Routes>
+        <Route path="/profile/edit" element={<Edit />} />
+        <Route path="/profile/delete" element={<Delete />} />
+        <Route path="/profile/logout" element={<Logout />} />
+        <Route path="/myPage/:id" element={<FeedPage />} />
         <Route path="/" element={<MainPage />} />
       </Routes>
+      <Footer />
     </>
   );
 };

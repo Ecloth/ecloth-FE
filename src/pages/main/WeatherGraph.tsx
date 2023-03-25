@@ -73,8 +73,3 @@ const GraphSpan = styled.div`
   right: 400px;
   /* left: 100px; */
 `;
-
-const PTYFormDiv = styled.div`
-width: 3000px;
-  top : 40px;
-`
