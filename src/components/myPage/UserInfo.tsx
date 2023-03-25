@@ -7,13 +7,44 @@ import {useState} from "react";
 import OptionButton from "./ProfileOption";
 import {LOGIN_ID} from "../detailPost/Detail";
 import MessageSendButton from "./MessageSendButton";
-import { dummyData } from "./FollowList";
+import {followDummyData, followerDummyData} from "./FollowList";
 
 function UserInfo() {
   const param = useParams().id;
-  const [isOwner, setIsOwner] = useState(LOGIN_ID === param);
+  const id = parseInt(param as string, 10);
+  const [isOwner, setIsOwner] = useState(LOGIN_ID === id);
 
   const followList = [35, 40];
+
+  // useEffect(() => {
+  //   axios({
+  //     method:'get',
+  //     url:'api/member/{memberId}/follow',
+  //     baseURL: 'http://localhost:8080'
+  //   })
+  //   .then(function (response) {
+  //     // 성공한 경우 실행
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     // 에러인 경우 실행
+  //     console.log(error);
+  //   })
+  //   .then(function () {
+  //     // 항상 실행
+  //   });
+  // },[])
+  // Response
+  //   {
+  //     "follow_member_info": {
+  //        "follow_cnt": 0,
+  //        "follow_status": true,
+  //        "follower_cnt": 0,
+  //        "nickname": "string",
+  //        "profile_image_path": "string",
+  //        "target_id": 0
+  //   }
+  // }
   return (
     <UserWrapper>
       <ProfileImage>
@@ -22,20 +53,23 @@ function UserInfo() {
       <UserDesc>
         <NickNameFollow>
           <p className="nickName">{param}</p>
-          {isOwner ? <OptionButton /> : <>
-          <FollowButtonList following={true} />
-          <MessageSendButton />
-          </>
-          }
+          {isOwner ? (
+            <OptionButton />
+          ) : (
+            <>
+              <FollowButtonList following={true} memberId={id} />
+              <MessageSendButton />
+            </>
+          )}
         </NickNameFollow>
         <FollowList>
           <div className="FollwWrapper">
             <FollowModal isFollow={false} />
-            <span>팔로워 {followList[0]}명</span>
+            <span>팔로워 {followerDummyData.length}명</span>
           </div>
           <div className="FollwWrapper">
             <FollowModal isFollow={true} />
-            <span>팔로우 {dummyData.length}명</span>
+            <span>팔로우 {followDummyData.length}명</span>
           </div>
         </FollowList>
       </UserDesc>
