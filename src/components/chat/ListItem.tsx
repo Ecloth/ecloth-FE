@@ -1,20 +1,26 @@
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import img from "../../assets/images/test.jpg";
+import { IChatList, IChatRoom } from "../../types/chatType";
+import RecordTime from "../commons/RecordTime";
+import ChatUserItem from "./ChatUserItem";
 
-function ListItem() {
+function ListItem({propItem}:{propItem: IChatRoom}) {
+  let id = 0;
+  if (propItem.nickName === "test1"){
+    id = 1;
+  }
   return (
     <ItemWrapper className="itemwrapper">
-      <Link to="/chat/id" className="linkItem">
+      <Link to={`/chat/${id}`} className="linkItem">
         <div className="profile">
-          <img src={img} alt="profile"></img>
+        <ChatUserItem profileImg={propItem.profile_image_path}/>
         </div>
         <div className="chatContent">
           <div className="userNTime">
-            <p className="nickName">nickName</p>
-            <p className="time">time</p>
+            <p className="nickName">{propItem.nickName}</p>
+            <RecordTime date={propItem.recent_msg_date}/>
           </div>
-          <div className="text">text</div>
+          <div className="text">{propItem.recent_msg}</div>
         </div>
       </Link>
     </ItemWrapper>

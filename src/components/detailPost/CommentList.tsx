@@ -3,6 +3,8 @@ import {useParams} from "react-router-dom";
 import styled from "styled-components";
 import {IComment} from "../../types/postType";
 import CommentItem from "./CommentItem";
+import { LOGIN_ID } from "./Detail";
+import ReplyInput from "./ReplyInput";
 
 export const dummyCommentList: IComment[] = [
   {
@@ -53,10 +55,16 @@ export const dummyCommentList: IComment[] = [
 ];
 
 function CommentList({commentList}: {commentList: IComment[]}) {
+  const {id} = useParams();
+  const isLogin = id==="1"
   return (
     <ListWrapper>
       {commentList.map(comment => (
+        <>
         <CommentItem comment={comment} key={comment.comment_id} />
+        {/* {isHasReply ? <></> : } */}
+        {isLogin && <ReplyInput />}
+        </>
       ))}
     </ListWrapper>
   );
