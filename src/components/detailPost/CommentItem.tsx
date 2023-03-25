@@ -21,7 +21,11 @@ const CommentWrapper = styled.li`
   flex-direction: row;
   align-items: center;
   width: 100%;
+<<<<<<< Updated upstream
   justify-content: space-evenly;
+=======
+  justify-content: space-around;
+>>>>>>> Stashed changes
   margin: 3px 0;
 `;
 const Comment = styled.span`
