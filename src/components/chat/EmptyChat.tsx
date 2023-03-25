@@ -17,7 +17,7 @@ export default EmptyChat;
 
 const ListWrapper = styled.span`
   margin-left: 5%;
-  width: 70%;
+  width: 80%;
   height: 430px;
   background-color: var(--grayColor2);
   border-radius: 20px;
