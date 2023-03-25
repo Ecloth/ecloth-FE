@@ -9,27 +9,28 @@ import Feed from "../pages/feed/Feed";
 import FeedPage from "../pages/feed/FeedPage";
 import Edit from "../pages/profile/Edit";
 import MainPage from "../pages/main/MainPage";
+import WriteModal from "../components/writePost/WriteModal";
+import EditModal from "../components/writePost/EditModal";
+
 
 const Main = () => {
-  const location = useLocation();
-
-  const background = location.state && location.state.background;
-
   return (
     <>
       <Nav />
       <Section />
       <Routes>
-        {/* 메인 / 커뮤니티 / 채팅 페이지 들어가는 부분 */}
         <Route path="/profile/edit" element={<Edit />} />
-        <Route path="/profile/*" element={<Edit />} />
-        <Route path="/feed" element={<Feed />} />
+        <Route path="/profile/delete" element={<Delete />} />
+        <Route path="/profile/logout" element={<Logout />} />
         <Route path="/myPage/:id" element={<FeedPage />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/feed/*" element={<Feed />} />
         <Route path="/feed/:id" element={<DetailModal />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/chat/:id" element={<ChatId />} />
         <Route path="/" element={<MainPage />} />
+        <Route path="/post/edit/*" element={<Feed /> } />
+        <Route path="/post/edit/:postId" element={<EditModal />} />
       </Routes>
       <Footer />
     </>
