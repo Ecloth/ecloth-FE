@@ -14,7 +14,7 @@ function FeedItem({itemProps}: {itemProps: IPost}) {
         <ItemHeader date={itemProps.create_date} likes={itemProps.like} comments={itemProps.comment} />
         <ItemDesc title={itemProps.title} content={itemProps.content} />
       </Link>
-      <ItemFooter id={itemProps.member_id} views={itemProps.view} />
+      <ItemFooter id={itemProps.nickName} views={itemProps.view} />
     </ItemWrapper>
   );
 }

@@ -1,20 +1,24 @@
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import {LOGIN_ID} from "../detailPost/Detail";
+import PostImage from "../detailPost/PostImage";
+import { dummy } from "../feed/FeedBody";
 import ItemUser from "../feed/ItemUser";
 import ImagePrint from "./ImagePrint";
 import PostEditor from "./PostEditor";
 import TitleInput from "./TitleInput";
 import WriteButtonList from "./WriteButtonList";
 
-function Writing() {
+function Editing() {
+  const {postId} = useParams();
+  const posting = dummy.filter((item) => item.post_id === parseInt(postId as string, 10));
+  console.log(parseInt(postId as string, 10)-1)
   return (
     <WritingWrapper>
-      <ImageWrapper>
-        <ImagePrint imgUrl={[""]}/>
-      </ImageWrapper>
+        <PostImage imgs={posting[0].images} />
       <ContentWrapper>
         <ItemUser id={LOGIN_ID} img="" />
-        <TitleInput />
+        <TitleInput value={posting[0].title}/>
         <PostEditor />
         <WriteButtonList />
       </ContentWrapper>
@@ -22,7 +26,7 @@ function Writing() {
   );
 }
 
-export default Writing;
+export default Editing;
 
 const WritingWrapper = styled.div`
   display: flex;
