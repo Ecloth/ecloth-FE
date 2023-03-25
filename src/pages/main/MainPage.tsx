@@ -2,9 +2,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import MapSearch from './MapSearch';
 import WeatherGraph from './WeatherGraph';
-import LoadImg from './SeasonBg';
 import Temperature from './Temperature';
-import dfs_xy_conv from './GridTransformation.ts';
 import {
   CurrentXState,
   CurrentYState,
@@ -29,10 +27,9 @@ export default function MainPage() {
     setLongitude(longitude);
   });
 
-
   // LCC DFS 좌표변환 ( code : "toXY"(위경도->좌표, v1:위도, v2:경도), "toLL"(좌표->위경도,v1:x, v2:y) )
-  const rs = dfs_xy_conv('toXY', currentY, currentX);
-  const rx = dfs_xy_conv('toXY', gridY, gridX);
+  // const rs = dfs_xy_conv('toXY', currentY, currentX);
+  // const rx = dfs_xy_conv('toXY', gridY, gridX);
   return (
     <Body>
       <Topdiv>
@@ -121,7 +118,7 @@ const Weather = styled.div`
   position: relative;
 `;
 const Clothing = styled.div`
-  padding: 15px;
+  padding: 10px;
   margin-right: 10px;
   width: 40%;
   box-sizing: border-box;

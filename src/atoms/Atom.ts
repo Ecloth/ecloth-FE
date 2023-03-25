@@ -28,3 +28,8 @@ export const precipitationState = atom({
     key : "precipitationState",
     default : "",
 })
+
+export const isLoginState = atom({
+    key : "isLoginState",
+    default: false
+})
