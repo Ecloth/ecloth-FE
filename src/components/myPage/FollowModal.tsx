@@ -2,7 +2,6 @@ import {useState} from "react";
 import styled from "styled-components";
 import ModalList from "./ModalList";
 
-
 function FollowModal({isFollow}: {isFollow: boolean}) {
   const [isOpen, setIsOpen] = useState(false);
 
