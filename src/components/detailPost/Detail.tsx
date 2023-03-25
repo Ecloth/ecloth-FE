@@ -10,7 +10,11 @@ import {useParams} from "react-router-dom";
 import {dummy} from "../feed/FeedBody";
 import {useEffect, useState} from "react";
 
+<<<<<<< Updated upstream
 export const LOGIN_ID = "test123";
+=======
+export const LOGIN_ID = 1;
+>>>>>>> Stashed changes
 
 function Detail() {
   const {id} = useParams();
@@ -30,9 +34,19 @@ function Detail() {
       <ContentWrapper>
         <UserWrapper>
           <ItemUser id={item.member_id} img="" />
+<<<<<<< Updated upstream
           {isLogin ? <div>option</div> : <FollowButtonList following={true} />}
+=======
+<<<<<<< Updated upstream
+          {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} />}
+>>>>>>> Stashed changes
         </UserWrapper>
         <PostContent title={item.title} text={item.content} />
+=======
+          {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} memberId={item.member_id}/>}
+        </UserWrapper>
+        <PostContent title={item.title} text={item.content} date={item.create_date}/>
+>>>>>>> Stashed changes
         <CommentList commentList={commentList} />
 
         <LikeViews likes={item.like} views={item.view} />

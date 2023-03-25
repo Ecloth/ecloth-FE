@@ -5,6 +5,13 @@ import styled from "styled-components";
 
 function DetailOption ({postId} : {postId:number}) {
   const [isOpen, setIsOpen] = useState(false);
+<<<<<<< Updated upstream
+=======
+
+  const handleDeletePost =(e:React.MouseEvent<HTMLButtonElement>) => {
+    console.log("delete post");
+  }
+>>>>>>> Stashed changes
   return(
     <ButtonWrapper className="buttonWrapper">
 
@@ -17,8 +24,13 @@ function DetailOption ({postId} : {postId:number}) {
             </Link>
           </li>
         <li>
+<<<<<<< Updated upstream
           <Link to={`/post/delete/${postId}`}  className="linkItem">삭제하기
             </Link>
+=======
+          <button className="linkItem" onClick={handleDeletePost}>삭제하기
+            </button>
+>>>>>>> Stashed changes
           </li>
       </ul>
     </OptionWrapper>}
@@ -47,21 +59,39 @@ const OptionWrapper = styled.span`
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);
 
+<<<<<<< Updated upstream
   & ul{
+=======
+   ul{
+>>>>>>> Stashed changes
     width: fit-content;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     
+<<<<<<< Updated upstream
     & li{
       padding: 5px;
       margin: 0;
+=======
+    
+    & li{
+      padding: 5px;
+>>>>>>> Stashed changes
       cursor: pointer;
       z-index: 4;
       border-bottom: 1px solid rgba(0, 0, 0, 0.3);
       .linkItem{
+<<<<<<< Updated upstream
         color:#000;
+=======
+        background-color: #fff;
+        color:#000;
+        padding: 0;
+        margin: 0;
+        border: 0;
+>>>>>>> Stashed changes
       }
     }
 
