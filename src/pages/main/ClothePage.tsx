@@ -1,16 +1,20 @@
 import React from 'react'
 import styled from "styled-components";
-import winterImg from "../../assets/images/0~5C.png"
-import earlyWinterImg from "../../assets/images/6~9C.png"
-import boginWinterImg from "../../assets/images/10~11C.png"
-import failImg from "../../assets/images/12~16C.png"
-import earlyFailImg from "../../assets/images/17~19C.png"
-import summerImg from "../../assets/images/20~22C.png"
+import winterImg from "../../assets/images/temp4.jpeg"
+import earlyWinterImg from "../../assets/images/temp5~8.jpeg"
+import boginWinterImg from "../../assets/images/temp9~11.jpeg"
+import fallImg from "../../assets/images/temp12~16.jpeg"
+import earlyFallImg from "../../assets/images/temp17~19.jpeg"
+import earlySummerImg from "../../assets/images/temp20~22.jpeg"
+import boginSummerImg from "../../assets/images/temp23~27.jpeg"
+import summerImg from "../../assets/images/temp28~30.jpeg"
 import { useRecoilState } from 'recoil';
-import { hourTempaState } from '../../atoms/Atom';
+import { hourTempaState, precipitationState } from '../../atoms/Atom';
 
 export default function ClothePage() {
   const [hourTempa, setHourTempa] = useRecoilState(hourTempaState);
+  const [precipitation, setPrecipitation] = useRecoilState(precipitationState);
+
   const now = new Date();
   const hours = Number(("0" + now.getHours()).slice(-2) + "00");
 
@@ -19,16 +23,27 @@ export default function ClothePage() {
       return Number(el.fcstValue)
     }
   });
+
+  const curPrecipaitation = [...precipitation].map((el) => {
+    if(Number(el.fcstTime) === hours) {
+      return (el.fcstValue)
+    }
+  })
+  const PTY = curPrecipaitation.filter((el) => el).find((a) => a)
+
+  // 온도에 맞는 옷 차림 추천 로직
   const TMPTime = tmpTime.filter((el) => el).find((a) => a)
-  const currentTemp : number | undefined = TMPTime;
+  const currentTemp : number | any = TMPTime;
   let ClotheImg = "";
 
-  const winter = currentTemp <= 5;
-  const earlyWinter = currentTemp >= 6 && currentTemp <= 9;
-  const boginWinter = currentTemp >= 10 && currentTemp <= 11;
-  const fail = currentTemp >= 12 && currentTemp <= 16;
-  const earlyFail = currentTemp >= 17 && currentTemp <= 19;
-  const summer = currentTemp >= 20 && currentTemp <= 30;
+  const winter = currentTemp <= 4 ;
+  const earlyWinter = currentTemp >= 5 && currentTemp <= 8;
+  const boginWinter = currentTemp >= 9 && currentTemp <= 11;
+  const fall = currentTemp >= 12 && currentTemp <= 16;
+  const earlyFall = currentTemp >= 17 && currentTemp <= 19;
+  const earlySummer = currentTemp >= 20 && currentTemp <= 22;
+  const boginSummer = currentTemp >= 23 && currentTemp <= 27;
+  const summer = currentTemp >= 28 && currentTemp <= 30;
 
   if (winter) {
     ClotheImg = winterImg;
@@ -36,13 +51,20 @@ export default function ClothePage() {
     ClotheImg = earlyWinterImg;
   } else if (boginWinter) {
     ClotheImg = boginWinterImg;
-  } else if (fail) {
-    ClotheImg = failImg;
-  } else if (earlyFail) {
-    ClotheImg = earlyFailImg;
-  } else if (summer) {
-    ClotheImg = summerImg;
+  } else if (fall) {
+    ClotheImg = fallImg;
+  } else if (earlyFall) {
+    ClotheImg = earlyFallImg;
+  } else if (earlySummer) {
+    ClotheImg = earlySummerImg;
+  } else if(boginSummer) {
+    ClotheImg = boginSummerImg
+  } else if(summer) {
+    ClotheImg = summerImg
   } 
+  // 비오는 로직 추가
+  // earlyWinter && PTY === "0" ? ClotheImg = summerImg : ClotheImg = summerImg
+
   if(ClotheImg) {
     return (
       <Img src={ClotheImg} />
@@ -57,5 +79,6 @@ export default function ClothePage() {
 const Img = styled.img`
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 20px;
+  border : 5px solid #6aafe6;
 `;
