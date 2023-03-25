@@ -2,11 +2,12 @@ import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import {SlMagnifier} from "react-icons/sl";
-import {BiCurrentLocation} from "react-icons/Bi";
+import {BiCurrentLocation} from "react-icons/bi";
 import {useDaumPostcodePopup} from "react-daum-postcode";
 import {postcodeScriptUrl} from "react-daum-postcode/lib/loadPostcode";
 import { useRecoilState } from "recoil";
-import { CurrentXState, CurrentYState, GridXState, GridYState} from "../../atoms/Atom";
+import { CurrentXState, CurrentYState, GridXState, GridYState, isLoginState} from "../../atoms/Atom";
+import dfs_xy_conv from "./GridTransformation.ts";
 
 interface MapSearchProps {
   latitude?: number;
@@ -20,14 +21,17 @@ export default function MapSearch(props: MapSearchProps) {
   const [gridY, setGridY] = useRecoilState(GridYState);
   const [currentX, setCurrentX] = useRecoilState(CurrentXState);
   const [currentY, setCurrentY] = useRecoilState(CurrentYState);
-  const [test, setTest] = useState<boolean>(false)
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
+
+  // 백으로 보낼 격자 x,y 값
+  const currentValue = dfs_xy_conv('toXY', currentY, currentX);
+  const searchValue = dfs_xy_conv('toXY', gridY, gridX);
+
+  // 현재위치 설정 버튼 로직
   const API = import.meta.env.VITE_APP_apikey;
+
   const handleLocationButton = async () => {
-    if(gridX && gridY != null) {
-      setGridX(null);
-      setGridY(null);
-    }
     try {
       const res = await axios
         .get(
@@ -47,12 +51,12 @@ export default function MapSearch(props: MapSearchProps) {
     } catch (error) {
       console.log(error);
     }
+    setIsLogin(false)
   };
   const open = useDaumPostcodePopup(postcodeScriptUrl);
 
+  // 지역 검색 로직
   const handleComplete = (data: any) => {
-    if(currentX && currentY != null){
-    }
     let fullAddress = data.jibunAddress;
     let extraAddress = "";
     if (data.addressType === "J") {
@@ -68,52 +72,58 @@ export default function MapSearch(props: MapSearchProps) {
     setFullAddress(fullAddress);
     setLocationObj("");
   };
+
   // localstorage 현재위치 저장
   const location = localStorage.getItem("location")
   const locationText = location ? location : "지역을 설정해주세요.";
 
+  // 지역검색 다음 모달창 open
   const handleClick = () => {
     open({onComplete: handleComplete});
-    if(currentX && currentY != null){
-      setCurrentX(null);
-      setCurrentY(null);
-    }
   };
+  
+  useEffect(() => {
 
-  const remote = axios.create();
+    const remote = axios.create();
+    // 지역검색 주소 값 => 위도 경도 변환  
+    remote
+      .get(`https://dapi.kakao.com/v2/local/search/address.json?query="${fullAddress}"`, {
+        headers: {
+          Authorization: `KakaoAK ${API}`,
+        },
+      })
+      .then(responseData => {
+        const gridx = responseData.data.documents[0].x;
+        const gridy = responseData.data.documents[0].y;
+        setGridX(gridx);
+        setGridY(gridy);
+        setCurrentX(null);
+        setCurrentY(null);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  
+    // 현재위치 주소 값 => 위도 경도 변환
+    remote
+      .get(`https://dapi.kakao.com/v2/local/search/address.json?query="${locationObj}"`, {
+        headers: {
+          Authorization: `KakaoAK ${API}`,
+        },
+      })
+      .then(responseData => {
+        const currentX = responseData.data.documents[0].x;
+        const currentY = responseData.data.documents[0].y;
+        setCurrentX(currentX);
+        setCurrentY(currentY);
+        setGridX(null)
+        setGridY(null)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, )
 
-  remote
-    .get(`https://dapi.kakao.com/v2/local/search/address.json?query="${fullAddress}"`, {
-      headers: {
-        Authorization: `KakaoAK ${API}`,
-      },
-    })
-    .then(responseData => {
-      const gridx = responseData.data.documents[0].x;
-      const gridy = responseData.data.documents[0].y;
-      setGridX(gridx);
-      setGridY(gridy);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-
-  remote
-    .get(`https://dapi.kakao.com/v2/local/search/address.json?query="${locationObj}"`, {
-      headers: {
-        Authorization: `KakaoAK ${API}`,
-      },
-    })
-    .then(responseData => {
-      console.log(responseData)
-      const currentX = responseData.data.documents[0].x;
-      const currentY = responseData.data.documents[0].y;
-      setCurrentX(currentX);
-      setCurrentY(currentY);
-    })
-    .catch(error => {
-      console.log(error);
-    });
 
   return (
     <>
@@ -155,7 +165,7 @@ const ClothesnText = styled.section`
   padding: 15px;
   box-sizing: border-box;
   margin-left: auto;
-  margin-right: 90px;
+  margin-right: 80px;
   background: #2b90d9;
   border: none;
   border-radius: 50px;
