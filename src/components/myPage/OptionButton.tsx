@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
-function ProfileOption() {
+function OptionButton() {
   return (
     <ButtonWrapper>
       <Link to="/profile/edit">
@@ -11,7 +11,7 @@ function ProfileOption() {
   );
 }
 
-export default ProfileOption;
+export default OptionButton;
 const ButtonWrapper = styled.div`
   & button {
     cursor: pointer;

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import ImagePrint from "../writePost/ImagePrint";
 
-function PostImage() {
+function PostImage({imgs}: {imgs: string[]}) {
   return (
     <ImageWrapper>
-      <ImagePrint />
+      <Image src={imgs[0]} alt="postImage" />
     </ImageWrapper>
   );
 }
@@ -21,4 +21,10 @@ const ImageWrapper = styled.div`
   & img {
     height: 100%;
   }
+`;
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+  object-fit: contain;
 `;
