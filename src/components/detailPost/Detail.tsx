@@ -9,16 +9,13 @@ import PostImage from "./PostImage";
 import {useParams} from "react-router-dom";
 import {dummy} from "../feed/FeedBody";
 import {useEffect, useState} from "react";
+import DetailOption from "./DetailOption";
 
-<<<<<<< Updated upstream
-export const LOGIN_ID = "test123";
-=======
 export const LOGIN_ID = 1;
->>>>>>> Stashed changes
 
 function Detail() {
   const {id} = useParams();
-  const item = dummy[parseInt(id as string, 10) - 1];
+  const item = dummy.filter((item) => item.post_id===parseInt(id as string, 10))[0]
   const [isLogin, setIsLogin] = useState(item.member_id === LOGIN_ID);
 
   console.log(id, dummy[parseInt(id as string, 10) - 1]);
@@ -34,19 +31,9 @@ function Detail() {
       <ContentWrapper>
         <UserWrapper>
           <ItemUser id={item.member_id} img="" />
-<<<<<<< Updated upstream
-          {isLogin ? <div>option</div> : <FollowButtonList following={true} />}
-=======
-<<<<<<< Updated upstream
-          {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} />}
->>>>>>> Stashed changes
-        </UserWrapper>
-        <PostContent title={item.title} text={item.content} />
-=======
           {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} memberId={item.member_id}/>}
         </UserWrapper>
         <PostContent title={item.title} text={item.content} date={item.create_date}/>
->>>>>>> Stashed changes
         <CommentList commentList={commentList} />
 
         <LikeViews likes={item.like} views={item.view} />
@@ -88,7 +75,7 @@ const UserWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  & div {
+  & .buttonWrapper {
     width: 80px;
     height: 30px;
   }
