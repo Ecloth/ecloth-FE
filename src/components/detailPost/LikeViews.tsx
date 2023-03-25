@@ -3,7 +3,7 @@ import {Views} from "../feed/ItemFooter";
 import {useState} from "react";
 import {AiTwotoneHeart, AiOutlineHeart} from "react-icons/ai";
 
-function LikeViews() {
+function LikeViews({likes, views}: {likes: number; views: number}) {
   const [isHeart, setIsHeart] = useState(false);
 
   const handleSetHeartOnClick = () => {
@@ -18,9 +18,9 @@ function LikeViews() {
           <AiOutlineHeart className="icon" size="18" onClick={handleSetHeartOnClick} />
         )}
 
-        <Likes>좋아요 {3}개</Likes>
+        <Likes>좋아요 {likes}개</Likes>
       </div>
-      <Views>조회수 35</Views>
+      <Views>조회수 {views}</Views>
     </Wrapper>
   );
 }

@@ -1,14 +1,13 @@
 import {Link} from "react-router-dom";
 import styled from "styled-components";
-import testImg from "../../assets/images/test.jpg";
 
-function ItemUser() {
-  const id = "USER123";
+function ItemUser({id, img}: {id: string; img: string}) {
+  // const id = "USER123";
   return (
     <UserInfo>
-      <Link to={`/Feed/${id}`} className="linkItem">
-        <img className="profile" alt="profile" src={testImg}></img>
-        <UserNickName>USER123</UserNickName>
+      <Link to={`/myPage/${id}`} className="linkItem">
+        <img className="profile" alt="profile" src={img}></img>
+        <UserNickName>{id}</UserNickName>
       </Link>
     </UserInfo>
   );

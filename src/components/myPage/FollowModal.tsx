@@ -1,6 +1,6 @@
 import {useState} from "react";
 import styled from "styled-components";
-import FollowList from "./FollowList";
+import ModalList from "./ModalList";
 
 function FollowModal({isFollow}: {isFollow: boolean}) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +18,7 @@ function FollowModal({isFollow}: {isFollow: boolean}) {
         <ModalBackDrop>
           <BackIcon onClick={handleModalCloseClick}>&times;</BackIcon>
           <ModalView onClick={handleModalOpenonClick}>
-            <FollowList isFollow={isFollow} />
+            <ModalList isFollow={isFollow} />
           </ModalView>
         </ModalBackDrop>
       )}
