@@ -1,0 +1,58 @@
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import {LOGIN_ID} from "../detailPost/Detail";
+import { dummy } from "../feed/FeedBody";
+import ItemUser from "../feed/ItemUser";
+import ImagePrint from "./ImagePrint";
+import PostEditor from "./PostEditor";
+import TitleInput from "./TitleInput";
+import WriteButtonList from "./WriteButtonList";
+
+function Editing() {
+  const {postId} = useParams();
+  const posting = dummy.filter((item) => item.post_id === parseInt(postId as string, 10));
+  console.log(parseInt(postId as string, 10)-1)
+  return (
+    <WritingWrapper>
+      <ImageWrapper>
+        <ImagePrint imgUrl={posting[0].images}/>
+      </ImageWrapper>
+      <ContentWrapper>
+        <ItemUser id={LOGIN_ID} img="" />
+        <TitleInput value={posting[0].title}/>
+        <PostEditor />
+        <WriteButtonList />
+      </ContentWrapper>
+    </WritingWrapper>
+  );
+}
+
+export default Editing;
+
+const WritingWrapper = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  border-radius: 10px;
+`;
+
+const ImageWrapper = styled.div`
+  width: 50%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+  background-color: #000;
+`;
+
+const ContentWrapper = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+
+  & span:first-child {
+    margin-left: 13px;
+    height: 10%;
+    font-weight: 800;
+  }
+`;
