@@ -13,8 +13,8 @@ export default function Nav() {
   
 
   const buttonList = [
-    {text: "Feed", path: "/"},
-    {text: "Chat", path: "/"},
+    { text: 'Community', path: '/' },
+    { text: 'Chat', path: '/' },
   ];
 
   useEffect(() => {
