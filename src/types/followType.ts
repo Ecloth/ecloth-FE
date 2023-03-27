@@ -2,43 +2,38 @@ export const FOLLOW_DIRECTION = {follow: "FOLLOWS", follower: "FOLLOWERS"} as co
 
 type followType = (typeof FOLLOW_DIRECTION)[keyof typeof FOLLOW_DIRECTION];
 
-export interface IFollowMemberInfo{
-  
-    follow_cnt : number;
-    follow_status: boolean;
-    follower_cnt: number;
-    nickName: string;
-    profile_image_path: string;
-    target_id: number;
-  
-}
-
-//팔로우 요청 or 개인, 타인 팔로우 정보 조회
-//POST  api/member/{memberId}/follow
-//GET  api/member/follow or api/member/{memberId}/follow
-export interface IFollowSend {
-  follow_member_info :IFollowMemberInfo;
-}
-
-export interface IFollows {
-
-  nickName: string;
-  profile_image_path: string;
-  target_id: number;
+export interface IFollow {
+  target_id: string;
   follow_status: boolean;
 }
 
-//개인, 타인 팔로우(팔로워) 목록 조회
-//GET api/member/follows or api/member/{memberId}/follows
+export interface IFollowResponse {
+  target_id: string;
+  nickname: string;
+  profile_image_path: string;
+  follow_cnt: number;
+  follower_cnt: number;
+  follow_status: boolean;
+}
+
 export interface IFollowList {
-  follow_list: IFollows[],
-  member_id: number;
-  page:{
-    page: number;
-    size:number;
-    sortBy:string;
-    sortOrder: string;
-  },
-  point_direction: string;
-  total:number;
+  requester_id: number;
+  point_direction: followType;
+  total: number;
+  page_number: number;
+  record_size: number;
+  sort_by: string;
+  sort_order: string;
+  follow_list: IFollowResponse[];
+}
+
+export interface IFollwerList {
+  requester_id: number;
+  point_direction: followType;
+  total: number;
+  page_number: number;
+  record_size: number;
+  sort_by: string;
+  sort_order: string;
+  follow_list: IFollowResponse[];
 }
