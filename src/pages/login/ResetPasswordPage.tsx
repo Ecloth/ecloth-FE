@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { CiLock } from 'react-icons/ci';
@@ -566,3 +567,13 @@ const LoginPageLink = styled(Link)`
       border-bottom-right-radius: 2px;
       margin-right: 0;
 `
+=======
+import ResetPasswordPageCode from '../../components/loginCode/ResetPasswordPageCode';
+
+export default function ResetPasswordPage() {
+
+  return (
+    <ResetPasswordPageCode />
+  );
+}
+>>>>>>> origin/feat/mainPage
