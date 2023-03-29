@@ -12,8 +12,8 @@ import profile from "../../assets/images/profile.png"
 function UserInfo() {
   const param = useParams().id;
   const id = parseInt(param as string, 10);
-  const [isOwner, setIsOwner] = useState(LOGIN_ID === id);
-
+  const [isOwner, setIsOwner] = useState(LOGIN_ID === param);
+  console.log(LOGIN_ID)
   const followList = [35, 40];
 
   // useEffect(() => {
