@@ -14,7 +14,7 @@ function FeedItem({itemProps}: {itemProps: IPost}) {
         <ItemHeader date={itemProps.create_date} likes={itemProps.like} comments={itemProps.comment} />
         <ItemDesc title={itemProps.title} content={itemProps.content} />
       </Link>
-      <ItemFooter id={itemProps.member_id} views={itemProps.view} />
+      <ItemFooter id={itemProps.nickName} views={itemProps.view} />
     </ItemWrapper>
   );
 }
@@ -24,7 +24,7 @@ export default FeedItem;
 const ItemWrapper = styled.span`
   display: block;
   margin: 10px 5px;
-  min-width: 200px;
+  min-width: 250px;
   width: 22%;
   height: 470px;
   padding: 15px 5px;
