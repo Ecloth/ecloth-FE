@@ -1,20 +1,39 @@
 export interface ICreateChat {
-  chat_id: string;
+  chat_id: number;
   requester_id: string;
   target_id: string;
 }
 
 export interface IChatMessage {
-  sender_id: string;
-  receiver_id: string;
+  sender_id: number;
+  receiver_id: number;
   content: string;
-  create_date: string;
+  sent_date: string;
+}
+
+export interface IPage {
+  page:number;
+  size:number;
+  sortBy: string;
+  sortOrder: string;
+}
+
+export interface IAllChatMessage {
+  message_list: IChatMessage[]
+  page:IPage;
+  total:number;
 }
 
 export interface IChatRoom {
+  chat_room_id: number;
+  nickName: string;
+  profile_image_path : string;
+  recent_msg: string | null;
+  recent_msg_date: Date;
+}
+
+export interface IChatList {
   total: number;
-  page_number: number;
-  record_size: number;
-  page_size: number;
-  chat_list: IChatMessage[];
+  page: IPage;
+  chat_list: IChatRoom[];
 }

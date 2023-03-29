@@ -1,12 +1,13 @@
 export interface IPost {
   post_id: number;
-  member_id: string;
+  member_id: number;
+  nickName: string;
   title: string;
   content: string;
   like: number;
   view: number;
   comment: number;
-  create_date: string;
+  create_date: Date;
   update_date: string;
   images: string[];
 }
@@ -18,10 +19,10 @@ export interface IImage {
 
 export interface IComment {
   comment_id: number;
-  member_id: string;
+  member_id: number;
   post_id: number;
   content: string;
-  create_date: string;
+  create_date: Date;
   update_date: string;
 }
 export interface IReply {
