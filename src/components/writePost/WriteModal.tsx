@@ -1,10 +1,10 @@
 import {useState} from "react";
 import styled from "styled-components";
-import FollowList from "./FollowList";
+import BlueButton from "../commons/BlueButton";
+import Writing from "./Writing";
 
-function FollowModal({isFollow}: {isFollow: boolean}) {
+function WriteModal() {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleModalCloseClick = () => {
     setIsOpen(false);
   };
@@ -13,12 +13,12 @@ function FollowModal({isFollow}: {isFollow: boolean}) {
   };
   return (
     <>
-      <ModalButton onClick={handleModalOpenonClick} />
+      <BlueButton handleOnClick={handleModalOpenonClick} text="글 작성하기" />
       {isOpen && (
         <ModalBackDrop>
           <BackIcon onClick={handleModalCloseClick}>&times;</BackIcon>
           <ModalView onClick={handleModalOpenonClick}>
-            <FollowList isFollow={isFollow} />
+            <Writing />
           </ModalView>
         </ModalBackDrop>
       )}
@@ -26,16 +26,7 @@ function FollowModal({isFollow}: {isFollow: boolean}) {
   );
 }
 
-export default FollowModal;
-
-const ModalButton = styled.button`
-  position: absolute;
-  background-color: inherit;
-  cursor: pointer;
-  border: 0;
-  width: 40%;
-  height: 100%;
-`;
+export default WriteModal;
 
 const BackIcon = styled.div`
   position: absolute;
@@ -53,7 +44,7 @@ const BackIcon = styled.div`
 
 const ModalBackDrop = styled.div`
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -66,8 +57,8 @@ const ModalBackDrop = styled.div`
 
 const ModalView = styled.section`
   z-index: 999;
-  width: 30%;
-  height: 60%;
+  width: 80%;
+  height: 80%;
   position: fixed;
   text-decoration: none;
   background-color: #fff;

@@ -1,14 +1,38 @@
 import styled from "styled-components";
 import {useState} from "react";
+import axios from "axios";
 
-function FollowButtonList({following}: {following: boolean}) {
+function FollowButtonList({following, memberId}: {following: boolean, memberId: number}) {
   const [isFollow, setIsFollow] = useState(following);
+
+  const handleFollowonClick =() =>{
+    setIsFollow(!isFollow);
+    // axios({
+    //   method: 'post',
+    //   url: `/api/member/${memberId}/follow`,
+    //   data: [],
+    // baseURL: 'http://localhost:8080'
+
+    // })
+
+  }
+  const handleUnFollowonClick =() =>{
+    setIsFollow(!isFollow);
+    // axios({
+    //   method: 'delete',
+    //   url: `/api/member/${memberId}/follow`,
+    // baseURL: 'http://localhost:8080'
+
+    // })
+
+  }
+
   return (
     <ButtonWrapper className="buttonWrapper">
       {isFollow ? (
-        <FollwingButton onClick={() => setIsFollow(!isFollow)}>팔로잉</FollwingButton>
+        <FollwingButton onClick={handleUnFollowonClick}>팔로잉</FollwingButton>
       ) : (
-        <FollowButton onClick={() => setIsFollow(!isFollow)}>팔로우</FollowButton>
+        <FollowButton onClick={handleFollowonClick}>팔로우</FollowButton>
       )}
     </ButtonWrapper>
   );
