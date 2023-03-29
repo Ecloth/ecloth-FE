@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CiLock } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
 
-export default function ResetPasswordPage() {
+export default function ResetPasswordPageCode() {
   const [email, setEmail] = useState<string>("")
 
   const handleEmail = (e : ChangeEvent <HTMLInputElement>) => {
