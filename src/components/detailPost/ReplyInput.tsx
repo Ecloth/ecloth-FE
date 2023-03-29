@@ -1,8 +1,5 @@
 import { useState } from "react";
-<<<<<<< Updated upstream
-=======
 import { AiOutlinePlusCircle } from "react-icons/ai";
->>>>>>> Stashed changes
 import styled from "styled-components";
 
 function ReplyInput () {
@@ -12,17 +9,12 @@ function ReplyInput () {
     {isReply ?
      <div className="reply" onClick={() =>setIsReply(!isReply)}> 답글달기</div> 
      :
-<<<<<<< Updated upstream
-     <div>
-      <input></input>
-=======
      <div className="replyWrapper">
       <input className="replyInput"></input>
       <button className="commetBtn">
           <AiOutlinePlusCircle className="icon" />
         </button>      
         <button className="replyButton" onClick={() =>setIsReply(!isReply)}>x</button>
->>>>>>> Stashed changes
      </div> }
     </ReplyWrapper>
   )
@@ -31,20 +23,11 @@ function ReplyInput () {
 export default ReplyInput;
 
 const ReplyWrapper = styled.div`
-<<<<<<< Updated upstream
-width: 30%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin-left: 10%;
-  & .reply{
-=======
   width: 30%;
   display: flex;
   flex-direction: row;
   margin-left: 10%;
    .reply{
->>>>>>> Stashed changes
     cursor: pointer;
     padding: 2px 2px 2px 0;
     font-weight: 700;
@@ -63,8 +46,6 @@ width: 30%;
       width: 10px;
     }
   }
-<<<<<<< Updated upstream
-=======
   .replyWrapper{
     width: 300px;
     height: 35px;
@@ -87,5 +68,4 @@ width: 30%;
       height: 100%;
     }
   }
->>>>>>> Stashed changes
 `

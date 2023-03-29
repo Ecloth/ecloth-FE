@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from "styled-components";
-import EditBody from "../../components/profileEdit/EditBody";
 import EditSideBar from "../../components/profileEdit/EditSideBar";
-import DeleteBody from './DeleteBody';
 import LogoutBody from './LogoutBody';
 export default function Logout() {
   return (

@@ -1,8 +1,11 @@
+import { useState } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
+import { LOGIN_ID } from "../detailPost/Detail";
 
-function ItemUser({id, img}: {id: string; img: string}) {
-  // const id = "USER123";
+function ItemUser({id, img}: {id: number; img: string}) {
+  const [nickName, setNickName] = useState("");
+
   return (
     <UserInfo>
       <Link to={`/myPage/${id}`} className="linkItem">
