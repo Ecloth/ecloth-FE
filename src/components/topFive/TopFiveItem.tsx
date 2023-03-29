@@ -43,7 +43,7 @@ const ItemWrapper = styled.div`
     height: 250px;
   }
 
-  & .fiveImage:hover {
+   .fiveImage:hover {
     opacity: 0.7;
     transition: all 0.3s ease;
     cursor: pointer;

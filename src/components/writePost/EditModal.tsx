@@ -1,41 +1,26 @@
 import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import FollowList from "./FollowList";
+import BlueButton from "../commons/BlueButton";
+import Editing from "./Editing";
 
-function FollowModal({isFollow}: {isFollow: boolean}) {
-  const [isOpen, setIsOpen] = useState(false);
+function EditModal() {
 
+  const navigator = useNavigate();
   const handleModalCloseClick = () => {
-    setIsOpen(false);
-  };
-  const handleModalOpenonClick = () => {
-    setIsOpen(true);
+    navigator(-1);
   };
   return (
-    <>
-      <ModalButton onClick={handleModalOpenonClick} />
-      {isOpen && (
         <ModalBackDrop>
           <BackIcon onClick={handleModalCloseClick}>&times;</BackIcon>
-          <ModalView onClick={handleModalOpenonClick}>
-            <FollowList isFollow={isFollow} />
+          <ModalView >
+            <Editing />
           </ModalView>
         </ModalBackDrop>
-      )}
-    </>
   );
 }
 
-export default FollowModal;
-
-const ModalButton = styled.button`
-  position: absolute;
-  background-color: inherit;
-  cursor: pointer;
-  border: 0;
-  width: 40%;
-  height: 100%;
-`;
+export default EditModal;
 
 const BackIcon = styled.div`
   position: absolute;
@@ -53,7 +38,7 @@ const BackIcon = styled.div`
 
 const ModalBackDrop = styled.div`
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
@@ -66,8 +51,8 @@ const ModalBackDrop = styled.div`
 
 const ModalView = styled.section`
   z-index: 999;
-  width: 30%;
-  height: 60%;
+  width: 80%;
+  height: 80%;
   position: fixed;
   text-decoration: none;
   background-color: #fff;

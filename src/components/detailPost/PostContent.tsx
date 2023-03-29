@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import RecordTime from "../commons/RecordTime";
 
-function PostContent({title, text}: {title: string; text: string}) {
+function PostContent({title, text, date}: {title: string; text: string, date:Date}) {
   return (
     <PostWrapper>
       <div>
         <span className="title">{title}</span>
         <span className="text">{text}</span>
       </div>
-      <RecordTime date={new Date().getDate() + "시간"} />
+      <RecordTime date={date} />
     </PostWrapper>
   );
 }
