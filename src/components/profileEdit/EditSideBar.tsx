@@ -1,6 +1,4 @@
-import {useRef, useState} from "react";
 import { NavLink } from "react-router-dom";
-import {Link} from "react-router-dom";
 import styled from "styled-components";
 import profile from "../../assets/images/profile.png"
 
@@ -11,6 +9,7 @@ function EditSideBar() {
     { text: '로그아웃', path: 'profile/logout' },
     { text: '회원탈퇴', path: 'profile/delete' },
   ];
+
   return (
     <SideBarWrapper>
       <Profile src={profile}/>
@@ -18,7 +17,7 @@ function EditSideBar() {
       <span style={{display: "flex", justifyContent: "center", fontSize: "24px"}}>{localStorage.getItem("email")}</span>
       {buttonList.map((item) => {
         return (
-              <SelectDiv >
+              <SelectDiv>
               <Select to={`/${item.path}`} key={item.text}>
                 {item.text}
               </Select>

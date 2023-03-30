@@ -11,7 +11,7 @@ import {dummy} from "../feed/FeedBody";
 import {useEffect, useState} from "react";
 import DetailOption from "./DetailOption";
 
-export const LOGIN_ID = 1;
+export const LOGIN_ID = localStorage.getItem("email");
 
 function Detail() {
   const {id} = useParams();

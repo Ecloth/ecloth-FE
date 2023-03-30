@@ -24,7 +24,6 @@ const PostWrapper = styled.div`
   width: 90%;
   height: 25%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
   & .title {
     font-weight: 700;
     font-size: 1rem;

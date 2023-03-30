@@ -31,9 +31,7 @@ const ImageWrapper = styled.div`
   & div, .slider {
     width: 100%;
     height: inherit;
-
   }
-
 li{
     width: 100%;
     height: 100%;
@@ -44,7 +42,6 @@ li{
 `;
 const Image = styled.img`
 widows: 100%;
-
 display: block;
   /* margin: auto; */
   height: inherit;

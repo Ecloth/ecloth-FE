@@ -72,6 +72,5 @@ const OptionWrapper = styled.span`
         border: 0;
       }
     }
-
   }
 `
