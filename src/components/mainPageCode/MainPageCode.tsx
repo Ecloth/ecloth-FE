@@ -94,7 +94,7 @@ const GraphDiv = styled.div`
   margin-left: auto;
   background-color: #2b90d9;
   width: 90%;
-  height: 30%;
+  height: 40%;
   border-radius: 10px;
   text-align: center;
   display: flex;
