@@ -19,7 +19,7 @@ app.use(cookieParser());
 // app.use(localStorage.setItem(''ACCESS_TOKEN''));
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://ecloth-fe-woad.vercel.app",
     methods: ["GET", "POST"],
     credentials: true,
   })
