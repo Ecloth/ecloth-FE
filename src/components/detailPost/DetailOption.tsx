@@ -50,6 +50,7 @@ const OptionWrapper = styled.span`
   width: 80px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);
+
    ul{
     width: fit-content;
     padding: 0;
