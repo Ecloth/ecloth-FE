@@ -71,7 +71,7 @@ export default function ClothPageCode() {
       )
   } else {
     return (
-      "현재위치를 설정해주세요."
+      ""
     )
   }
 }
