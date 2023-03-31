@@ -7,10 +7,6 @@ export default function KakaoLoginPageCode() {
   const navigate = useNavigate();
 //   const KAKAO_CODE = location.search.split('=')[1];
   const KAKAO_CODE = new URL(window.location.href).searchParams.get('code');
-  const REST_API_KEY = 'ffca549b185c4443af1113843fd7582c';
-  const REDIRECT_URI = 'http://localhost:5173/KakaoLogin';
-  // const REDIRECT_URI = 'https://88ed-175-194-251-236.jp.ngrok.io/KakaoLogin';
-  console.log(KAKAO_CODE)
 
    // 백엔드 인가코드 전달 코드
     useEffect(() => {
