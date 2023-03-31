@@ -1,16 +1,18 @@
-import {useRef, useState, useMemo} from "react";
-
+import { useRef, useMemo, useEffect, Dispatch, SetStateAction } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 
 const PostEditor = () => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState("");
+  const [images, setImgages] = useRecoilState<string[] | any>(PreviewImgsState);
 
-  // 이미지를 업로드 하기 위한 함수
+  useEffect(() => {
+    setImgages([]);
+  }, []);
+
+  const url: string[] = [];
   const imageHandler = () => {
-    // 파일을 업로드 하기 위한 input 태그 생성
     const input = document.createElement("input");
     const formData = new FormData();
     let url = "";
@@ -19,8 +21,7 @@ const PostEditor = () => {
     input.setAttribute("accept", "image/*");
     input.click();
 
-    // 파일이 input 태그에 담기면 실행 될 함수
-    input.onchange = async () => {
+    input.onchange = () => {
       const file = input.files;
       if (file !== null) {
         formData.append("image", file[0]);
@@ -53,9 +54,6 @@ const PostEditor = () => {
     };
   };
 
-  // quill에서 사용할 모듈을 설정하는 코드 입니다.
-  // 원하는 설정을 사용하면 되는데, 저는 아래와 같이 사용했습니다.
-  // useMemo를 사용하지 않으면, 키를 입력할 때마다, imageHandler 때문에 focus가 계속 풀리게 됩니다.
   const modules = useMemo(
     () => ({
       toolbar: {

@@ -1,20 +1,24 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {IPost} from "../../types/postType";
+import { IPost } from "../../types/postType";
 import ItemDesc from "./ItemDesc";
 import ItemFooter from "./ItemFooter";
 import ItemHeader from "./ItemHeader";
 import ItemImage from "./ItemImage";
 
-function FeedItem({itemProps}: {itemProps: IPost}) {
+function FeedItem({ itemProps }: { itemProps: IPost }) {
   return (
     <ItemWrapper>
-      <Link to={`/Feed/${itemProps.post_id}`} className="itemLink">
-        <ItemImage images={itemProps.images} postId={itemProps.post_id} />
-        <ItemHeader date={itemProps.create_date} likes={itemProps.like} comments={itemProps.comment} />
+      <Link to={`/Feed/${itemProps.postId}`} className="itemLink">
+        <ItemImage images={itemProps.imagePath} postId={itemProps.postId} />
+        <ItemHeader
+          date={itemProps.createDate}
+          likes={itemProps.likeCount}
+          comments={itemProps.commentCount}
+        />
         <ItemDesc title={itemProps.title} content={itemProps.content} />
       </Link>
-      <ItemFooter id={itemProps.member_id} views={itemProps.view} />
+      <ItemFooter id={itemProps.memberId} views={itemProps.viewCount} />
     </ItemWrapper>
   );
 }
@@ -24,7 +28,7 @@ export default FeedItem;
 const ItemWrapper = styled.span`
   display: block;
   margin: 10px 5px;
-  min-width: 200px;
+  min-width: 250px;
   width: 22%;
   height: 470px;
   padding: 15px 5px;

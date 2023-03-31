@@ -1,13 +1,26 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useRecoilValueLoadable } from "recoil";
 import styled from "styled-components";
+import { postList } from "../../atoms/postAtom";
+import { IPost } from "../../types/postType";
 
-function ItemUser({id, img}: {id: string; img: string}) {
-  // const id = "USER123";
+function ItemUser({ id }: { id: number }) {
+  // const [nickName, setNickName] = useState("");
+
+  const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
+  let products: IPost[] =
+    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
+  const nickName = products.filter((item) => item.memberId === id)[0];
+
   return (
     <UserInfo>
       <Link to={`/myPage/${id}`} className="linkItem">
-        <img className="profile" alt="profile" src={img}></img>
-        <UserNickName>{id}</UserNickName>
+        <img
+          className="profile"
+          alt="profile"
+          src={nickName.profileImagePath}
+        ></img>
+        <UserNickName>{nickName.nickName}</UserNickName>
       </Link>
     </UserInfo>
   );
@@ -15,7 +28,13 @@ function ItemUser({id, img}: {id: string; img: string}) {
 
 export default ItemUser;
 
-const UserInfo = styled.span`
+const UserInfo = styled.div`
+  width: calc(100% - 5px);
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 5px;
   & .linkItem {
     display: block;
     display: flex;

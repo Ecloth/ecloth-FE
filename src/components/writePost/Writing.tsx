@@ -13,10 +13,17 @@ function Writing() {
         <ImagePrint />
       </ImageWrapper>
       <ContentWrapper>
-        <ItemUser id={LOGIN_ID} img="" />
-        <TitleInput />
-        <PostEditor />
-        <WriteButtonList />
+        <ItemUser id={memberId} />
+        <TitleInput onChange={handleTitleonChange} title={title} />
+        <PostEditor
+          onChange={setContent}
+          content={content}
+          imagePath={images}
+        />
+        <WriteButtonList
+          handleCancelonClick={handleCancelOnClick}
+          handleSubmitonClick={handleSubmitOnClick}
+        />
       </ContentWrapper>
     </WritingWrapper>
   );

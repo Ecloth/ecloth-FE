@@ -1,8 +1,20 @@
 import styled from "styled-components";
 
-function ImagePrint() {
-  const url = "src/assets/images/test.jpg";
-  return <Image src={url} alt="postImage" />;
+function ImagePrint({ imgUrl }: { imgUrl: string[] }) {
+  const [imgList, serImgList] = useState<string[]>([]);
+  const images = useRecoilState<string[]>(PreviewImgsState);
+
+  useEffect(() => {
+    if (images !== null) {
+      serImgList(images[0]);
+    }
+  }, [images]);
+
+  return (
+    <PostImage
+      imgs={imgUrl[0] === "https://via.placeholder.com/300" ? imgUrl : imgList}
+    />
+  );
 }
 
 export default ImagePrint;

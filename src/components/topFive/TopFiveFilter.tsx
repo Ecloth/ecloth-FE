@@ -5,10 +5,10 @@ import { SelectedTopFiveFilterState } from "../../atoms/postAtom";
 
 export const filterItems = ["좋아요", "조회수"];
 function TopFiveFilter() {
-  const [selected, setSelected] = useRecoilState<string | any>(SelectedTopFiveFilterState);
+  const [selected, setSelected] = useRecoilState<string | any>(
+    SelectedTopFiveFilterState,
+  );
   const [checkedInputs, setCheckedInputs] = useState(selected);
-  // setSelected(filterItems[0]);
-  console.log(checkedInputs)
 
   const changeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -17,14 +17,18 @@ function TopFiveFilter() {
     }
   };
 
-
   return (
     <FilterWrapper>
       {filterItems.map((item, idx) => (
         <div key={idx}>
-      <FilterItem type="radio" name="filterItem" value={checkedInputs} id={item} onChange={changeRadio} />
-      <ItemText htmlFor={item}>{item}</ItemText>
-
+          <FilterItem
+            type="radio"
+            name="filterItem"
+            value={checkedInputs}
+            id={item}
+            onChange={changeRadio}
+          />
+          <ItemText htmlFor={item}>{item}</ItemText>
         </div>
       ))}
     </FilterWrapper>
@@ -39,6 +43,7 @@ const FilterWrapper = styled.form`
   margin-bottom: 10px;
   height: 50px;
 `;
+
 const ItemText = styled.label`
   cursor: pointer;
   font-size: 1rem;
@@ -47,7 +52,7 @@ const ItemText = styled.label`
   font-weight: 800;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.3);
 `;
-const FilterItem = styled.input.attrs({type: "radio"})`
+const FilterItem = styled.input.attrs({ type: "radio" })`
   display: none;
   &:hover {
     cursor: pointer;

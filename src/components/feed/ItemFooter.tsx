@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import ItemUser from "./ItemUser";
-import testImg from "../../assets/images/test.jpg";
 
-function ItemFooter({id, img, views}: {id: string; img?: string; views: number}) {
+function ItemFooter({ id, views }: { id: number; views: number }) {
   return (
     <FooterWrapper>
-      <ItemUser id={id} img={testImg} />
+      <ItemUser id={id} />
       <Views>조회수 {views}</Views>
     </FooterWrapper>
   );

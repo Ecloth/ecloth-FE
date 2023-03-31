@@ -1,25 +1,18 @@
-import {useState} from "react";
 import styled from "styled-components";
-import {BiSliderAlt} from "react-icons/bi";
-import { dummy } from "./FeedBody";
-import { IPost } from "../../types/postType";
+import { BiSliderAlt } from "react-icons/bi";
 import { useRecoilState } from "recoil";
 import { SelectedFilterState } from "../../atoms/postAtom";
-export const selectList = ["", "최신", "좋아요", "조회수", "댓글"];
 
-interface Item {
-  productSlice: {
-    loadingState: string;
-    productList: any;
-  };
-}
+export const selectList = ["최신", "좋아요", "조회수", "댓글"];
 
 function FeedFilter() {
-  const [selected, setSelected] = useRecoilState<string | any>(SelectedFilterState);
+  const [selected, setSelected] = useRecoilState<string | any>(
+    SelectedFilterState,
+  );
 
   const handleSelect = (e: any) => {
     setSelected(e.target.value as string);
-    console.log(selected)
+    console.log(selected);
   };
 
   return (

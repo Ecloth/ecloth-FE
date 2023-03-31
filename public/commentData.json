@@ -1,0 +1,33 @@
+[
+  {
+    "commentId": 1,
+    "memberId": 2,
+    "postingId": 1,
+    "parentId": 2,
+    "nickname": "USER2",
+    "profileImagePath": "",
+    "content": "옷이 예뻐요.",
+    "createDate": "2023-03-26 13:10:11",
+    "updateDate": "2023.03.18"
+  },
+  {
+    "commentId": 2,
+    "memberId": 3,
+    "postingId": 1,
+    "nickname": "USER3",
+    "profileImagePath": "",
+    "content": "옷이 너무너무 예뻐요.",
+    "createDate": "2023-03-13 16:56:11",
+    "updateDate": "2023.03.18"
+  },
+  {
+    "commentId": 3,
+    "memberId": 1,
+    "postingId": 3,
+    "nickname": "test123",
+    "profileImagePath": "",
+    "content": "옷 어디 브랜드인가요?",
+    "createDate": "2023-03-19 12:36:11",
+    "updateDate": "2023.03.18"
+  }
+]
