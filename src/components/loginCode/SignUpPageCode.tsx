@@ -63,7 +63,7 @@ export default function SignUpPageCode() {
   const KAKAO_AUTH_URL = import.meta.env.VITE_APP_KaKaoauthURL
 
   const handleKakaoLogin = () => {
-    // window.location.href = KAKAO_AUTH_URL;
+    window.location.href = KAKAO_AUTH_URL;
   };
   // 회원가입 로직
   // const signUp = e => {
