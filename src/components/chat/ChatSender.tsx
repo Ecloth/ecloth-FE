@@ -3,21 +3,29 @@ import styled from "styled-components";
 import { IChatMessage } from "../../types/chatType";
 import ChatUserItem from "./ChatUserItem";
 
-function ChatSender({sendMessage} : {sendMessage:IChatMessage[]}) {
-
+function ChatSender({
+  sendMessage,
+  profileImage,
+}: {
+  sendMessage: IChatMessage[];
+  profileImage: string;
+}) {
   return (
     <div className="sender">
-    <ChatUserItem nickName={sendMessage[0].sender_id as unknown as string}/>
-    {
-      sendMessage.map((item) => (
+      <ChatUserItem
+        profileImg={profileImage}
+        memberId={sendMessage[0].writer_id}
+      />
+      {sendMessage.map((item) => (
         <SendMessageWrapper>
-        <div className="message send">{item.content}</div>
-        <div className="timeRecord">{dayjs(item.sent_date).format("HH:mm")}</div>
+          <div className="message send">{item.message}</div>
+          <div className="timeRecord">
+            {dayjs(item.register_date).format("HH:mm")}
+          </div>
         </SendMessageWrapper>
-      ))
-    }
-  </div>
-  )
+      ))}
+    </div>
+  );
 }
 
 export default ChatSender;
@@ -27,4 +35,4 @@ const SendMessageWrapper = styled.div`
   flex-direction: row;
   margin-top: 3px;
   align-items: flex-end;
-`
+`;
