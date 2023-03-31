@@ -1,25 +1,36 @@
-import styled from "styled-components";
-import FollowButtonList from "./FollowButtonList";
-import {useParams} from "react-router-dom";
-import FollowModal from "./FollowModal";
-import {useState} from "react";
-import OptionButton from "./OptionButton";
-import {LOGIN_ID} from "../detailPost/Detail";
-import MessageSendButton from "./MessageSendButton";
-import {followDummyData, followerDummyData} from "./FollowList";
-import profile from "../../assets/images/profile.png"
+import styled from 'styled-components';
+import FollowButtonList from './FollowButtonList';
+import { useParams } from 'react-router-dom';
+import FollowModal from './FollowModal';
+import { useEffect, useState } from 'react';
+import OptionButton from './OptionButton';
+import { LOGIN_ID } from '../detailPost/Detail';
+import MessageSendButton from './MessageSendButton';
+import { followDummyData, followerDummyData } from './FollowList';
+import profile from '../../assets/images/profile.png';
+import axios from 'axios';
+import { useRecoilValueLoadable } from 'recoil';
+import { IPost } from '../../types/postType';
+import { postList } from '../../atoms/postAtom';
 
 function UserInfo() {
   const param = useParams().id;
   const id = parseInt(param as string, 10);
-  const [isOwner, setIsOwner] = useState(LOGIN_ID === id);
+  const loginId = LOGIN_ID === 'test123' ? 1 : 0;
+  const [isOwner, setIsOwner] = useState(loginId === id);
+
+  //서버 연동 전 테스트 코드
+  const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
+  let products: IPost[] =
+    'hasValue' === PostsLoadable.state ? PostsLoadable.contents : [];
+  const nickName = products.filter((item) => item.memberId === id)[0];
 
   const followList = [35, 40];
 
   // useEffect(() => {
   //   axios({
   //     method:'get',
-  //     url:'api/member/{memberId}/follow',
+  //     url:'api/member/{memberId}',
   //     baseURL: 'http://localhost:8080'
   //   })
   //   .then(function (response) {
@@ -34,31 +45,20 @@ function UserInfo() {
   //     // 항상 실행
   //   });
   // },[])
-  // Response
-  //   {
-  //     "follow_member_info": {
-  //        "follow_cnt": 0,
-  //        "follow_status": true,
-  //        "follower_cnt": 0,
-  //        "nickname": "string",
-  //        "profile_image_path": "string",
-  //        "target_id": 0
-  //   }
-  // }
   return (
     <UserWrapper>
       <ProfileImage>
-        <img src={profile}></img>
+        <img src={nickName.profileImagePath}></img>
       </ProfileImage>
       <UserDesc>
         <NickNameFollow>
-          <p className="nickName">{param}</p>
+          <p className="nickName">{nickName.nickName}</p>
           {isOwner ? (
             <OptionButton />
           ) : (
             <>
               <FollowButtonList following={true} memberId={id} />
-              <MessageSendButton />
+              <MessageSendButton memberId={id} />
             </>
           )}
         </NickNameFollow>

@@ -1,8 +1,14 @@
-import styled from "styled-components";
-import {useState} from "react";
-import axios from "axios";
+import styled from 'styled-components';
+import { useState } from 'react';
+import axios from 'axios';
 
-function FollowButtonList({following, memberId}: {following: boolean; memberId: number}) {
+function FollowButtonList({
+  following,
+  memberId,
+}: {
+  following: boolean;
+  memberId: number;
+}) {
   const [isFollow, setIsFollow] = useState(following);
 
   const handleFollowonClick = () => {
