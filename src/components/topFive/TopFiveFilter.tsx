@@ -17,14 +17,12 @@ function TopFiveFilter() {
     }
   };
 
-
   return (
     <FilterWrapper>
       {filterItems.map((item, idx) => (
         <div key={idx}>
       <FilterItem type="radio" name="filterItem" value={checkedInputs} id={item} onChange={changeRadio} />
       <ItemText htmlFor={item}>{item}</ItemText>
-
         </div>
       ))}
     </FilterWrapper>
@@ -39,6 +37,7 @@ const FilterWrapper = styled.form`
   margin-bottom: 10px;
   height: 50px;
 `;
+
 const ItemText = styled.label`
   cursor: pointer;
   font-size: 1rem;
@@ -65,3 +64,4 @@ const FilterItem = styled.input.attrs({type: "radio"})`
     color: var(--blueColor2);
   }
 `;
+

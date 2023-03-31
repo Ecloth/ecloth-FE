@@ -6,7 +6,7 @@ import UserInfo from "../../components/myPage/UserInfo";
 
 function FeedPage() {
   const {id} = useParams();
-  const posts = dummy.filter(item => id === item.member_id);
+  const posts = dummy.filter(item => parseInt(id as string, 10) === item.member_id);
   return (
     <SectionWrapper>
       <UserInfo />

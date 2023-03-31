@@ -1,17 +1,17 @@
-import styled from 'styled-components';
-import FollowButtonList from './FollowButtonList';
-import { useParams } from 'react-router-dom';
-import FollowModal from './FollowModal';
-import { useEffect, useState } from 'react';
-import OptionButton from './OptionButton';
-import { LOGIN_ID } from '../detailPost/Detail';
-import MessageSendButton from './MessageSendButton';
-import { followDummyData, followerDummyData } from './FollowList';
-import profile from '../../assets/images/profile.png';
-import axios from 'axios';
-import { useRecoilValueLoadable } from 'recoil';
-import { IPost } from '../../types/postType';
-import { postList } from '../../atoms/postAtom';
+import styled from "styled-components";
+import FollowButtonList from "./FollowButtonList";
+import { useParams } from "react-router-dom";
+import FollowModal from "./FollowModal";
+import { useEffect, useState } from "react";
+import OptionButton from "./OptionButton";
+import { LOGIN_ID } from "../detailPost/Detail";
+import MessageSendButton from "./MessageSendButton";
+import { followDummyData, followerDummyData } from "./FollowList";
+import profile from "../../assets/images/profile.png";
+import axios from "axios";
+import { useRecoilValueLoadable } from "recoil";
+import { IPost } from "../../types/postType";
+import { postList } from "../../atoms/postAtom";
 
 function UserInfo() {
   const param = useParams().id;
@@ -21,7 +21,7 @@ function UserInfo() {
   //서버 연동 전 테스트 코드
   const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
   let products: IPost[] =
-    'hasValue' === PostsLoadable.state ? PostsLoadable.contents : [];
+    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
   const nickName = products.filter((item) => item.memberId === id)[0];
 
   const followList = [35, 40];
@@ -64,11 +64,11 @@ function UserInfo() {
         <FollowList>
           <div className="FollwWrapper">
             <FollowModal isFollow={false} />
-            <span>팔로워 {followList[0]}명</span>
+            <span>팔로워 {followerDummyData.length}명</span>
           </div>
           <div className="FollwWrapper">
             <FollowModal isFollow={true} />
-            <span>팔로우 {followList[1]}명</span>
+            <span>팔로우 {followDummyData.length}명</span>
           </div>
         </FollowList>
       </UserDesc>

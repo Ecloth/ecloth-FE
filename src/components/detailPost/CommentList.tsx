@@ -1,9 +1,11 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { IComment } from '../../types/postType';
-import CommentItem from './CommentItem';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { IComment } from "../../types/postType";
+import CommentItem from "./CommentItem";
+import { LOGIN_ID } from "./Detail";
+import ReplyInput from "./ReplyInput";
 
 export const dummyCommentList: IComment[] = [
   {
@@ -11,33 +13,33 @@ export const dummyCommentList: IComment[] = [
     memberId: 2,
     postingId: 1,
     parentId: 2,
-    nickname: 'USER2',
-    profileImagePath: '',
-    content: '옷이 예뻐요.',
-    createDate: new Date('2023-03-26 13:10:11'),
-    updateDate: '2023.03.18',
+    nickname: "USER2",
+    profileImagePath: "",
+    content: "옷이 예뻐요.",
+    createDate: new Date("2023-03-26 13:10:11"),
+    updateDate: "2023.03.18",
   },
   {
     commentId: 2,
     memberId: 3,
     postingId: 1,
     parentId: 2,
-    nickname: 'USER3',
-    profileImagePath: '',
-    content: '옷이 너무너무 예뻐요.',
-    createDate: new Date('2023-03-13 16:56:11'),
-    updateDate: '2023.03.18',
+    nickname: "USER3",
+    profileImagePath: "",
+    content: "옷이 너무너무 예뻐요.",
+    createDate: new Date("2023-03-13 16:56:11"),
+    updateDate: "2023.03.18",
   },
   {
     commentId: 3,
     memberId: 1,
     postingId: 3,
     parentId: 2,
-    nickname: 'test123',
-    profileImagePath: '',
-    content: '옷 어디 브랜드인가요?',
-    createDate: new Date('2023-03-19 12:36:11'),
-    updateDate: '2023.03.18',
+    nickname: "test123",
+    profileImagePath: "",
+    content: "옷 어디 브랜드인가요?",
+    createDate: new Date("2023-03-19 12:36:11"),
+    updateDate: "2023.03.18",
   },
 ];
 
@@ -58,7 +60,7 @@ function CommentList({
 
   const getComment = async () => {
     try {
-      const res = await fetch('/commentData.json');
+      const res = await fetch("/commentData.json");
       //     commentList = [response.data];
       console.log(await res.json());
       // return (await res.json()) || [];

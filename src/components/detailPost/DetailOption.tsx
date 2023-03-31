@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useState } from 'react';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
-import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import axios from "axios";
+import { useState } from "react";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 function DetailOption({ postId }: { postId: number }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,9 +10,9 @@ function DetailOption({ postId }: { postId: number }) {
 
   const handleDeletePost = (e: React.MouseEvent<HTMLButtonElement>) => {
     axios({
-      method: 'delete',
+      method: "delete",
       url: `/api/feed/post`,
-      baseURL: 'http://localhost:8080',
+      baseURL: "http://localhost:8080",
     })
       .then(function (response) {
         // 성공한 경우 실행

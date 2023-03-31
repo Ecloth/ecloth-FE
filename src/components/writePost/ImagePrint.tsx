@@ -1,8 +1,19 @@
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { PreviewImgsState } from "../../atoms/postAtom";
 
-function ImagePrint() {
-  const url = "src/assets/images/test.jpg";
-  return <Image src={url} alt="postImage" />;
+function ImagePrint({imgUrl} : {imgUrl: string[]}) {
+  const images = useRecoilState<string[] | any>(PreviewImgsState);
+  if (imgUrl[0] !== "null"){
+    
+  }
+  useEffect(() => {
+
+    console.log(images);
+  },[images])
+
+  return (<Image src={imgUrl[0] !== "" ? imgUrl : images[0]} alt="postImage" />);
 }
 
 export default ImagePrint;

@@ -10,7 +10,7 @@ function Writing() {
   return (
     <WritingWrapper>
       <ImageWrapper>
-        <ImagePrint />
+        <ImagePrint imgUrl={[""]}/>
       </ImageWrapper>
       <ContentWrapper>
         <ItemUser id={LOGIN_ID} img="" />

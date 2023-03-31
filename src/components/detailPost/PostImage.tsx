@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import ImagePrint from '../writePost/ImagePrint';
-import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
+import styled from "styled-components";
+import ImagePrint from "../writePost/ImagePrint";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 function PostImage({ imgs }: { imgs: string[] }) {
   return (
@@ -35,6 +35,9 @@ const ImageWrapper = styled.div`
   li {
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 const Image = styled.img`
