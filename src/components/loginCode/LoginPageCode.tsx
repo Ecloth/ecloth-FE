@@ -3,7 +3,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ImBubble } from 'react-icons/im';
 import axios from 'axios';
-import { REDIRECT_URI, REST_API_KEY } from '../../api/API_KEY';
 import LogoImamge from '../../assets/images/LOGO.png'
 
 export default function LoginPageCode() {
@@ -13,7 +12,11 @@ export default function LoginPageCode() {
 
   // let {id} = useParams()
 
-  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+  const RESTAPI = import.meta.env.VITE_APP_KaKaoRestApiKey;
+  const REDIRECT_URI = import.meta.env.VITE_APP_KaKaoRedirectURI;
+
+
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${RESTAPI}&redirect_uri=${REDIRECT_URI}&response_type=code`
   
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URI;

@@ -1,0 +1,118 @@
+[
+  {
+    "postId": 1,
+    "memberId": 1,
+    "profileImagePath": "",
+    "nickName": "test123",
+    "title": "제목입니다",
+    "content": "내용입니다내용입니다내용입니다내용입니다",
+    "likeCount": 4,
+    "viewCount": 7,
+    "commentCount": 24,
+    "createDate": "2023-02-17 16:10:11",
+    "updateDate": "2023-03-18",
+    "imagePath": [
+      "https://www.kdfnews.com/news/photo/202202/87406_87382_2149.jpg",
+      "https://m.aconstudio.com/file_data/aconstudio1/gallery/2021/10/13/4458fa8dbf2e69da3fdca29024c5c85f.jpg"
+    ]
+  },
+  {
+    "postId": 2,
+    "memberId": 2,
+    "profileImagePath": "",
+    "nickName": "USER2",
+    "title": "이 옷 괜찮죠",
+    "content": "싸게 샀어요",
+    "likeCount": 227,
+    "viewCount": 327,
+    "commentCount": 432,
+    "createDate": "2023-02-28 11:40:11",
+    "updateDate": "2023-03-01",
+    "imagePath": [
+      "https://i.pinimg.com/236x/24/ef/b5/24efb51aac6a339b337742cea1d9c0f9.jpg",
+      "https://m.aconstudio.com/file_data/aconstudio1/gallery/2021/09/29/e3e5335775a3a645457dee0b5aff2518.jpg",
+      "https://i.pinimg.com/236x/d7/d2/dc/d7d2dce3ddc6df5c20ff8c598eb9aa24.jpg"
+    ]
+  },
+  {
+    "postId": 3,
+    "memberId": 2,
+    "profileImagePath": "",
+    "nickName": "USER2",
+    "title": "1234",
+    "content": "옷 어떤가요",
+    "likeCount": 27,
+    "viewCount": 31,
+    "commentCount": 2,
+    "createDate": "2023-02-28 21:45:11",
+    "updateDate": "2023-03-01",
+    "imagePath": [
+      "https://nationaltoday.com/wp-content/uploads/2021/06/shutterstock_1657335223-1-min-640x514.jpg"
+    ]
+  },
+  {
+    "postId": 4,
+    "memberId": 2,
+    "nickName": "USER2",
+    "profileImagePath": "",
+    "title": "제목제목",
+    "content": "이 옷 어때 ??",
+    "likeCount": 9,
+    "viewCount": 87,
+    "commentCount": 47,
+    "createDate": "2023-03-01 15:06:11",
+    "updateDate": "2023-03-01",
+    "imagePath": [
+      "https://cdn-std-web-155-55.cdn-nhncommerce.com/gtogcokr_godomall_com/data/editor/board/ootd/ae_luv_1_132811.jpg"
+    ]
+  },
+  {
+    "postId": 5,
+    "memberId": 3,
+    "nickName": "USER3",
+    "profileImagePath": "",
+    "title": "Title",
+    "content": "옷 삼",
+    "likeCount": 12,
+    "viewCount": 97,
+    "commentCount": 7,
+    "createDate": "2023-03-17 04:30:11",
+    "updateDate": "2023-03-21",
+    "imagePath": [
+      "https://i0.wp.com/echeveau.net/wp-content/uploads/2021/03/OOTD-20210312-6.jpg?resize=1170%2C1755&ssl=1"
+    ]
+  },
+  {
+    "postId": 6,
+    "memberId": 1,
+    "nickName": "test123",
+    "profileImagePath": "",
+    "title": "ㅎㅎ득템",
+    "content": "이 옷 어떤가요",
+    "likeCount": 29,
+    "viewCount": 37,
+    "commentCount": 6,
+    "createDate": "2023-03-26 18:10:11",
+    "updateDate": "2023-03-29",
+    "imagePath": [
+      "https://manhattanmall.co.kr/file_data/hansungfnc32/2020/12/29/6c0b874ce1d22dbcc6d14599fc4e359f.jpg"
+    ]
+  },
+  {
+    "postId": 7,
+    "memberId": 4,
+    "nickName": "USER1",
+    "profileImagePath": "",
+    "title": "이거 따라 샀어요",
+    "content": "어떤가요",
+    "likeCount": 79,
+    "viewCount": 58,
+    "commentCount": 647,
+    "createDate": "2023-03-26 23:10:11",
+    "updateDate": "2023-03-29",
+    "imagePath": [
+      "https://image.musinsa.com/mfile_s01/2021/11/18/c0fba364051750be3be1c7df772277fd210841.jpg",
+      "https://image.musinsa.com/mfile_s01/2021/11/18/d4cfa43edb6d3e9a22c42cf935abeff0210839.jpg"
+    ]
+  }
+]

@@ -1,28 +1,27 @@
-import styled from 'styled-components';
-import FollowButtonList from './FollowButtonList';
-import { useParams } from 'react-router-dom';
-import FollowModal from './FollowModal';
-import { useEffect, useState } from 'react';
-import OptionButton from './OptionButton';
-import { LOGIN_ID } from '../detailPost/Detail';
-import MessageSendButton from './MessageSendButton';
-import { followDummyData, followerDummyData } from './FollowList';
-import profile from '../../assets/images/profile.png';
-import axios from 'axios';
-import { useRecoilValueLoadable } from 'recoil';
-import { IPost } from '../../types/postType';
-import { postList } from '../../atoms/postAtom';
+import styled from "styled-components";
+import FollowButtonList from "./FollowButtonList";
+import { useParams } from "react-router-dom";
+import FollowModal from "./FollowModal";
+import { useEffect, useState } from "react";
+import OptionButton from "./OptionButton";
+import { LOGIN_ID } from "../detailPost/Detail";
+import MessageSendButton from "./MessageSendButton";
+import { followDummyData, followerDummyData } from "./FollowList";
+import profile from "../../assets/images/profile.png";
+import axios from "axios";
+import { useRecoilValueLoadable } from "recoil";
+import { IPost } from "../../types/postType";
+import { postList } from "../../atoms/postAtom";
 
 function UserInfo() {
   const param = useParams().id;
   const id = parseInt(param as string, 10);
-  const loginId = LOGIN_ID === 'test123' ? 1 : 0;
-  const [isOwner, setIsOwner] = useState(loginId === id);
+  const [isOwner, setIsOwner] = useState(LOGIN_ID === id);
 
   //서버 연동 전 테스트 코드
   const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
   let products: IPost[] =
-    'hasValue' === PostsLoadable.state ? PostsLoadable.contents : [];
+    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
   const nickName = products.filter((item) => item.memberId === id)[0];
 
   const followList = [35, 40];

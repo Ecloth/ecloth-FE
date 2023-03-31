@@ -1,16 +1,16 @@
-import styled from 'styled-components';
-import { LOGIN_ID } from '../detailPost/Detail';
-import ItemUser from '../feed/ItemUser';
-import ImagePrint from './ImagePrint';
-import PostEditor from './PostEditor';
-import TitleInput from './TitleInput';
-import WriteButtonList from './WriteButtonList';
+import styled from "styled-components";
+import {LOGIN_ID} from "../detailPost/Detail";
+import ItemUser from "../feed/ItemUser";
+import ImagePrint from "./ImagePrint";
+import PostEditor from "./PostEditor";
+import TitleInput from "./TitleInput";
+import WriteButtonList from "./WriteButtonList";
 
 function Writing() {
   return (
     <WritingWrapper>
       <ImageWrapper>
-        <ImagePrint imgUrl={[""]}/>
+        <ImagePrint />
       </ImageWrapper>
       <ContentWrapper>
         <ItemUser id={memberId} />

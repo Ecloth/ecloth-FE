@@ -1,15 +1,16 @@
 export interface IPost {
-  post_id: number;
-  member_id: number;
+  postId: number;
+  memberId: number;
   nickName: string;
+  profileImagePath: string;
   title: string;
   content: string;
-  like: number;
-  view: number;
-  comment: number;
-  create_date: Date;
-  update_date: string;
-  images: string[];
+  likeCount: number;
+  viewCount: number;
+  commentCount: number;
+  createDate: Date;
+  updateDate: string;
+  imagePath: string[];
 }
 export interface IImage {
   image_id: number;
@@ -18,12 +19,15 @@ export interface IImage {
 }
 
 export interface IComment {
-  comment_id: number;
-  member_id: number;
-  post_id: number;
+  commentId: number;
+  memberId: number;
+  postingId: number;
+  parentId: number;
+  nickname: string;
+  profileImagePath: string;
   content: string;
-  create_date: Date;
-  update_date: string;
+  createDate: Date;
+  updateDate: string;
 }
 export interface IReply {
   member_id: Long;

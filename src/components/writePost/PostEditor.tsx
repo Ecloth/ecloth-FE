@@ -40,31 +40,15 @@ const PostEditor = () => {
           if (range !== null && range !== undefined) {
             const quill = QuillRef.current?.getEditor();
 
-            const reader = new FileReader();
-            reader.readAsDataURL(file[0]);
-            reader.onloadend = () => {
-              const url = window.URL.createObjectURL(file[0]);
-              // images.push(file[0]);
-              setImgages(url);
-              console.log(file[0]);
-              quill?.clipboard.dangerouslyPasteHTML(
-                range,
-                `<ImagePrint src="abc"  />`,
-              );
-            };
-
             quill?.setSelection(range, 1);
 
-            quill?.clipboard.dangerouslyPasteHTML(
-              range,
-              `<ImagePrint src=${url} alt="이미지 태그가 삽입됩니다." />`,
-            );
+            quill?.clipboard.dangerouslyPasteHTML(range, `<ImagePrint src=${url} alt="이미지 태그가 삽입됩니다." />`);
           }
 
-          return { ...res, success: true };
+          return {...res, success: true};
         } catch (error) {
           const err = error as AxiosError;
-          return { ...err.response, success: false };
+          return {...err.response, success: false};
         }
       }
     };
@@ -75,14 +59,8 @@ const PostEditor = () => {
       toolbar: {
         container: [
           ["bold", "italic", "underline", "strike", "blockquote"],
-          [{ size: ["small", false, "large", "huge"] }, { color: [] }],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-            { align: [] },
-          ],
+          [{size: ["small", false, "large", "huge"]}, {color: []}],
+          [{list: "ordered"}, {list: "bullet"}, {indent: "-1"}, {indent: "+1"}, {align: []}],
           ["image"],
         ],
         handlers: {
@@ -96,7 +74,7 @@ const PostEditor = () => {
   return (
     <QuillWrapper>
       <ReactQuill
-        ref={(element) => {
+        ref={element => {
           if (element !== null) {
             QuillRef.current = element;
           }
