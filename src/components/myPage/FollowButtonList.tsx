@@ -1,11 +1,17 @@
-import styled from "styled-components";
-import {useState} from "react";
-import axios from "axios";
+import styled from 'styled-components';
+import { useState } from 'react';
+import axios from 'axios';
 
-function FollowButtonList({following, memberId}: {following: boolean, memberId: number}) {
+function FollowButtonList({
+  following,
+  memberId,
+}: {
+  following: boolean;
+  memberId: number;
+}) {
   const [isFollow, setIsFollow] = useState(following);
 
-  const handleFollowonClick =() =>{
+  const handleFollowonClick = () => {
     setIsFollow(!isFollow);
     // axios({
     //   method: 'post',
@@ -14,9 +20,8 @@ function FollowButtonList({following, memberId}: {following: boolean, memberId: 
     // baseURL: 'http://localhost:8080'
 
     // })
-
-  }
-  const handleUnFollowonClick =() =>{
+  };
+  const handleUnFollowonClick = () => {
     setIsFollow(!isFollow);
     // axios({
     //   method: 'delete',
@@ -24,8 +29,7 @@ function FollowButtonList({following, memberId}: {following: boolean, memberId: 
     // baseURL: 'http://localhost:8080'
 
     // })
-
-  }
+  };
 
   return (
     <ButtonWrapper className="buttonWrapper">
