@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import {LOGIN_ID} from "../detailPost/Detail";
-import ItemUser from "../feed/ItemUser";
-import ImagePrint from "./ImagePrint";
-import PostEditor from "./PostEditor";
-import TitleInput from "./TitleInput";
-import WriteButtonList from "./WriteButtonList";
+import styled from 'styled-components';
+import { LOGIN_ID } from '../detailPost/Detail';
+import ItemUser from '../feed/ItemUser';
+import ImagePrint from './ImagePrint';
+import PostEditor from './PostEditor';
+import TitleInput from './TitleInput';
+import WriteButtonList from './WriteButtonList';
 
 function Writing() {
   return (
@@ -13,10 +13,17 @@ function Writing() {
         <ImagePrint imgUrl={[""]}/>
       </ImageWrapper>
       <ContentWrapper>
-        <ItemUser id={LOGIN_ID} img="" />
-        <TitleInput />
-        <PostEditor />
-        <WriteButtonList />
+        <ItemUser id={memberId} />
+        <TitleInput onChange={handleTitleonChange} title={title} />
+        <PostEditor
+          onChange={setContent}
+          content={content}
+          imagePath={images}
+        />
+        <WriteButtonList
+          handleCancelonClick={handleCancelOnClick}
+          handleSubmitonClick={handleSubmitOnClick}
+        />
       </ContentWrapper>
     </WritingWrapper>
   );

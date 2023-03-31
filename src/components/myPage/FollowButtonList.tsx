@@ -1,15 +1,27 @@
-import styled from 'styled-components';
-import { useState } from 'react';
-import axios from 'axios';
+import styled from "styled-components";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function FollowButtonList({
-  following,
-  memberId,
-}: {
-  following: boolean;
-  memberId: number;
-}) {
-  const [isFollow, setIsFollow] = useState(following);
+function FollowButtonList({ memberId }: { memberId: number }) {
+  const [isFollow, setIsFollow] = useState(false);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `/api/member/${memberId}/follow/status`,
+      baseURL: "http://localhost:8080",
+      data: {
+        target_Id: memberId,
+      },
+    })
+      .then(function (response) {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {});
+  }, []);
 
   const handleFollowonClick = () => {
     setIsFollow(!isFollow);
@@ -18,7 +30,6 @@ function FollowButtonList({
     //   url: `/api/member/${memberId}/follow`,
     //   data: [],
     // baseURL: 'http://localhost:8080'
-
     // })
   };
   const handleUnFollowonClick = () => {

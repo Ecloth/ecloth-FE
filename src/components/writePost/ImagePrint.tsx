@@ -1,19 +1,22 @@
-import { useEffect } from "react";
-import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { PreviewImgsState } from "../../atoms/postAtom";
+import PostImage from "../detailPost/PostImage";
 
-function ImagePrint({imgUrl} : {imgUrl: string[]}) {
-  const images = useRecoilState<string[] | any>(PreviewImgsState);
-  if (imgUrl[0] !== "null"){
-    
-  }
+function ImagePrint({ imgUrl }: { imgUrl: string[] }) {
+  const [imgList, serImgList] = useState<string[]>([]);
+  const images = useRecoilState<string[]>(PreviewImgsState);
+
   useEffect(() => {
+    if (images !== null) {
+      serImgList(images[0]);
+    }
+  }, [images]);
 
-    console.log(images);
-  },[images])
-
-  return (<Image src={imgUrl[0] !== "" ? imgUrl : images[0]} alt="postImage" />);
+  return (
+    <PostImage
+      imgs={imgUrl[0] === "https://via.placeholder.com/300" ? imgUrl : imgList}
+    />
+  );
 }
 
 export default ImagePrint;
