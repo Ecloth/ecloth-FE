@@ -1,23 +1,26 @@
 import styled from "styled-components";
 import TopFiveItem from "../topFive/TopFiveItem";
-import {dummy} from "../feed/FeedBody";
-import {useEffect} from "react";
-import {IPost} from "../../types/postType";
+import { IPost } from "../../types/postType";
+import { useParams } from "react-router-dom";
+import { useRecoilValueLoadable } from "recoil";
+import { postList } from "../../atoms/postAtom";
 
-function MainFeed({posts}: {posts: IPost[]}) {
-  const newArray: IPost[] = [];
-  useEffect(() => {
-    for (let i = 0; i < 3; i++) {
-      newArray.push(dummy[i], dummy[i + 1], dummy[i + 2]);
-    }
-    console.log(newArray);
-  }, []);
+function MainFeed() {
+  const { id } = useParams();
+
+  //서버 연동 전 테스트 코드
+  const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
+  let posts: IPost[] =
+    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
+  const postsList = posts.filter(
+    (item) => item.memberId === parseInt(id as string, 10),
+  );
 
   return (
     <FeedWrapper>
       <div className="FeedWrapper">
-        {posts.map(item => (
-          <div key={item.post_id} className="imageWrapper">
+        {postsList.map((item) => (
+          <div key={item.postId} className="imageWrapper">
             <TopFiveItem itemProps={item} />
           </div>
         ))}

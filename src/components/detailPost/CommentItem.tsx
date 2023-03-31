@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import {IComment} from "../../types/postType";
+import { IComment } from "../../types/postType";
 import RecordTime from "../commons/RecordTime";
 import ItemUser from "../feed/ItemUser";
 
-function CommentItem({comment}: {comment: IComment}) {
+function CommentItem({ comment }: { comment: IComment }) {
   return (
     <CommentWrapper>
-      <ItemUser id={comment.member_id} img="" />
+      <ItemUser id={comment.memberId} />
       <Comment>{comment.content}</Comment>
-      <RecordTime date={comment.create_date} />
+      <RecordTime date={comment.createDate} />
     </CommentWrapper>
   );
 }

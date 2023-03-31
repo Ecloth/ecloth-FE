@@ -1,14 +1,10 @@
-import {Link, useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-function MessageSendButton() {
-  const navigator = useNavigate();
-  const handleMessageonClick = () => {
-    navigator("/chat/id");
-  };
+function MessageSendButton({ memberId }: { memberId: number }) {
   return (
     <ButtonWrapper className="buttonWrapper">
-      <Link to="/chat/id" className="linkButton">
+      <Link to={`/chat/${memberId}`} className="linkButton">
         메세지 보내기
       </Link>
     </ButtonWrapper>
