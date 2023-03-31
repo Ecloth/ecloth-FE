@@ -1,41 +1,60 @@
 import styled from "styled-components";
 import ItemUser from "../feed/ItemUser";
 import FollowButtonList from "../myPage/FollowButtonList";
-import CommentList, {dummyCommentList} from "./CommentList";
+import CommentList from "./CommentList";
 import CommentInput from "./CommentInput";
 import LikeViews from "./LikeViews";
 import PostContent from "./PostContent";
 import PostImage from "./PostImage";
-import {useParams} from "react-router-dom";
-import {dummy} from "../feed/FeedBody";
-import {useEffect, useState} from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import DetailOption from "./DetailOption";
+import { useRecoilValueLoadable } from "recoil";
+import { IPost } from "../../types/postType";
+import { postList } from "../../atoms/postAtom";
 
-export const LOGIN_ID = "test123";
+export const LOGIN_ID = localStorage.getItem("email");
 
 function Detail() {
-  const {id} = useParams();
-  const item = dummy[parseInt(id as string, 10) - 1];
-  const [isLogin, setIsLogin] = useState(item.member_id === LOGIN_ID);
+  const { id } = useParams();
+  const ProductsLoadable = useRecoilValueLoadable<IPost[]>(postList);
 
-  console.log(id, dummy[parseInt(id as string, 10) - 1]);
+  let products: IPost[] =
+    "hasValue" === ProductsLoadable.state ? ProductsLoadable.contents : [];
+  const item = products.filter(
+    (item) => item.postId === parseInt(id as string, 10),
+  )[0];
+  const [isLogin, setIsLogin] = useState(item.memberId === LOGIN_ID);
 
   // comment -------------------
-  const [commentList, setCommentList] = useState(
-    dummyCommentList.filter(comment => parseInt(id as string, 10) === comment.post_id),
-  );
+  // const [commentList, setCommentList] = useState(
+  //   dummyCommentList.filter(
+  //     (comment) => parseInt(id as string, 10) === comment.post_id,
+  //   ),
+  // );
   // useEffect(() => {}, [commentList]);
   return (
     <DetailWrapper>
-      <PostImage imgs={item.images} />
+      <ImageWrapper>
+        <PostImage imgs={item.imagePath} />
+      </ImageWrapper>
       <ContentWrapper>
         <UserWrapper>
-          <ItemUser id={item.member_id} img="" />
-          {isLogin ? <div>option</div> : <FollowButtonList following={true} />}
+          <ItemUser id={item.memberId} />
+          {isLogin ? (
+            <DetailOption postId={item.postId} />
+          ) : (
+            <FollowButtonList following={true} memberId={item.memberId} />
+          )}
         </UserWrapper>
-        <PostContent title={item.title} text={item.content} />
-        <CommentList commentList={commentList} />
+        <PostContent
+          title={item.title}
+          text={item.content}
+          date={item.createDate}
+        />
+        <CommentList memberId={item.memberId} />
 
-        <LikeViews likes={item.like} views={item.view} />
+        <LikeViews likes={item.likeCount} views={item.viewCount} />
         <CommentInput />
       </ContentWrapper>
     </DetailWrapper>
@@ -74,8 +93,11 @@ const UserWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  & div {
+  & .buttonWrapper {
     width: 80px;
     height: 30px;
   }
+`;
+const ImageWrapper = styled.div`
+  width: 50%;
 `;

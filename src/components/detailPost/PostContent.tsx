@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import RecordTime from "../commons/RecordTime";
 
-function PostContent({title, text}: {title: string; text: string}) {
+function PostContent({title, text, date}: {title: string; text: string, date:Date}) {
   return (
     <PostWrapper>
       <div>
         <span className="title">{title}</span>
         <span className="text">{text}</span>
       </div>
-      <RecordTime date={new Date().getDate() + "시간"} />
+      <RecordTime date={date} />
     </PostWrapper>
   );
 }
@@ -24,7 +24,6 @@ const PostWrapper = styled.div`
   width: 90%;
   height: 25%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-
   & .title {
     font-weight: 700;
     font-size: 1rem;

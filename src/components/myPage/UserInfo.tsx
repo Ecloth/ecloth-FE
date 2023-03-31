@@ -1,35 +1,74 @@
 import styled from "styled-components";
 import FollowButtonList from "./FollowButtonList";
-import testImg from "../../assets/images/test.jpg";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FollowModal from "./FollowModal";
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import OptionButton from "./OptionButton";
-import {LOGIN_ID} from "../detailPost/Detail";
+import { LOGIN_ID } from "../detailPost/Detail";
+import MessageSendButton from "./MessageSendButton";
+import { followDummyData, followerDummyData } from "./FollowList";
+import profile from "../../assets/images/profile.png";
+import axios from "axios";
+import { useRecoilValueLoadable } from "recoil";
+import { IPost } from "../../types/postType";
+import { postList } from "../../atoms/postAtom";
 
 function UserInfo() {
   const param = useParams().id;
-  const [isOwner, setIsOwner] = useState(LOGIN_ID === param);
+  const id = parseInt(param as string, 10);
+  const [isOwner, setIsOwner] = useState(LOGIN_ID === id);
+
+  //서버 연동 전 테스트 코드
+  const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
+  let products: IPost[] =
+    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
+  const nickName = products.filter((item) => item.memberId === id)[0];
 
   const followList = [35, 40];
+
+  // useEffect(() => {
+  //   axios({
+  //     method:'get',
+  //     url:'api/member/{memberId}',
+  //     baseURL: 'http://localhost:8080'
+  //   })
+  //   .then(function (response) {
+  //     // 성공한 경우 실행
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     // 에러인 경우 실행
+  //     console.log(error);
+  //   })
+  //   .then(function () {
+  //     // 항상 실행
+  //   });
+  // },[])
   return (
     <UserWrapper>
       <ProfileImage>
-        <img src={testImg}></img>
+        <img src={nickName.profileImagePath}></img>
       </ProfileImage>
       <UserDesc>
         <NickNameFollow>
-          <p className="nickName">{param}</p>
-          {isOwner ? <OptionButton /> : <FollowButtonList following={true} />}
+          <p className="nickName">{nickName.nickName}</p>
+          {isOwner ? (
+            <OptionButton />
+          ) : (
+            <>
+              <FollowButtonList following={true} memberId={id} />
+              <MessageSendButton memberId={id} />
+            </>
+          )}
         </NickNameFollow>
         <FollowList>
           <div className="FollwWrapper">
             <FollowModal isFollow={false} />
-            <span>팔로워 {followList[0]}명</span>
+            <span>팔로워 {followerDummyData.length}명</span>
           </div>
           <div className="FollwWrapper">
             <FollowModal isFollow={true} />
-            <span>팔로우 {followList[1]}명</span>
+            <span>팔로우 {followDummyData.length}명</span>
           </div>
         </FollowList>
       </UserDesc>

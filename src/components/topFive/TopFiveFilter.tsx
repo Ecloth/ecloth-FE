@@ -16,6 +16,7 @@ function TopFiveFilter() {
       setSelected(checkedInputs);
     }
   };
+
   return (
     <FilterWrapper>
       {filterItems.map((item, idx) => (

@@ -1,10 +1,29 @@
+import { useState } from "react";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ChatUserItem from "./ChatUserItem";
 
-function ChattingHeader() {
+function ChattingHeader({nickName} : {nickName: string}) {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <HeaderWrapper>
-      <div className="user">USER</div>
-      <div className="option">option</div>
+      <ChatUserItem profileImg="" nickName={nickName} memberId={1}/>
+      <div className="option">
+    <ButtonWrapper className="buttonWrapper">
+    <BiDotsHorizontalRounded onClick={() => setIsOpen(!isOpen)} className="icon">
+    </BiDotsHorizontalRounded>
+    {isOpen && <OptionWrapper>
+      <ul>
+        <li>
+          <button className="linkItem">나가기
+            </button>
+          </li>
+      </ul>
+    </OptionWrapper>}
+    </ButtonWrapper>
+
+      </div>
     </HeaderWrapper>
   );
 }
@@ -25,5 +44,46 @@ const HeaderWrapper = styled.span`
 
   .option {
     margin-right: 5px;
+    width: 77px;
+  height: 20px;
   }
 `;
+
+const ButtonWrapper = styled.div`
+text-align: end;
+margin-right: 15px;
+
+  cursor: pointer;
+  .icon{
+      width: 30px;
+      font-size: 1.5rem;
+    }
+`
+
+const OptionWrapper = styled.span`
+  display: block;
+  width: 80px;
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  & ul{
+    width: fit-content;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    
+    & li{
+      padding: 5px;
+      margin: 0;
+      cursor: pointer;
+      z-index: 4;
+      .linkItem{
+        color:#000;
+        border: 0;
+        background: inherit;
+      }
+    }
+
+  }
+`
