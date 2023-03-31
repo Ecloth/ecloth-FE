@@ -2,7 +2,6 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { ImBubble } from 'react-icons/im';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-// import { KAKAO_AUTH_URL } from '../../api/API_KEY';
 import LogoImamge from '../../assets/images/LOGO.png'
 
 export default function SignUpPageCode() {
@@ -62,8 +61,9 @@ export default function SignUpPageCode() {
     setPhonNumber(e.currentTarget.value)
   }
   const KAKAO_AUTH_URL = import.meta.env.VITE_APP_KaKaoauthURL
+
   const handleKakaoLogin = () => {
-    window.location.href = KAKAO_AUTH_URL;
+    // window.location.href = KAKAO_AUTH_URL;
   };
   // 회원가입 로직
   // const signUp = e => {
