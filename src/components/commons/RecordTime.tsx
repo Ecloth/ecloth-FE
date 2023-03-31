@@ -1,9 +1,4 @@
 import styled from "styled-components";
-<<<<<<< Updated upstream
-
-function RecordTime({date}: {date: string}) {
-  return <TimeText className="timeText">{date}</TimeText>;
-=======
 import dayjs from "dayjs";
 
 function RecordTime({date}: {date: Date}) {
@@ -22,24 +17,11 @@ function RecordTime({date}: {date: Date}) {
       <TimeText className="timeText">{dayjs(date).format("YYYY-MM-DD")}</TimeText>
   }       </>
   )
->>>>>>> Stashed changes
 }
 
 export default RecordTime;
 
 const TimeText = styled.span`
-<<<<<<< Updated upstream
-  margin: 0;
-  padding: 0;
-  font-weight: 500;
-  font-size: 0.6rem;
-  line-height: 17px;
-  margin-bottom: 3px;
-  width: 15%;
-  max-width: 25%;
-  color: rgba(0, 0, 0, 0.5);
-  text-align: end;
-=======
   font-size: 0.6rem;
   font-weight: 400;
   line-height: 17px;
@@ -47,5 +29,4 @@ const TimeText = styled.span`
   width: 80px;
 
   color: rgba(0, 0, 0, 0.7);
->>>>>>> Stashed changes
 `;

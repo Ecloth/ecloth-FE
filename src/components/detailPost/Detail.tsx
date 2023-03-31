@@ -1,26 +1,26 @@
-import styled from 'styled-components';
-import ItemUser from '../feed/ItemUser';
-import FollowButtonList from '../myPage/FollowButtonList';
-import CommentList from './CommentList';
-import CommentInput from './CommentInput';
-import LikeViews from './LikeViews';
-import PostContent from './PostContent';
-import PostImage from './PostImage';
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import DetailOption from './DetailOption';
-import { useRecoilValueLoadable } from 'recoil';
-import { IPost } from '../../types/postType';
-import { postList } from '../../atoms/postAtom';
+import styled from "styled-components";
+import ItemUser from "../feed/ItemUser";
+import FollowButtonList from "../myPage/FollowButtonList";
+import CommentList from "./CommentList";
+import CommentInput from "./CommentInput";
+import LikeViews from "./LikeViews";
+import PostContent from "./PostContent";
+import PostImage from "./PostImage";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import DetailOption from "./DetailOption";
+import { useRecoilValueLoadable } from "recoil";
+import { IPost } from "../../types/postType";
+import { postList } from "../../atoms/postAtom";
 
-export const LOGIN_ID = 'test123';
+export const LOGIN_ID = localStorage.getItem("email");
 
 function Detail() {
   const { id } = useParams();
   const ProductsLoadable = useRecoilValueLoadable<IPost[]>(postList);
 
   let products: IPost[] =
-    'hasValue' === ProductsLoadable.state ? ProductsLoadable.contents : [];
+    "hasValue" === ProductsLoadable.state ? ProductsLoadable.contents : [];
   const item = products.filter(
     (item) => item.postId === parseInt(id as string, 10),
   )[0];
@@ -93,7 +93,7 @@ const UserWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  & div {
+  & .buttonWrapper {
     width: 80px;
     height: 30px;
   }

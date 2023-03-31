@@ -1,9 +1,9 @@
-import styled from 'styled-components';
-import TopFiveItem from '../topFive/TopFiveItem';
-import { IPost } from '../../types/postType';
-import { useParams } from 'react-router-dom';
-import { useRecoilValueLoadable } from 'recoil';
-import { postList } from '../../atoms/postAtom';
+import styled from "styled-components";
+import TopFiveItem from "../topFive/TopFiveItem";
+import { IPost } from "../../types/postType";
+import { useParams } from "react-router-dom";
+import { useRecoilValueLoadable } from "recoil";
+import { postList } from "../../atoms/postAtom";
 
 function MainFeed() {
   const { id } = useParams();
@@ -11,7 +11,7 @@ function MainFeed() {
   //서버 연동 전 테스트 코드
   const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
   let posts: IPost[] =
-    'hasValue' === PostsLoadable.state ? PostsLoadable.contents : [];
+    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
   const postsList = posts.filter(
     (item) => item.memberId === parseInt(id as string, 10),
   );
