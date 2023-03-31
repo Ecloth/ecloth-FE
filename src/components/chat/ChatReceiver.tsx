@@ -1,20 +1,20 @@
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 import styled from "styled-components";
-import { IChatMessage } from "../../types/chatType"
+import { IChatMessage } from "../../types/chatType";
 
-function ChatReceiver({receiveMessage} : {receiveMessage:IChatMessage[]}) {
-
+function ChatReceiver({ receiveMessage }: { receiveMessage: IChatMessage[] }) {
   return (
-  <div className="receiver">
-    {receiveMessage.map((item) => (
-      <ReceiveMessageWrapper>
-      <div className="timeRecord">{dayjs(item.sent_date).format("HH:mm")}</div>
-       <div className="message receive">{item.content}</div>
-      </ReceiveMessageWrapper>
-    ))}
-  </div>
-  )
-
+    <div className="receiver">
+      {receiveMessage.map((item) => (
+        <ReceiveMessageWrapper>
+          <div className="timeRecord">
+            {dayjs(item.register_date).format("HH:mm")}
+          </div>
+          <div className="message receive">{item.message}</div>
+        </ReceiveMessageWrapper>
+      ))}
+    </div>
+  );
 }
 
 export default ChatReceiver;
@@ -24,4 +24,4 @@ const ReceiveMessageWrapper = styled.div`
   flex-direction: row;
   margin-top: 3px;
   align-items: flex-end;
-`
+`;
