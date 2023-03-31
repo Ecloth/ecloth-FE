@@ -28,7 +28,13 @@ function ItemUser({ id }: { id: number }) {
 
 export default ItemUser;
 
-const UserInfo = styled.span`
+const UserInfo = styled.div`
+  width: calc(100% - 5px);
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 5px;
   & .linkItem {
     display: block;
     display: flex;
