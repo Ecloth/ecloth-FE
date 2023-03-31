@@ -1,53 +1,53 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-import styled from 'styled-components';
-import FollowButtonList from './FollowButtonList';
-import { FOLLOW_DIRECTION, IFollows } from '../../types/followType';
-import { useParams } from 'react-router-dom';
+import axios from "axios";
+import { useEffect } from "react";
+import styled from "styled-components";
+import FollowButtonList from "./FollowButtonList";
+import { FOLLOW_DIRECTION, IFollows } from "../../types/followType";
+import { useParams } from "react-router-dom";
 
 export const followDummyData: IFollows[] = [
   {
     target_id: 2,
-    nickName: 'test2',
+    nickName: "test2",
     profile_image_path:
-      'https://www.shutterstock.com/image-photo/portrait-surprised-cat-scottish-straight-260nw-499196506.jpg',
+      "https://www.shutterstock.com/image-photo/portrait-surprised-cat-scottish-straight-260nw-499196506.jpg",
     follow_status: true,
   },
   {
     target_id: 3,
-    nickName: 'test3',
+    nickName: "test3",
     profile_image_path:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU',
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU",
     follow_status: true,
   },
 ];
 export const followerDummyData: IFollows[] = [
   {
     target_id: 2,
-    nickName: 'test2',
+    nickName: "test2",
     profile_image_path:
-      'https://www.shutterstock.com/image-photo/portrait-surprised-cat-scottish-straight-260nw-499196506.jpg',
+      "https://www.shutterstock.com/image-photo/portrait-surprised-cat-scottish-straight-260nw-499196506.jpg",
     follow_status: true,
   },
   {
     target_id: 3,
-    nickName: 'test3',
+    nickName: "test3",
     profile_image_path:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU',
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU",
     follow_status: false,
   },
   {
     target_id: 4,
-    nickName: 'test4',
+    nickName: "test4",
     profile_image_path:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU',
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU",
     follow_status: true,
   },
   {
     target_id: 5,
-    nickName: 'test5',
+    nickName: "test5",
     profile_image_path:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU',
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU",
     follow_status: false,
   },
 ];
@@ -64,16 +64,16 @@ function FollowList({ isFollow }: { isFollow: boolean }) {
 
   useEffect(() => {
     axios({
-      method: 'get',
+      method: "get",
       url: `api/member/${memberId}/follow`,
       params: {
         dir: checkFollow,
         page: 1,
         size: 5,
-        sortBy: 'registerDate',
-        sortOrder: 'DESC',
+        sortBy: "registerDate",
+        sortOrder: "DESC",
       },
-      baseURL: 'http://localhost:8080',
+      baseURL: "http://localhost:8080",
     })
       .then(function (response) {
         // 성공한 경우 실행
@@ -90,7 +90,7 @@ function FollowList({ isFollow }: { isFollow: boolean }) {
 
   return (
     <SectionWrapper>
-      <div className="header">{isFollow ? '팔로잉 ' : ' 팔로워'}</div>
+      <div className="header">{isFollow ? "팔로잉 " : " 팔로워"}</div>
       <div className="followerList">
         {isFollow
           ? followList.map((item) => (

@@ -1,50 +1,106 @@
-import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import {IComment} from "../../types/postType";
+import { IComment } from "../../types/postType";
 import CommentItem from "./CommentItem";
 import { LOGIN_ID } from "./Detail";
 import ReplyInput from "./ReplyInput";
 
 export const dummyCommentList: IComment[] = [
   {
-    comment_id: 1,
-    member_id: 2,
-    post_id: 1,
+    commentId: 1,
+    memberId: 2,
+    postingId: 1,
+    parentId: 2,
+    nickname: "USER2",
+    profileImagePath: "",
     content: "옷이 예뻐요.",
-    create_date: new Date("2023-03-25 13:10:11"),
-    update_date: "2023.03.18",
+    createDate: new Date("2023-03-26 13:10:11"),
+    updateDate: "2023.03.18",
   },
   {
-    comment_id: 2,
-    member_id: 3,
-    post_id: 1,
+    commentId: 2,
+    memberId: 3,
+    postingId: 1,
+    parentId: 2,
+    nickname: "USER3",
+    profileImagePath: "",
     content: "옷이 너무너무 예뻐요.",
-    create_date: new Date("2023-03-13 16:56:11"),
-    update_date: "2023.03.18",
+    createDate: new Date("2023-03-13 16:56:11"),
+    updateDate: "2023.03.18",
   },
   {
-    comment_id: 3,
-    member_id: 1,
-    post_id: 3,
+    commentId: 3,
+    memberId: 1,
+    postingId: 3,
+    parentId: 2,
+    nickname: "test123",
+    profileImagePath: "",
     content: "옷 어디 브랜드인가요?",
-    create_date: new Date("2023-03-19 12:36:11"),
-    update_date: "2023.03.18",
+    createDate: new Date("2023-03-19 12:36:11"),
+    updateDate: "2023.03.18",
   },
 ];
 
-function CommentList({commentList}: {commentList: IComment[]}) {
-  const {id} = useParams();
-  const isLogin = id==="1"
+function CommentList({
+  commentList,
+  memberId,
+}: {
+  commentList?: IComment[];
+  memberId: number;
+}) {
+  const { id } = useParams();
+
+  //로그인 한 유저와 게시글 작성자가 같으면 답글 달기 활성화
+  const loginId = 1;
+  const isLogin = loginId === memberId;
+
+  let commentsList: IComment[] = dummyCommentList;
+
+  const getComment = async () => {
+    try {
+      const res = await fetch("/commentData.json");
+      //     commentList = [response.data];
+      console.log(await res.json());
+      // return (await res.json()) || [];
+    } catch (error) {
+      console.log(`Error: \n${error}`);
+    }
+    return [];
+  };
+  useEffect(() => {
+    // getComment();
+    // axios({
+    //   method: "get",
+    // url: `/api/feed/post/comment/${id}`,
+    // baseURL: "http://localhost:8080",
+    // })
+    //   .then(function (response) {
+    //     // 성공한 경우 실행
+    //     console.log(response);
+    //     commentList = [response.data];
+    // .then((r) => r.Data as IComment)
+    //   })
+    //   .catch(function (error) {
+    //     // 에러인 경우 실행
+    //     console.log(error);
+    //   })
+    //   .then(function () {
+    //     // 항상 실행
+    //   });
+  }, []);
+
   return (
     <ListWrapper>
-      {commentList.map(comment => (
-        <>
-        <CommentItem comment={comment} key={comment.comment_id} />
-        {/* {isHasReply ? <></> : } */}
-        {isLogin && <ReplyInput />}
-        </>
-      ))}
+      {commentsList &&
+        commentsList.map((comment) => (
+          <>
+            <CommentItem comment={comment} key={comment.commentId} />
+            {/* {isHasReply ? <></> : } */}
+            {isLogin && <ReplyInput commentId={comment.commentId} />}
+          </>
+        ))}
     </ListWrapper>
   );
 }
