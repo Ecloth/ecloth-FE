@@ -1,19 +1,43 @@
 import styled from "styled-components";
-import {AiOutlinePlusCircle} from "react-icons/ai";
-import React, {useState} from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import React, { useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 function CommentInput() {
   const [comment, setComment] = useState("");
-  const handleCommemtonChange = (e: React.ChangeEvent<HTMLInputElement>) => setComment(e.target.value);
+  const { postId } = useParams();
+  const tempPostId = parseInt(postId as string, 10);
+
+  const handleCommemtonChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setComment(e.target.value);
   // const handleCommentonClick = () => {};
+  //로그인 한 memberId
+  const memberId = 1;
 
   const handleCommentonSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (comment === "") {
       return;
     }
-    // setCommentArray(commentValueList => [comment, ...commentValueList]);
-    console.log(comment);
+    axios({
+      method: "post",
+      url: `/api/feed/post/${memberId}`,
+      baseURL: "http://localhost:8080",
+      data: {
+        memberId: memberId,
+        postingId: tempPostId,
+        content: comment,
+      },
+    })
+      .then(function (res) {
+        // 성공한 경우 실행
+        console.log("comment submit" + res.data);
+      })
+      .catch(function (error) {
+        // 에러인 경우 실행
+        console.log(error);
+      });
     setComment("");
   };
   return (
