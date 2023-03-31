@@ -8,7 +8,6 @@ import { useRecoilState } from "recoil";
 import BounceLoader from "react-spinners/BounceLoader"
 
 export default function SeasonBgCode() {
-  const [weather, setWeather] = useState<string>("");
   const [precipitation, setPrecipitation] = useRecoilState(precipitationState);
   const now = new Date();
   const hours = Number(("0" + now.getHours()).slice(-2) + "00");
