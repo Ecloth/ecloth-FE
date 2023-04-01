@@ -1,4 +1,8 @@
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { PreviewImgsState } from "../../atoms/postAtom";
+import PostImage from "../detailPost/PostImage";
 
 function ImagePrint({ imgUrl }: { imgUrl: string[] }) {
   const [imgList, serImgList] = useState<string[]>([]);

@@ -58,7 +58,11 @@ function Editing() {
         <PostImage imgs={post.imagePath} />
       </ImageWrapper>
       <ContentWrapper>
-        <ItemUser id={post.memberId} />
+        <ItemUser
+          id={post.memberId}
+          nickName={post.nickName}
+          img={post.profileImagePath}
+        />
         <TitleInput onChange={handleTitleonChange} title={title} />
         <PostEditor
           onChange={setContent}
