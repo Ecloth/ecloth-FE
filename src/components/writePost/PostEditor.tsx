@@ -73,9 +73,6 @@ const PostEditor = ({
     };
   };
 
-  // quill에서 사용할 모듈을 설정하는 코드 입니다.
-  // 원하는 설정을 사용하면 되는데, 저는 아래와 같이 사용했습니다.
-  // useMemo를 사용하지 않으면, 키를 입력할 때마다, imageHandler 때문에 focus가 계속 풀리게 됩니다.
   const modules = useMemo(
     () => ({
       toolbar: {

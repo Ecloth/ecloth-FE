@@ -24,7 +24,7 @@ function Detail() {
   const item = products.filter(
     (item) => item.postId === parseInt(id as string, 10),
   )[0];
-  const [isLogin, setIsLogin] = useState(item.memberId === LOGIN_ID);
+  const [isLogin, setIsLogin] = useState(item.nickName === LOGIN_ID);
 
   // comment -------------------
   // const [commentList, setCommentList] = useState(
@@ -40,11 +40,15 @@ function Detail() {
       </ImageWrapper>
       <ContentWrapper>
         <UserWrapper>
-          <ItemUser id={item.memberId} />
+          <ItemUser
+            id={item.memberId}
+            img={item.profileImagePath}
+            nickName={item.nickName}
+          />
           {isLogin ? (
             <DetailOption postId={item.postId} />
           ) : (
-            <FollowButtonList following={true} memberId={item.memberId} />
+            <FollowButtonList memberId={item.memberId} />
           )}
         </UserWrapper>
         <PostContent
