@@ -58,7 +58,6 @@ function FollowList({ isFollow }: { isFollow: boolean }) {
       url: "api/member/{memberId}/follow",
       params: {
         dir: checkFollow,
-        memberId: 1,
         page: 1,
         size: 5,
         sortBy: "registerDate",
@@ -68,7 +67,7 @@ function FollowList({ isFollow }: { isFollow: boolean }) {
     })
       .then(function (response) {
         // 성공한 경우 실행
-        console.log(response);
+        console.log(response.data);
       })
       .catch(function (error) {
         // 에러인 경우 실행
