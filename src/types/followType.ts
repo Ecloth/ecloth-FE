@@ -1,6 +1,6 @@
 export const FOLLOW_DIRECTION = {
-  follow: 'FOLLOWS',
-  follower: 'FOLLOWERS',
+  follow: "FOLLOWS",
+  follower: "FOLLOWERS",
 } as const;
 
 type followType = (typeof FOLLOW_DIRECTION)[keyof typeof FOLLOW_DIRECTION];
@@ -25,7 +25,6 @@ export interface IFollows {
   nickName: string;
   profile_image_path: string;
   target_id: number;
-  follow_status: boolean;
 }
 
 //개인, 타인 팔로우(팔로워) 목록 조회

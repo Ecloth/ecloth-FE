@@ -5,10 +5,10 @@ export interface ICreateChat {
 }
 
 export interface IChatMessage {
-  sender_id: number;
-  receiver_id: number;
-  content: string;
-  sent_date: string;
+  chat_room_id: number;
+  writer_id: number;
+  message: string;
+  register_date: Date;
 }
 
 export interface IPage {

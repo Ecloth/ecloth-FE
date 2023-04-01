@@ -18,7 +18,12 @@ function FeedItem({ itemProps }: { itemProps: IPost }) {
         />
         <ItemDesc title={itemProps.title} content={itemProps.content} />
       </Link>
-      <ItemFooter id={itemProps.memberId} views={itemProps.viewCount} />
+      <ItemFooter
+        memberId={itemProps.memberId}
+        nickName={itemProps.nickName}
+        profileImage={itemProps.profileImagePath}
+        views={itemProps.viewCount}
+      />
     </ItemWrapper>
   );
 }

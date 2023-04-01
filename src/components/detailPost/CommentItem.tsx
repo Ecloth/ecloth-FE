@@ -6,7 +6,11 @@ import ItemUser from "../feed/ItemUser";
 function CommentItem({ comment }: { comment: IComment }) {
   return (
     <CommentWrapper>
-      <ItemUser id={comment.memberId} />
+      <ItemUser
+        id={comment.memberId}
+        img={comment.profileImagePath}
+        nickName={comment.nickname}
+      />
       <Comment>{comment.content}</Comment>
       <RecordTime date={comment.createDate} />
     </CommentWrapper>

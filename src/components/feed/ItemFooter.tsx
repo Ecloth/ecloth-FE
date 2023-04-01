@@ -1,10 +1,20 @@
 import styled from "styled-components";
 import ItemUser from "./ItemUser";
 
-function ItemFooter({ id, views }: { id: number; views: number }) {
+function ItemFooter({
+  memberId,
+  profileImage,
+  nickName,
+  views,
+}: {
+  memberId: number;
+  profileImage: string;
+  nickName: string;
+  views: number;
+}) {
   return (
     <FooterWrapper>
-      <ItemUser id={id} />
+      <ItemUser id={memberId} nickName={nickName} img={profileImage} />
       <Views>조회수 {views}</Views>
     </FooterWrapper>
   );

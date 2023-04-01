@@ -13,7 +13,7 @@ function Writing() {
         <ImagePrint />
       </ImageWrapper>
       <ContentWrapper>
-        <ItemUser id={memberId} />
+        <ItemUser id={memberId} nickName={LOGIN_ID as string} img={""} />
         <TitleInput onChange={handleTitleonChange} title={title} />
         <PostEditor
           onChange={setContent}

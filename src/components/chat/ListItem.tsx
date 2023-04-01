@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import RecordTime from '../commons/RecordTime';
-import ChatUserItem from './ChatUserItem';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { IChatRoom } from "../../types/chatType";
+import RecordTime from "../commons/RecordTime";
+import ChatUserItem from "./ChatUserItem";
 
 function ListItem({ propItem }: { propItem: IChatRoom }) {
   return (
