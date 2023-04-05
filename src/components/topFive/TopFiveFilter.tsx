@@ -13,7 +13,7 @@ function TopFiveFilter() {
   const changeRadio = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
       setCheckedInputs(e.target.id);
-      setSelected(checkedInputs);
+      setSelected(e.target.id);
     }
   };
 

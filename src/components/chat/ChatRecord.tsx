@@ -2,75 +2,82 @@ import styled from "styled-components";
 import ChatSender from "./ChatSender";
 import ChatReceiver from "./ChatReceiver";
 import dayjs from "dayjs";
-import { IAllChatMessage, IChatMessage } from "../../types/chatType";
+import { IChatMessage } from "../../types/chatType";
 import { useParams } from "react-router-dom";
 
-const chatArrayFn = function (arr: IChatMessage[], roomId: number) {
-  let j = 0;
-  let chatArr: IChatMessage[] = [];
-  const tempChatArr = [];
+// const chatArrayFn = function (arr: IChatMessage[]) {
+//   let j = 0;
+//   let chatArr: IChatMessage[] = [];
+//   const tempChatArr = [];
 
-  for (let i = 0; i < arr.length; i++) {
-    if (i > 0) {
-      if (arr[i].writer_id !== arr[i - 1].writer_id) {
-        tempChatArr[j] = [];
-        tempChatArr[j] = chatArr;
-        chatArr = [];
-        j += 1;
-        chatArr = [...chatArr, arr[i]];
-      } else {
-        chatArr = [...chatArr, arr[i]];
-      }
-    } else {
-      chatArr = [...chatArr, arr[i]];
-    }
+//   for (let i = 0; i < arr.length; i++) {
+//     if (i > 0) {
+//       if (arr[i].writer_id !== arr[i - 1].writer_id) {
+//         tempChatArr[j] = [];
+//         tempChatArr[j] = chatArr;
+//         chatArr = [];
+//         j += 1;
+//         chatArr = [...chatArr, arr[i]];
+//       } else {
+//         chatArr = [...chatArr, arr[i]];
+//       }
+//     } else {
+//       chatArr = [...chatArr, arr[i]];
+//     }
 
-    if (i === arr.length - 1) {
-      tempChatArr[j] = [];
-      tempChatArr[j] = chatArr;
-    }
-  }
+//     if (i === arr.length - 1) {
+//       tempChatArr[j] = [];
+//       tempChatArr[j] = chatArr;
+//     }
+//   }
 
-  return tempChatArr;
-};
+//   return tempChatArr;
+// };
 
 function ChatRecord({
   chatData,
-  memberId,
   nickName,
 }: {
-  chatData: IAllChatMessage;
-  memberId: number;
+  chatData: IChatMessage[];
   nickName: string;
 }) {
   const { id } = useParams();
   const roomId = parseInt(id as string, 10);
 
-  const tempChat = chatArrayFn(chatData.message_list, roomId);
+  const tempChat: IChatMessage[] = chatData[0] as unknown as IChatMessage[];
+  // const tempChat: IChatMessage[] = chatData[0];
+  // console.log(tempChat);
 
+  // "chat_room_id":1,"writer_id":2,"message":"테스트님이 들어왔습니다.","register_date":"2023-04-04T14:38:24.302077"
   return (
     <ChatWrapper>
       <>
         <div className="dateRecord">
-          {dayjs(tempChat[0][0].register_date).format("YYYY-MM-DD")}
+          {dayjs(chatData[0].register_date).format("YYYY-MM-DD")}
         </div>
-        {tempChat.map((list, idx) => {
-          if (
-            parseInt(id as string, 10) === chatData.message_list[0].writer_id
-          ) {
-            if (idx % 2 === 0) {
+        {tempChat.map(
+          (list, idx) => {
+            console.log(list, idx);
+            if (2 === list.writer_id) {
               return <ChatReceiver receiveMessage={list} />;
             } else {
-              return <ChatSender sendMessage={list} profileImage={nickName} />;
+              return <ChatSender sendMessage={list} />;
             }
-          } else {
-            if (idx % 2 !== 0) {
-              return <ChatReceiver receiveMessage={list} />;
-            } else {
-              return <ChatSender sendMessage={list} profileImage={nickName} />;
-            }
-          }
-        })}
+          },
+          // if (2 === list[idx].writer_id) {
+          //   if (idx % 2 === 0) {
+          //     return <ChatReceiver receiveMessage={list} />;
+          //   } else {
+          //     return <ChatSender sendMessage={list} profileImage={nickName} />;
+          //   }
+          // } else {
+          //   if (idx % 2 !== 0) {
+          //     return <ChatReceiver receiveMessage={list} />;
+          //   } else {
+          //     return <ChatSender sendMessage={list} profileImage={nickName} />;
+          //   }
+          // }
+        )}
       </>
     </ChatWrapper>
   );
@@ -80,6 +87,10 @@ export default ChatRecord;
 
 const ChatWrapper = styled.div`
   height: 70%;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   .sender {
     display: flex;

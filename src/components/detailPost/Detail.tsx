@@ -9,58 +9,61 @@ import PostImage from "./PostImage";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import DetailOption from "./DetailOption";
-import { useRecoilValueLoadable } from "recoil";
 import { IPost } from "../../types/postType";
-import { postList } from "../../atoms/postAtom";
+import axios from "axios";
 
 export const LOGIN_ID = localStorage.getItem("email");
 
 function Detail() {
   const { id } = useParams();
-  const ProductsLoadable = useRecoilValueLoadable<IPost[]>(postList);
+  const postId = parseInt(id as string, 10);
+  const [post, setPost] = useState<IPost>();
 
-  let products: IPost[] =
-    "hasValue" === ProductsLoadable.state ? ProductsLoadable.contents : [];
-  const item = products.filter(
-    (item) => item.postId === parseInt(id as string, 10),
-  )[0];
-  const [isLogin, setIsLogin] = useState(item.nickName === LOGIN_ID);
+  const [isLogin, setIsLogin] = useState(true);
 
-  // comment -------------------
-  // const [commentList, setCommentList] = useState(
-  //   dummyCommentList.filter(
-  //     (comment) => parseInt(id as string, 10) === comment.post_id,
-  //   ),
-  // );
-  // useEffect(() => {}, [commentList]);
+  useEffect(() => {
+    axios
+      .get(`http://13.125.74.102:8080/api/feed/post/${postId}`,{
+        data: {
+          postingId: postId
+        }
+      })
+      .then(function (response) {
+        setPost(response.data);
+      });
+  }, []);
   return (
     <DetailWrapper>
-      <ImageWrapper>
-        <PostImage imgs={item.imagePath} />
-      </ImageWrapper>
-      <ContentWrapper>
-        <UserWrapper>
-          <ItemUser
-            id={item.memberId}
-            img={item.profileImagePath}
-            nickName={item.nickName}
-          />
-          {isLogin ? (
-            <DetailOption postId={item.postId} />
-          ) : (
-            <FollowButtonList memberId={item.memberId} />
-          )}
-        </UserWrapper>
-        <PostContent
-          title={item.title}
-          text={item.content}
-          date={item.createDate}
-        />
-        <CommentList memberId={item.memberId} />
+      {post && (
+        <>
+          <ImageWrapper>
+            <PostImage imgs={post.image_paths} />
+          </ImageWrapper>
+          <ContentWrapper>
+            <UserWrapper>
+              <ItemUser
+                id={post.member.member_id}
+                img={post.member.profile_image_path}
+                nickName={post.member.nickname}
+              />
+              {isLogin ? (
+                <DetailOption postId={post.posting_id}/>
+              ) : (
+                <FollowButtonList memberId={post.member.member_id} />
+              )}
+            </UserWrapper>
+            <PostContent
+              title={post.title}
+              text={post.content}
+              date={post.register_date}
+            />
+            <CommentList memberId={post.member.member_id} />
 
-        <LikeViews likes={item.likeCount} views={item.viewCount} />
-        <CommentInput />
-      </ContentWrapper>
+            <LikeViews likes={post.like_count} views={post.view_count} />
+            <CommentInput />
+          </ContentWrapper>
+        </>
+      )}
     </DetailWrapper>
   );
 }

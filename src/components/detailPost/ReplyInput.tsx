@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { AiOutlineClose, AiOutlinePlusCircle } from "react-icons/ai";
 import styled from "styled-components";
+import { TEST_TOKEN } from "../../App";
 
 function ReplyInput({ commentId }: { commentId: number }) {
   const [isReply, setIsReply] = useState(true);
@@ -18,24 +19,25 @@ function ReplyInput({ commentId }: { commentId: number }) {
     if (comment === "") {
       return;
     }
-    axios({
-      method: "post",
-      url: `/api/feed/post/comment/reply`,
-      baseURL: "http://localhost:8080",
-      data: {
-        memberId: memberId,
-        commentId: commentId,
-        content: comment,
-      },
-    })
-      .then(function (res) {
-        // 성공한 경우 실행
-        console.log("comment reply submit" + res.data);
-      })
-      .catch(function (error) {
-        // 에러인 경우 실행
-        console.log(error);
+    const headers = {
+      "Authorization": TEST_TOKEN,
+    };
+    const data = {
+      memberId: memberId,
+      content: comment,
+    };
+    //500 error
+    axios
+      .post(
+        `http://13.125.74.102:8080/api/feed/post/comment/${commentId}`,
+        data,
+        { headers: headers },
+      )
+      .then(function (response) {
+        console.log(response.data);
+        alert(response.data);
       });
+
     setComment("");
   };
   return (
