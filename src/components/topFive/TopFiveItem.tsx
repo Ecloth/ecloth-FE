@@ -8,24 +8,24 @@ import { Link } from "react-router-dom";
 function TopFiveItem({ itemProps }: { itemProps: IPost }) {
   return (
     <ItemWrapper>
-      <Link to={`/feed/${itemProps.postId}`} className="image">
+      <Link to={`/feed/${itemProps.posting_id}`} className="image">
         <img
           alt="image"
-          src={itemProps.imagePath[0]}
+          src={itemProps.image_paths[0]}
           className="fiveImage"
         ></img>
         <Icons className="iconList">
           <Icon className="icon">
             <AiTwotoneHeart className="icon"></AiTwotoneHeart>
-            <div>{itemProps.likeCount}</div>
+            <div>{itemProps.like_count}</div>
           </Icon>
           <Icon className="icon">
             <AiOutlineComment className="icon"></AiOutlineComment>
-            <div>{itemProps.commentCount}</div>
+            <div>{itemProps.like_count}</div>
           </Icon>
           <Icon className="icon">
             <AiFillEye className="icon"></AiFillEye>
-            <div>{itemProps.viewCount}</div>
+            <div>{itemProps.view_count}</div>
           </Icon>
         </Icons>
       </Link>

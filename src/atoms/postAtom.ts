@@ -1,37 +1,39 @@
-import { atom, selector, selectorFamily } from 'recoil';
-import { recoilPersist } from 'recoil-persist';
-import { IPost } from '../types/postType';
+import { atom, selector, selectorFamily } from "recoil";
+import { recoilPersist } from "recoil-persist";
+import { IPage } from "../types/chatType";
+import { IFeed, IPost } from "../types/postType";
 
 const { persistAtom } = recoilPersist();
-const feedURL = '/data.json';
+// const feedURL = "/data.json";
 
-// const feedURL = "http://localhost:8080/api/feed/post";
+const feedURL = "http://13.125.74.102:8080/api/feed/post";
 
 export const SelectedFilterState = atom({
-  key: 'SelectedFilterState',
-  default: '',
+  key: "SelectedFilterState",
+  default: "",
 });
 
 export const SelectedTopFiveFilterState = atom({
-  key: 'SelectedTopFiveFilterState',
-  default: '좋아요',
+  key: "SelectedTopFiveFilterState",
+  default: "좋아요",
 });
 
 export const PreviewImgsState = atom({
-  key: 'PreviewImgsState',
-  default: ['https://via.placeholder.com/80'],
+  key: "PreviewImgsState",
+  default: ["https://via.placeholder.com/80"],
 });
 
 export const ChatMessageState = atom({
-  key: 'ChatMessageState',
-  default: '',
+  key: "ChatMessageState",
+  default: "",
 });
 
-export const postList = selector<IPost[]>({
-  key: 'postList',
+export const postList = selector<IFeed>({
+  key: "postList",
   get: async () => {
     try {
-      const res = await fetch(feedURL);
+      const res = await fetch(`http://13.125.74.102:80/api/feed/post`);
+      console.log(await res.json());
       return (await res.json()) || [];
     } catch (error) {
       console.log(`Error: \n${error}`);

@@ -6,12 +6,11 @@ export const FOLLOW_DIRECTION = {
 type followType = (typeof FOLLOW_DIRECTION)[keyof typeof FOLLOW_DIRECTION];
 
 export interface IFollowMemberInfo {
+  member_id: number;
   follow_cnt: number;
-  follow_status: boolean;
   follower_cnt: number;
-  nickName: string;
+  nickname: string;
   profile_image_path: string;
-  target_id: number;
 }
 
 //팔로우 요청 or 개인, 타인 팔로우 정보 조회
@@ -22,7 +21,7 @@ export interface IFollowSend {
 }
 
 export interface IFollows {
-  nickName: string;
+  nickname: string;
   profile_image_path: string;
   target_id: number;
 }

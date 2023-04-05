@@ -3,25 +3,20 @@ import { useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { TEST_TOKEN } from "../../App";
 
 function DetailOption({ postId }: { postId: number }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigator = useNavigate();
 
   const handleDeletePost = (e: React.MouseEvent<HTMLButtonElement>) => {
-    axios({
-      method: "delete",
-      url: `/api/feed/post`,
-      baseURL: "http://localhost:8080",
-    })
-      .then(function (response) {
-        // 성공한 경우 실행
-        console.log(response);
-        navigator(-1);
-      })
-      .catch(function (error) {
-        // 에러인 경우 실행
-        console.log(error);
+    const headers = {
+      "Authorization": TEST_TOKEN,
+  }
+    axios
+      .delete(`http://13.125.74.102:8080/api/feed/post/${postId}`, {headers: headers})
+      .then(function () {
+        navigator('/feed')
       });
   };
   return (
@@ -34,7 +29,8 @@ function DetailOption({ postId }: { postId: number }) {
         <OptionWrapper>
           <ul>
             <li>
-              <Link to={`/post/edit/${postId}`} className="linkItem">
+              <Link to={`/post/edit/${postId}`} 
+              className="linkItem">
                 수정하기
               </Link>
             </li>

@@ -1,21 +1,64 @@
 import styled from "styled-components";
-import {Views} from "../feed/ItemFooter";
-import {useState} from "react";
-import {AiTwotoneHeart, AiOutlineHeart} from "react-icons/ai";
+import { Views } from "../feed/ItemFooter";
+import { useEffect, useState } from "react";
+import { AiTwotoneHeart, AiOutlineHeart } from "react-icons/ai";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { TEST_TOKEN } from "../../App";
 
-function LikeViews({likes, views}: {likes: number; views: number}) {
+function LikeViews({ likes, views }: { likes: number; views: number }) {
+  const { id } = useParams();
+  const postId = parseInt(id as string, 10);
   const [isHeart, setIsHeart] = useState(false);
 
+  useEffect(() => {
+    const headers = {
+      "Authorization": TEST_TOKEN,
+    };
+    const data = {
+      postingId: postId
+    };
+    axios.get(
+      `http://13.125.74.102:8080/api/feed/post/${postId}/like`,
+      { headers: headers })
+        .then(function (response) {
+          setIsHeart(response.data);
+      });
+  }, [])
+
   const handleSetHeartOnClick = () => {
-    setIsHeart(!isHeart);
+   
+      const headers = {
+        "Authorization": TEST_TOKEN,
+      };
+      const data = {
+        postingId: postId
+      }
+      axios
+      .put(
+        `http://13.125.74.102:8080/api/feed/post/${postId}/like`,data,
+        { headers: headers },
+        
+          )
+          .then(function (response) {
+            setIsHeart(response.data);
+        });
   };
   return (
     <Wrapper>
       <div>
         {isHeart ? (
-          <AiTwotoneHeart className="icon" size="18" onClick={handleSetHeartOnClick} />
+          <AiTwotoneHeart
+            className="icon"
+            size="18"
+            onClick={handleSetHeartOnClick}
+          />
         ) : (
-          <AiOutlineHeart className="icon" size="18" onClick={handleSetHeartOnClick} />
+          <AiOutlineHeart
+            className="icon"
+            size="18"
+            onClick={handleSetHeartOnClick}
+          />
         )}
 
         <Likes>좋아요 {likes}개</Likes>

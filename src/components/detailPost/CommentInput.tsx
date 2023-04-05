@@ -2,47 +2,52 @@ import styled from "styled-components";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { TEST_TOKEN } from "../../App";
 
 function CommentInput() {
   const [comment, setComment] = useState("");
-  const { postId } = useParams();
-  const tempPostId = parseInt(postId as string, 10);
+  const { id } = useParams();
+  const tempPostId = parseInt(id as string, 10);
+  const navigator = useNavigate();
 
   const handleCommemtonChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setComment(e.target.value);
-  // const handleCommentonClick = () => {};
+    
   //로그인 한 memberId
-  const memberId = 1;
+  const memberId = 4;
 
-  const handleCommentonSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCommentonSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    console.log(comment);
     if (comment === "") {
       return;
     }
-    axios({
-      method: "post",
-      url: `/api/feed/post/${memberId}`,
-      baseURL: "http://localhost:8080",
-      data: {
-        memberId: memberId,
-        postingId: tempPostId,
-        content: comment,
-      },
-    })
-      .then(function (res) {
-        // 성공한 경우 실행
-        console.log("comment submit" + res.data);
-      })
-      .catch(function (error) {
-        // 에러인 경우 실행
-        console.log(error);
+    const headers = {
+      "Authorization": TEST_TOKEN,
+    };
+    const data = {
+      memberId: memberId,
+      postingId: tempPostId,
+      content: comment,
+    };
+    axios
+      .post(
+        `http://13.125.74.102:8080/api/feed/post/${tempPostId}/comment`,
+        data,
+        { headers: headers },
+      )
+      .then(function (response) {
+        console.log(response.data);
+        alert(response.data);
       });
+
     setComment("");
+    navigator(0);
   };
   return (
     <Wrapper>
-      <form className="commentWrap" onSubmit={handleCommentonSubmit}>
+      <form className="commentWrap">
         <input
           type="text"
           placeholder="Type a Comment"
@@ -50,7 +55,7 @@ function CommentInput() {
           value={comment}
           onChange={handleCommemtonChange}
         ></input>
-        <button className="commetBtn">
+        <button className="commetBtn" onClick={handleCommentonSubmit}>
           <AiOutlinePlusCircle className="icon" />
         </button>
       </form>
@@ -71,7 +76,7 @@ const Wrapper = styled.div`
     justify-content: center;
     & .commetBtn {
       position: absolute;
-      top: 40%;
+      top: 45%;
       right: 10%;
       transform: translateY(-50%);
       border: 0;

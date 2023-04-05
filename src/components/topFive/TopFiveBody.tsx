@@ -1,34 +1,60 @@
-import { useRecoilState, useRecoilValueLoadable } from "recoil";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { postList, SelectedTopFiveFilterState } from "../../atoms/postAtom";
+import { SelectedTopFiveFilterState } from "../../atoms/postAtom";
 import { IPost } from "../../types/postType";
-import { filterItems } from "./TopFiveFilter";
+import LoadTopFive from "./LoadTopFive";
 
 import TopFiveItem from "./TopFiveItem";
 
 function TopFiveBody() {
   const selected = useRecoilState<string>(SelectedTopFiveFilterState);
-  const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
-  const postsList: IPost[] =
-    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
+  let [selectedList, setSelectedList] = useState<IPost[]>();
 
-  let selectedList: IPost[] = [...postsList];
+  let selectFilter = "likeCount";
 
-  if (selectedList && selected[0] === filterItems[1]) {
-    selectedList = selectedList
-      .sort((a, b) => b.likeCount - a.likeCount)
-      .slice(0, 4);
-  } else if (selected[0] === filterItems[0]) {
-    selectedList = selectedList
-      .sort((a, b) => b.viewCount - a.viewCount)
-      .slice(0, 4);
-  }
+
+  useEffect(() => {
+    if (selected[0] === "좋아요") {
+      selectFilter = "likeCount";
+    } else if (selected[0] === "조회수") {
+      selectFilter = "viewCount";
+    }
+    setTimeout(() => {
+      axios
+        .get(`http://13.125.74.102:8080/api/feed/post`, {
+          params: {
+            page: 1,
+            size: 4,
+            sortBy: selectFilter,
+            sortOrder: "DESC",
+          },
+        })
+        .then(function (response) {
+          console.log(response.data);
+          setSelectedList(response.data.posting_list);
+        }),
+        1000;
+    });
+  }, []);
+
+  // if (selectedList && selected[0] === filterItems[1]) {
+  //   selectedList = selectedList
+  //     .sort((a, b) => b.like_count - a.like_count)
+  //     .slice(0, 4);
+  // } else if (selected[0] === filterItems[0]) {
+  //   selectedList = selectedList
+  //     .sort((a, b) => b.view_count - a.view_count)
+  //     .slice(0, 4);
+  // }
   return (
     <ItemWrppaer>
-      {selectedList &&
-        selectedList.map((item) => (
-          <TopFiveItem key={item.postId} itemProps={item} />
-        ))}
+      {selectedList
+        ? selectedList.map((item) => (
+            <TopFiveItem key={item.posting_id} itemProps={item} />
+          ))
+        : new Array(4).fill("").map(() => <LoadTopFive />)}
     </ItemWrppaer>
   );
 }

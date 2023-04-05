@@ -6,7 +6,7 @@ function WriteButtonList({
   handleSubmitonClick,
   handleCancelonClick,
 }: {
-  handleSubmitonClick: () => void;
+  handleSubmitonClick: (e: React.FormEvent<HTMLButtonElement>) => Promise<void>;
   handleCancelonClick: () => void;
 }) {
   return (

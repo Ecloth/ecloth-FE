@@ -5,6 +5,7 @@ import RecordTime from "../commons/RecordTime";
 import ChatUserItem from "./ChatUserItem";
 
 function ListItem({ propItem }: { propItem: IChatRoom }) {
+  console.log(propItem.partner_profile_image_path);
   return (
     <ItemWrapper className="itemwrapper">
       <Link

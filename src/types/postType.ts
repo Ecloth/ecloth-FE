@@ -1,16 +1,38 @@
+import { IPage } from "./chatType";
+
+export interface IMember {
+  member_id: number;
+  nickname: string;
+  profile_image_path: string;
+}
+
 export interface IPost {
-  postId: number;
-  memberId: number;
-  nickName: string;
-  profileImagePath: string;
+  posting_id: number;
+  member: IMember;
   title: string;
   content: string;
-  likeCount: number;
-  viewCount: number;
-  commentCount: number;
-  createDate: Date;
-  updateDate: string;
-  imagePath: string[];
+  like_count: number;
+  view_count: number;
+  register_date: Date;
+  updated_date: Date;
+  image_paths: string[];
+}
+
+export interface IFeed {
+  total: number;
+  page: IPage;
+  posting_list: IPost[];
+}
+
+export interface IMyPagePost {
+  posting_id: number;
+  represent_image_path: string;
+}
+
+export interface IMyPage {
+  total: number;
+  page: IPage;
+  posting_list: IMyPagePost[];
 }
 export interface IImage {
   image_id: number;
@@ -18,22 +40,27 @@ export interface IImage {
   image_path: string;
 }
 
-export interface IComment {
-  commentId: number;
-  memberId: number;
-  postingId: number;
-  parentId: number;
-  nickname: string;
-  profileImagePath: string;
-  content: string;
-  createDate: Date;
-  updateDate: string;
+export interface ICommentList {
+  total: number;
+  page: IPage;
+  comment_list: IComment[];
 }
 export interface IReply {
-  member_id: Long;
-  reply_id: number;
-  comment_id: number;
   content: string;
-  create_date: string;
-  update_date: string;
+  writer_id: number;
+  reply_id: number;
+  register_date: Date;
+  updated_date: Date;
+  nickname: string;
+  profile_image_path: string;
+}
+export interface IComment {
+  commentId: number;
+  content: string;
+  nickname: string;
+  profileImagePath: string;
+  registerDate: Date;
+  reply: IReply;
+  updatedDate: Date;
+  writerId: number;
 }

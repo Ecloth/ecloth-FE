@@ -2,28 +2,31 @@ import styled from "styled-components";
 import TopFiveItem from "../topFive/TopFiveItem";
 import { IPost } from "../../types/postType";
 import { useParams } from "react-router-dom";
-import { useRecoilValueLoadable } from "recoil";
-import { postList } from "../../atoms/postAtom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function MainFeed() {
   const { id } = useParams();
+  const memberId = parseInt(id as string, 10);
+  const [postsList, setPostsList] = useState<IPost[]>();
 
-  //서버 연동 전 테스트 코드
-  const PostsLoadable = useRecoilValueLoadable<IPost[]>(postList);
-  let posts: IPost[] =
-    "hasValue" === PostsLoadable.state ? PostsLoadable.contents : [];
-  const postsList = posts.filter(
-    (item) => item.memberId === parseInt(id as string, 10),
-  );
+  useEffect(() => {
+    axios
+      .get(`http://13.125.74.102:8080/api/feed/post/member/${memberId}`, {})
+      .then(function (response) {
+        console.log(response.data);
+      });
+  }, []);
 
   return (
     <FeedWrapper>
       <div className="FeedWrapper">
-        {postsList.map((item) => (
-          <div key={item.postId} className="imageWrapper">
-            <TopFiveItem itemProps={item} />
-          </div>
-        ))}
+        {postsList &&
+          postsList.map((item) => (
+            <div key={item.posting_id} className="imageWrapper">
+              <TopFiveItem itemProps={item} />
+            </div>
+          ))}
       </div>
     </FeedWrapper>
   );

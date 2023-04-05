@@ -1,35 +1,38 @@
 import axios from "axios";
 import { useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { TEST_TOKEN } from "../../App";
 import ChatUserItem from "./ChatUserItem";
 
-function ChattingHeader({ nickName }: { nickName: string }) {
+function ChattingHeader({
+  nickName,
+  profileImg,
+}: {
+  nickName: string;
+  profileImg: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const naviagate = useNavigate();
 
   const handleDeleteonClick = () => {
-    axios({
-      method: "delete",
-      url: `/api/chat`,
-      baseURL: "http://localhost:8080",
-      data: {
-        chat_room_id: 1,
-        member_id: 1,
-      },
-    })
-      .then(function (response) {
-        // 성공한 경우 실행
-        console.log("채팅방 나가기");
+    const data = {
+      chatMemberId: 9,
+      memberId: 14,
+    };
+    axios
+      .delete(`http://13.125.74.102:8080/api/chat`, {
+        data,
       })
-      .catch(function (error) {
-        // 에러인 경우 실행
-        console.log(error);
+      .then(function (response) {
+        console.log(response.data);
+        naviagate("/chat");
       });
   };
   return (
     <HeaderWrapper>
-      <ChatUserItem profileImg="" nickName={nickName} memberId={1} />
+      <ChatUserItem profileImg={profileImg} nickName={nickName} memberId={1} />
       <div className="option">
         <ButtonWrapper className="buttonWrapper">
           <BiDotsHorizontalRounded
@@ -68,7 +71,6 @@ const HeaderWrapper = styled.span`
   }
 
   .option {
-    margin-right: 5px;
     width: 77px;
     height: 20px;
   }
@@ -76,7 +78,6 @@ const HeaderWrapper = styled.span`
 
 const ButtonWrapper = styled.div`
   text-align: end;
-  margin-right: 15px;
 
   cursor: pointer;
   .icon {
@@ -87,6 +88,7 @@ const ButtonWrapper = styled.div`
 
 const OptionWrapper = styled.span`
   display: block;
+  text-align: right;
   width: 80px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);

@@ -7,12 +7,12 @@ function CommentItem({ comment }: { comment: IComment }) {
   return (
     <CommentWrapper>
       <ItemUser
-        id={comment.memberId}
+        id={comment.writerId}
         img={comment.profileImagePath}
         nickName={comment.nickname}
       />
       <Comment>{comment.content}</Comment>
-      <RecordTime date={comment.createDate} />
+      <RecordTime date={comment.registerDate} />
     </CommentWrapper>
   );
 }

@@ -1,8 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
-import img from "../../assets/images/test.jpg";
+import { TEST_TOKEN } from "../../App";
 
 function ChatUserItem({
   profileImg,
@@ -14,31 +13,31 @@ function ChatUserItem({
   memberId?: number;
 }) {
   const [isOnline, setIsOnline] = useState(false);
+
   useEffect(() => {
-    axios({
-      method: "post",
-      url: `api/chat/online/${memberId}`,
-      baseURL: "http://localhost:8080",
-    })
+    axios
+      .post(`http://13.125.74.102:8080/api/chat/online/${1}`, {
+        headers: { authorization: TEST_TOKEN },
+      })
       .then(function (response) {
-        // 성공한 경우 실행
-        console.log(response);
-        setIsOnline(response.status === 200);
-      })
-      .catch(function (error) {
-        // 에러인 경우 실행
-        console.log(error);
-      })
-      .then(function () {
-        // 항상 실행
+        console.log(response.status);
+        alert(response.status);
       });
   }, []);
+  console.log(nickName);
 
   return (
     <ItemWrapper className="itemwrapper">
       {profileImg && (
         <div className="profileWrapper">
-          <img src={profileImg} alt="profile"></img>
+          <img
+            src={
+              profileImg !== undefined
+                ? profileImg
+                : "https://via.placeholder.com/40"
+            }
+            alt="profile"
+          ></img>
 
           {isOnline && <div className="badge"></div>}
         </div>
@@ -63,6 +62,7 @@ const ItemWrapper = styled.div`
       width: 40px;
       height: 40px;
       border-radius: 50px;
+      margin-right: 5px;
     }
     .badge {
       position: absolute;
