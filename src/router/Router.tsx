@@ -6,12 +6,14 @@ import ResetPasswordPage from "../pages/login/ResetPasswordPage";
 import SignUpPage from "../pages/login/SignUpPage";
 import Main from "./Main";
 import User from "./Main";
+import ChangePassword from "../components/loginCode/ChangePassword";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/Login" element={<Login />} />
+        <Route path="/ChangePassword" element={<ChangePassword />} />
         <Route path="/KakaoLogin" element={<KakaoLogin />} />
         <Route path="/ResetPassword" element={<ResetPasswordPage />} />
         <Route path="/SignUp" element={<SignUpPage />} />
