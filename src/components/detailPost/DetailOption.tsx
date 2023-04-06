@@ -4,8 +4,9 @@ import { BiDotsHorizontalRounded } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TEST_TOKEN } from "../../App";
+import { IPost } from "../../types/postType";
 
-function DetailOption({ postId }: { postId: number }) {
+function DetailOption({ postId, propItem }: { postId: number, propItem:IPost }) {
   const [isOpen, setIsOpen] = useState(false);
   const navigator = useNavigate();
 
@@ -30,6 +31,7 @@ function DetailOption({ postId }: { postId: number }) {
           <ul>
             <li>
               <Link to={`/post/edit/${postId}`} 
+              state = {{post : propItem}}
               className="linkItem">
                 수정하기
               </Link>

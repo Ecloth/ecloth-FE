@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { TEST_MEMBER_ID } from "../../App";
 import { IChatList } from "../../types/chatType";
 import ListItem from "./ListItem";
 
@@ -9,7 +10,7 @@ function ChatList() {
   const [chatsList, setChatsList] = useState<IChatList>();
 
   //로그인 한 user memberId
-  const memberId = 14;
+  const memberId = TEST_MEMBER_ID;
   const parthnerId = 15;
   const makeChatRoom = () => {
     const data = {
