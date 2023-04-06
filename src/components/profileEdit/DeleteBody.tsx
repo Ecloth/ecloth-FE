@@ -37,16 +37,16 @@ export default function DeleteBody() {
           return Promise.reject(error);
         },
       );
-      axios
-        .put(
-          `http://13.125.74.102:8080/api/member/me/status`,
-          {
-            headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('token'),
-            },
-          }
-        )
-        .then(() => {
+      axios({
+        url: 'http://13.125.74.102:8080/api/member/me/status',
+        method: 'PUT',
+        headers : {
+          'Authorization' : `Bearer ` + localStorage.getItem('token')
+        },
+        withCredentials: true,
+      })
+        .then((res) => {
+          console.log(res)
           localStorage.clear();
           alert('그동안 이용해주셔서 감사합니다.');
           setIsLogin(false)
@@ -61,6 +61,7 @@ export default function DeleteBody() {
     
   }, [])
   return (
+    
     <BodyWrapper>
       <Title>회원탈퇴</Title>
       <div style={{margin: "15px"}}>
