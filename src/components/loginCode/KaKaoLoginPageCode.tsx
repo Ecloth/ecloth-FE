@@ -1,26 +1,48 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { isLoginState } from '../../atoms/Atom';
+import Swal from 'sweetalert2';
 
 export default function KakaoLoginPageCode() {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
 //   const KAKAO_CODE = location.search.split('=')[1];
   const KAKAO_CODE = new URL(window.location.href).searchParams.get('code');
-
    // 백엔드 인가코드 전달 코드
     useEffect(() => {
       axios({
         method : "GET",
-        url : `https://ef75-175-194-251-236.jp.ngrok.io/KakaoLogin?code=${KAKAO_CODE}`
+        url : `http://13.125.74.102:8080/KakaoLogin?code=${KAKAO_CODE}`
       })
-      .then((res:any) => {
-        console.log(res);        
-        let test = res.headers.get('authorization')
-        console.log(test)
+      .then((result:any) => {
+        console.log(result);        
+        const res = result.headers.authorization
+        const token = res.substr(7)
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
         
-        const ACCESS_TOKEN = res.data.accessToken;
-        localStorage.setItem("token", ACCESS_TOKEN);
-        navigate("/")
+        localStorage.setItem('token', token);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: '로그인이 완료되었습니다.'
+        })
+        window.location.replace('/');
+        setIsLogin(true)
       }).catch((err)=> {
         console.log(err)
         window.alert("로그인 실패")
