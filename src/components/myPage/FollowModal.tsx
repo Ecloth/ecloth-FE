@@ -1,8 +1,8 @@
-import {useState} from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import FollowList from "./FollowList";
 
-function FollowModal({isFollow}: {isFollow: boolean}) {
+function FollowModal({ isFollow }: { isFollow: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleModalCloseClick = () => {

@@ -1,23 +1,31 @@
 import styled from "styled-components";
-import {AiOutlineSend} from "react-icons/ai";
-import { useRecoilState } from "recoil";
-import { ChatMessageState } from "../../atoms/postAtom";
-import { useState } from "react";
+import { AiOutlineSend } from "react-icons/ai";
+import { Dispatch, SetStateAction, useState } from "react";
 
-function ChattingFooter({handleButtononClick} : {handleButtononClick : (message:string) => void} ) {
+function ChattingFooter({
+  handleButtononClick,
+  setSendMessage,
+}: {
+  handleButtononClick: (message: string) => void;
+  setSendMessage: Dispatch<SetStateAction<string>>;
+}) {
   const [tempMessage, setTempMessage] = useState("");
-  const [chatMessage, setChatMessage] = useRecoilState<string | any>(ChatMessageState);
-  const handleInputonChange =(e: React.ChangeEvent<HTMLInputElement>) =>{
+  const handleInputonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempMessage(e.target.value);
-  }
-  const handleButtonOnClick = (e:React.MouseEvent<HTMLButtonElement>) =>{
+  };
+  const handleButtonOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setChatMessage(tempMessage);
+    setSendMessage(tempMessage);
     handleButtononClick(tempMessage);
-  }
+  };
   return (
     <FooterWrapper>
-      <input type="text" placeholder="Type a Message" id="message" onChange={handleInputonChange}/>
+      <input
+        type="text"
+        placeholder="Type a Message"
+        id="message"
+        onChange={handleInputonChange}
+      />
       <button onClick={handleButtonOnClick}>
         <AiOutlineSend className="icon"></AiOutlineSend>
       </button>

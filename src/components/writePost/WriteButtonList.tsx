@@ -2,20 +2,17 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import BlueButton from "../commons/BlueButton";
 
-function WriteButtonList() {
-  const navigator = useNavigate()
-  const handleSubmitOnClick = () => {
-    console.log("submit");
-  };
-  const handleCancelOnClick = () => {
-    console.log("cancel");
-    navigator(-1);
-  };
-
+function WriteButtonList({
+  handleSubmitonClick,
+  handleCancelonClick,
+}: {
+  handleSubmitonClick: (e: React.FormEvent<HTMLButtonElement>) => Promise<void>;
+  handleCancelonClick: () => void;
+}) {
   return (
     <ListWrapper>
-      <BlueButton handleOnClick={handleSubmitOnClick} text="취소하기" />
-      <BlueButton handleOnClick={handleCancelOnClick} text="등록하기" />
+      <BlueButton handleOnClick={handleCancelonClick} text="취소하기" />
+      <BlueButton handleOnClick={handleSubmitonClick} text="등록하기" />
     </ListWrapper>
   );
 }

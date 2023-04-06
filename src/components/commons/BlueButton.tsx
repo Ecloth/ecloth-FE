@@ -1,6 +1,14 @@
 import styled from "styled-components";
 
-function BlueButton({handleOnClick, text}: {handleOnClick: () => void; text: string}) {
+function BlueButton({
+  handleOnClick,
+  text,
+}: {
+  handleOnClick:
+    | (() => void)
+    | ((e: React.FormEvent<HTMLButtonElement>) => Promise<void>);
+  text: string;
+}) {
   return <ModalBtn onClick={handleOnClick}>{text}</ModalBtn>;
 }
 

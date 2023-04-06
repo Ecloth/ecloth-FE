@@ -1,0 +1,10 @@
+{
+  "follow_member_info": {
+    "member_id": 0,
+    "follow_cnt": 0,
+    "follow_status": true,
+    "follower_cnt": 0,
+    "nickname": "string",
+    "profile_image_path": "string"
+  }
+}

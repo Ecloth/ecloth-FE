@@ -1,26 +1,32 @@
 import styled from "styled-components";
 import TopFiveItem from "../topFive/TopFiveItem";
-import {dummy} from "../feed/FeedBody";
-import {useEffect} from "react";
-import {IPost} from "../../types/postType";
+import { IPost } from "../../types/postType";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function MainFeed({posts}: {posts: IPost[]}) {
-  const newArray: IPost[] = [];
+function MainFeed() {
+  const { id } = useParams();
+  const memberId = parseInt(id as string, 10);
+  const [postsList, setPostsList] = useState<IPost[]>();
+
   useEffect(() => {
-    for (let i = 0; i < 3; i++) {
-      newArray.push(dummy[i], dummy[i + 1], dummy[i + 2]);
-    }
-    console.log(newArray);
+    axios
+      .get(`http://13.125.74.102:8080/api/feed/post/member/${memberId}`, {})
+      .then(function (response) {
+        console.log(response.data);
+      });
   }, []);
 
   return (
     <FeedWrapper>
       <div className="FeedWrapper">
-        {posts.map(item => (
-          <div key={item.post_id} className="imageWrapper">
-            <TopFiveItem itemProps={item} />
-          </div>
-        ))}
+        {postsList &&
+          postsList.map((item) => (
+            <div key={item.posting_id} className="imageWrapper">
+              <TopFiveItem itemProps={item} />
+            </div>
+          ))}
       </div>
     </FeedWrapper>
   );
