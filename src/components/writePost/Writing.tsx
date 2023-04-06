@@ -64,7 +64,7 @@ function Writing() {
       )
       .then(function (response) {
         console.log(response.data);
-        alert(response.data);
+        navigator('/feed');
       });
     setTitle("");
     setContent("");

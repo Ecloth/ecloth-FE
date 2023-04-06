@@ -45,17 +45,18 @@ function Editing() {
     console.log(images);
     images.forEach((image: any) => {
       formData.append('images', image);
+      console.log(image)
     });
     formData.append('content',  content);
     formData.append('title',title);
     e.preventDefault();
     const headers = {
+      "Content-Type":"multipart/form-data",
         "Authorization": TEST_TOKEN,
-        "Content-Type": "multipart/form-data",
     }
     axios
-      .put(`http://13.125.74.102:8080/api/feed/post/${tempPostId}`, 
-          {data : formData, tempPostId},
+      .post(`http://13.125.74.102:8080/api/feed/post/${tempPostId}`, 
+        formData,
         {headers : headers}
       )
       .then(function (response) {
@@ -69,7 +70,7 @@ function Editing() {
     e.preventDefault();
     if (e.target.files === null) return
     const files = e.target.files;
-    setImages([...images ,...files]);
+    // setImages([...images ,...files]);
 
     let file;
     let filesLength =
