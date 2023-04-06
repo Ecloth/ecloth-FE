@@ -10,14 +10,20 @@ import {useParams} from "react-router-dom";
 import {dummy} from "../feed/FeedBody";
 import {useEffect, useState} from "react";
 import DetailOption from "./DetailOption";
+import { useRecoilState } from "recoil";
+import { NicknameState } from "../../atoms/Atom";
 
-export const LOGIN_ID = localStorage.getItem("email");
+// const [nickname, setNickname] = useRecoilState<string | any>(NicknameState)
+// export const LOGIN_ID = nickname
+// export const LOGIN_ID = localStorage.getItem('token')
 
 function Detail() {
+  const [nick, setNick] = useRecoilState<string | any>(NicknameState)
+  const LOGIN_ID = nick
   const {id} = useParams();
   const item = dummy.filter((item) => item.post_id===parseInt(id as string, 10))[0]
   const [isLogin, setIsLogin] = useState(item.member_id === LOGIN_ID);
-
+  
   console.log(id, dummy[parseInt(id as string, 10) - 1]);
 
   // comment -------------------
