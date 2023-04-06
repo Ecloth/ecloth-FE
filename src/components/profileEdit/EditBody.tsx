@@ -165,7 +165,7 @@ function EditBody() {
     } catch (error) {
       console.log(error);
     }
-  },[])
+  }, [])
   return (
     <BodyWrapper>
       <Title>프로필 편집</Title>

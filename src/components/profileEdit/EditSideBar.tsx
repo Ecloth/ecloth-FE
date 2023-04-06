@@ -8,7 +8,6 @@ function EditSideBar() {
 
   const [image, setImage] = useRecoilState(ImageState)
   const profile = image
-  console.log("sadas", profile)
 
   const buttonList = [
     { text: '프로필 편집', path: 'profile/edit' },

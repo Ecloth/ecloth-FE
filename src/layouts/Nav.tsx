@@ -82,7 +82,6 @@ export default function Nav() {
       })
         .then((result) => {
           setNick(result.data.nickname)
-          console.log("me", result)
           setImage(result.data.profileImagePath)
           if (result) {
             setIsLogin(true);
