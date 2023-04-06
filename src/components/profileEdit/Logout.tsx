@@ -3,6 +3,8 @@ import styled from "styled-components";
 import EditSideBar from "../../components/profileEdit/EditSideBar";
 import LogoutBody from './LogoutBody';
 export default function Logout() {
+
+
   return (
     <SectionWrapper>
       <EditSideBar />
