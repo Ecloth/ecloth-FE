@@ -1,50 +1,68 @@
 import styled from "styled-components";
 import ItemUser from "../feed/ItemUser";
 import FollowButtonList from "../myPage/FollowButtonList";
-import CommentList, {dummyCommentList} from "./CommentList";
+import CommentList from "./CommentList";
 import CommentInput from "./CommentInput";
 import LikeViews from "./LikeViews";
 import PostContent from "./PostContent";
 import PostImage from "./PostImage";
-import {useParams} from "react-router-dom";
-import {dummy} from "../feed/FeedBody";
-import {useEffect, useState} from "react";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import DetailOption from "./DetailOption";
-import { useRecoilState } from "recoil";
-import { NicknameState } from "../../atoms/Atom";
+import { IPost } from "../../types/postType";
+import axios from "axios";
+import { TEST_MEMBER_ID } from "../../App";
 
-// const [nickname, setNickname] = useRecoilState<string | any>(NicknameState)
-// export const LOGIN_ID = nickname
-// export const LOGIN_ID = localStorage.getItem('token')
+export const LOGIN_ID = localStorage.getItem("email");
 
 function Detail() {
-  const [nick, setNick] = useRecoilState<string | any>(NicknameState)
-  const LOGIN_ID = nick
-  const {id} = useParams();
-  const item = dummy.filter((item) => item.post_id===parseInt(id as string, 10))[0]
-  const [isLogin, setIsLogin] = useState(item.member_id === LOGIN_ID);
-  
-  console.log(id, dummy[parseInt(id as string, 10) - 1]);
+  const { id } = useParams();
+  const postId = parseInt(id as string, 10);
+  const [post, setPost] = useState<IPost>();
 
-  // comment -------------------
-  const [commentList, setCommentList] = useState(
-    dummyCommentList.filter(comment => parseInt(id as string, 10) === comment.post_id),
-  );
-  // useEffect(() => {}, [commentList]);
+  useEffect(() => {
+    axios
+      .get(`http://13.125.74.102:8080/api/feed/post/${postId}`,{
+        data: {
+          postingId: postId
+        }
+      })
+      .then(function (response) {
+        setPost(response.data);
+      });
+  }, []);
   return (
     <DetailWrapper>
-      <PostImage imgs={item.images} />
-      <ContentWrapper>
-        <UserWrapper>
-          <ItemUser id={item.member_id} img="" />
-          {isLogin ? <DetailOption postId ={item.post_id} />: <FollowButtonList following={true} memberId={item.member_id}/>}
-        </UserWrapper>
-        <PostContent title={item.title} text={item.content} date={item.create_date}/>
-        <CommentList commentList={commentList} />
+      {post && (
+        <>
+          <ImageWrapper>
+            <PostImage imgs={post.image_paths} />
+          </ImageWrapper>
+          <ContentWrapper>
+            <UserWrapper>
+              <ItemUser
+                id={post.member.member_id}
+                img={post.member.profile_image_path}
+                nickName={post.member.nickname}
+              />
+              {post.member.member_id === TEST_MEMBER_ID ? (
+                <DetailOption postId={post.posting_id} propItem = {post}/>
+              ) : (
+                <FollowButtonList memberId={post.member.member_id} />
+              )}
+            </UserWrapper>
+            <PostContent
+              title={post.title}
+              text={post.content}
+              date={post.register_date}
+            />
+            <CommentList memberId={post.member.member_id} />
 
-        <LikeViews likes={item.like} views={item.view} />
-        <CommentInput />
-      </ContentWrapper>
+            <LikeViews likes={post.like_count} views={post.view_count} />
+            <CommentInput />
+          </ContentWrapper>
+        </>
+      )}
     </DetailWrapper>
   );
 }
@@ -63,7 +81,6 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   width: 50%;
   height: 100%;
-
   & span:first-child {
     display: block;
     width: fit-content;
@@ -85,4 +102,7 @@ const UserWrapper = styled.div`
     width: 80px;
     height: 30px;
   }
+`;
+const ImageWrapper = styled.div`
+  width: 50%;
 `;
