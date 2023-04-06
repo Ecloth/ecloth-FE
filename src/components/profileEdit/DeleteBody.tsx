@@ -1,25 +1,55 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { isLoginState } from "../../atoms/Atom";
+import { useEffect } from "react";
 
 export default function DeleteBody() {
   const navigate = useNavigate()
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   const handleDeleteProfile = (e: any) => {
     e.preventDefault();
     if (window.confirm('확인을 누르면 회원 정보가 삭제됩니다.')) {
+      axios.interceptors.response.use(
+        (response) => {
+          setIsLogin(true)  
+          return response;
+        },
+        (error) => {
+          const {
+            response: { status },
+          } = error;
+          if (status === 401) {
+            try {
+              axios({
+                url: 'http://13.125.74.102:8080/api/token/reissue',
+                method: 'POST',
+                withCredentials: true,
+              }) .then((res) => {
+                console.log(res)
+              })
+            } catch (err) {
+              console.log(err);
+            }
+          }
+          return Promise.reject(error);
+        },
+      );
       axios
-        .delete(
-          `api/member/me/status`,
+        .put(
+          `http://13.125.74.102:8080/api/member/me/status`,
           {
             headers: {
-              Authorization: 'Bearer ' + localStorage.getItem('ACCESS_TOKEN'),
+              Authorization: 'Bearer ' + localStorage.getItem('token'),
             },
           }
         )
         .then(() => {
           localStorage.clear();
           alert('그동안 이용해주셔서 감사합니다.');
+          setIsLogin(false)
           navigate('/');
         })
         .catch((err) => alert(err.response.data.message));
@@ -27,6 +57,9 @@ export default function DeleteBody() {
       return;
     }
   };
+  useEffect(() => {
+    
+  }, [])
   return (
     <BodyWrapper>
       <Title>회원탈퇴</Title>
