@@ -2,14 +2,14 @@ import axios from "axios";
 import { useState } from "react";
 import { AiOutlineClose, AiOutlinePlusCircle } from "react-icons/ai";
 import styled from "styled-components";
-import { TEST_TOKEN } from "../../App";
+import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
 
 function ReplyInput({ commentId }: { commentId: number }) {
   const [isReply, setIsReply] = useState(true);
   const [comment, setComment] = useState("");
 
   //로그인 한 memberId
-  const memberId = 1;
+  const memberId = TEST_MEMBER_ID;
 
   const handleCommemtonChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setComment(e.target.value);
@@ -26,7 +26,15 @@ function ReplyInput({ commentId }: { commentId: number }) {
       memberId: memberId,
       content: comment,
     };
-    //500 error
+   
+    // !!수정 답글 있으면 답글 달기 없어야 됨 
+    // content: "테스트"
+    // nickname: "test1"
+    // profile_image_path: "https://camping101.s3.ap-northeast-2.amazonaws.com/profile-sample.jpg.jpg"
+    // register_date: "2023-04-06T01:47:21.887676"
+    // reply_id: 6
+    // updated_date: "2023-04-06T01:47:21.887676"
+    // writer_id: 8
     axios
       .post(
         `http://13.125.74.102:8080/api/feed/post/comment/${commentId}`,

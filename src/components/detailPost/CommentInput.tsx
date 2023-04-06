@@ -3,7 +3,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { TEST_TOKEN } from "../../App";
+import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
 
 function CommentInput() {
   const [comment, setComment] = useState("");
@@ -15,7 +15,7 @@ function CommentInput() {
     setComment(e.target.value);
     
   //로그인 한 memberId
-  const memberId = 4;
+  const memberId = TEST_MEMBER_ID;
 
   const handleCommentonSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
