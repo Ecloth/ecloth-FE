@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import profile from '../../assets/images/profile.png';
+// import profile from '../../assets/images/profile.png';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import { EmailState, NicknameState, RoleState } from '../../atoms/Atom';
+import { ImageState, NicknameState, RoleState } from '../../atoms/Atom';
 import Swal from 'sweetalert2';
 
 
@@ -19,6 +19,8 @@ function EditBody() {
   const [profileImagePath, setProfileImagePath] = useState<string | any>({selectedFiles : null})
   const [role, setRole] = useRecoilState<boolean>(RoleState)
   const [emailConfirm, setEmailConfirm] = useState<string>()
+  const [image, setImage] = useRecoilState(ImageState)
+
 
   const handleNicknameInput = (e : ChangeEvent<HTMLInputElement>) => {
     setNickname(e.currentTarget.value)
@@ -113,7 +115,6 @@ function EditBody() {
   })
     .then(res => res.json())
     .then((data) => {
-      console.log(data.message)
       if(data.message === "이미 사용중인 닉네임 입니다.") {
         Swal.fire({
           text: '이미 사용중인 닉네임 입니다.',
@@ -152,7 +153,6 @@ function EditBody() {
         withCredentials: true,
       })
         .then((result) => {
-          console.log("me", result)
           if(result.data.role === 'ROLE_MEMBER'){
             setRole(true)
           }
@@ -165,13 +165,13 @@ function EditBody() {
     } catch (error) {
       console.log(error);
     }
-  },[])
+  }, [])
   return (
     <BodyWrapper>
       <Title>프로필 편집</Title>
       <ProfileEditDiv>
         <ProfileEditSubDiv>
-          <ProfileEditSubImg src={profile}></ProfileEditSubImg>
+          <ProfileEditSubImg src={image}></ProfileEditSubImg>
         </ProfileEditSubDiv>
         <NameDiv>
           <Name>{nick}</Name>

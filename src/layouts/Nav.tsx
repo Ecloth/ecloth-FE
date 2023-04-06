@@ -4,12 +4,13 @@ import { Link, NavLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import LogoImamge from '../assets/images/LOGO.png'
-import { AccessTokenState, NicknameState, isLoginState } from '../atoms/Atom';
+import { AccessTokenState, ImageState, NicknameState, isLoginState } from '../atoms/Atom';
 
 export default function Nav() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [nick, setNick] = useRecoilState<string | any>(NicknameState)
   const [loginId, setLoginId] = useState<string>("")
+  const [image, setImage] = useRecoilState(ImageState)
   // const LOGIN_ID = localStorage.getItem("id")
   const LOGIN_ID = loginId
   console.log(LOGIN_ID)
@@ -81,7 +82,7 @@ export default function Nav() {
       })
         .then((result) => {
           setNick(result.data.nickname)
-          console.log("me", result)
+          setImage(result.data.profileImagePath)
           if (result) {
             setIsLogin(true);
           }
