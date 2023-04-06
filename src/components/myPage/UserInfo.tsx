@@ -1,78 +1,71 @@
 import styled from "styled-components";
 import FollowButtonList from "./FollowButtonList";
-import {useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FollowModal from "./FollowModal";
-import {useState} from "react";
+import { useEffect, useState } from "react";
 import OptionButton from "./OptionButton";
-import {LOGIN_ID} from "../detailPost/Detail";
 import MessageSendButton from "./MessageSendButton";
-import {followDummyData, followerDummyData} from "./FollowList";
-import profile from "../../assets/images/profile.png"
+import axios from "axios";
+import { FOLLOW_DIRECTION, IFollowMemberInfo } from "../../types/followType";
+import { useRecoilState } from "recoil";
+import { NicknameState } from "../../atoms/Atom";
 
 function UserInfo() {
   const param = useParams().id;
-  const id = parseInt(param as string, 10);
-  const [isOwner, setIsOwner] = useState(LOGIN_ID === param);
-  console.log(LOGIN_ID)
-  const followList = [35, 40];
+  const memberId = parseInt(param as string, 10);
 
-  // useEffect(() => {
-  //   axios({
-  //     method:'get',
-  //     url:'api/member/{memberId}/follow',
-  //     baseURL: 'http://localhost:8080'
-  //   })
-  //   .then(function (response) {
-  //     // 성공한 경우 실행
-  //     console.log(response);
-  //   })
-  //   .catch(function (error) {
-  //     // 에러인 경우 실행
-  //     console.log(error);
-  //   })
-  //   .then(function () {
-  //     // 항상 실행
-  //   });
-  // },[])
-  // Response
-  //   {
-  //     "follow_member_info": {
-  //        "follow_cnt": 0,
-  //        "follow_status": true,
-  //        "follower_cnt": 0,
-  //        "nickname": "string",
-  //        "profile_image_path": "string",
-  //        "target_id": 0
-  //   }
-  // }
+  const [userInfo, setUserInfo] = useState<IFollowMemberInfo>();
+  const [nickName, setNickName] = useState("");
+  const [nick, setNick] = useRecoilState<string | any>(NicknameState)
+  const LOGIN_ID = nick
+
+  console.log(LOGIN_ID)
+  console.log(nickName)
+  //로그인 한 유저와 param의 유저가 닉네임이 같아야 함 nickName === param의 닉네임값
+  const [isOwner, setIsOwner] = useState(LOGIN_ID === nickName);
+  //API 확인
+  useEffect(() => {
+    // response : {member_id: 3, nickname: 'test3', profile_image_path: null, follow_cnt: 1, follower_cnt: 1}
+    axios
+      .get(`http://13.125.74.102:8080/api/member/${memberId}/follow`)
+      .then(function (response) {
+        console.log("res", response)
+        setUserInfo(response.data);
+        setNickName(userInfo.nickname);
+      });
+  },[nick]);
   return (
     <UserWrapper>
-      <ProfileImage>
-        <img src={profile}></img>
-      </ProfileImage>
-      <UserDesc>
-        <NickNameFollow>
-          <p className="nickName">{param}</p>
-          {isOwner ? (
-            <OptionButton />
-          ) : (
-            <>
-              <FollowButtonList following={true} memberId={id} />
-              <MessageSendButton />
-            </>
-          )}
-        </NickNameFollow>
-        <FollowList>
-          <div className="FollwWrapper">
-            <FollowModal isFollow={false} />
-            <span>팔로워 {followerDummyData.length}명</span>
-          </div>
-          <div className="FollwWrapper">
-            <FollowModal isFollow={true} />
-            <span>팔로우 {followDummyData.length}명</span>
-          </div>
-        </FollowList>
-      </UserDesc>
+      {userInfo && (
+        <>
+          <ProfileImage>
+            <img src={userInfo!.profile_image_path}></img>
+          </ProfileImage>
+          <UserDesc>
+            <NickNameFollow>
+              <p className="nickName">{userInfo!.nickname}</p>
+              {isOwner ? (
+                <OptionButton />
+              ) : (
+                <>
+                  <FollowButtonList memberId={memberId} />
+                  <MessageSendButton memberId={memberId} />
+                </>
+              )}
+            </NickNameFollow>
+            <FollowList>
+              <div className="FollwWrapper">
+                <FollowModal isFollow={FOLLOW_DIRECTION.follower} />
+                <span>팔로워 {userInfo.follower_cnt}명</span>
+              </div>
+              <div className="FollwWrapper">
+                <FollowModal isFollow={FOLLOW_DIRECTION.follow} />
+                <span>팔로우 {userInfo.follow_cnt}명</span>
+              </div>
+            </FollowList>
+          </UserDesc>
+        </>
+      )}
     </UserWrapper>
   );
 }
