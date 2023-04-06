@@ -1,16 +1,19 @@
 import React, { FormEvent, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate,} from 'react-router-dom';
 import styled from 'styled-components';
 import { ImBubble } from 'react-icons/im';
 import axios from 'axios';
 import LogoImamge from '../../assets/images/LOGO.png'
+import { useRecoilState } from 'recoil';
+import { AccessTokenState } from '../../atoms/Atom';
+import Swal from 'sweetalert2';
 
 export default function LoginPageCode() {
   const [email, setEmail] = useState<string | any>()
   const [password, setPassword] = useState<string>()
+  const [accessToken, setAccessToken] = useRecoilState<string>(AccessTokenState)
   const navigate = useNavigate();
 
-  // let {id} = useParams()
 
   const RESTAPI = import.meta.env.VITE_APP_KaKaoRestApiKey;
   const REDIRECT_URI = import.meta.env.VITE_APP_KaKaoRedirectURI;
@@ -24,23 +27,55 @@ export default function LoginPageCode() {
 
   const handleLoginButton = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios({
-      url: 'http://localhost:8123/login',
+     axios({
+      url: 'http://13.125.74.102:8080/api/login', 
+      // url: 'https://43cb-175-194-251-236.jp.ngrok.io/api/login', 
       method: 'POST',
       withCredentials: true,
       data: {
         email: email,
         password: password,
       },
-    }).then((result) => {
+    })
+    .then((result) => {
+      console.log('resutl',result)
+      const res = result.headers.authorization
+      const token = res.substr(7)
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
       if (result.status === 200) {
-        window.open('/', '_self');
-      } else {
-        alert("로그인 실패")
-        console.log(result);
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+        
+        Toast.fire({
+          icon: 'success',
+          title: '로그인이 완료되었습니다.'
+        })
+        navigate('/')
+        // window.location.replace('/');
+        localStorage.setItem('token', token)
+      } 
+    }).catch(err => {
+      if(err.code === 'ERR_BAD_REQUEST'){
+        Swal.fire({
+          text: '아이디와 비밀번호를 확인해주세요.',
+          width: 350,
+          padding: 10,
+          confirmButtonText: '확인',
+        })
       }
-    });
-    localStorage.setItem("email", email)
+        console.log(err.code)  
+    })
   };
 
   return (
@@ -72,7 +107,7 @@ export default function LoginPageCode() {
                       <InputDiv>
                         <InputDivDetail>
                           <InputLabel>
-                            <IdPwInput type={password} onChange={(e) => setPassword(e.target.value)} value={password} placeholder="비밀번호" />
+                            <IdPwInput type="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="비밀번호" />
                           </InputLabel>
                         </InputDivDetail>
                       </InputDiv>

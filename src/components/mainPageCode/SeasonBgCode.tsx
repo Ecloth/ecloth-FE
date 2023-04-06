@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import snowDay from "../../assets/images/snowDay.jpeg";
 import rainDay from "../../assets/images/rainDay.jpeg";

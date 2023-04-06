@@ -1,26 +1,51 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink, useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import LogoImamge from '../assets/images/LOGO.png'
-import { isLoginState } from '../atoms/Atom';
-
-export const LOGIN_ID = localStorage.getItem("email");
+import { AccessTokenState, NicknameState, isLoginState } from '../atoms/Atom';
 
 export default function Nav() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-  
+  const [nick, setNick] = useRecoilState<string | any>(NicknameState)
+  const [loginId, setLoginId] = useState<string>("")
+  // const LOGIN_ID = localStorage.getItem("id")
+  const LOGIN_ID = loginId
+  console.log(LOGIN_ID)
 
+  
   const buttonList = [
     {text: "Feed", path: "/"},
     {text: "Chat", path: "/"},
   ];
+  const token = localStorage.getItem('token')
 
   useEffect(() => {
+    try {
+      axios({
+        url: 'http://13.125.74.102:8080/api/member/me/id',
+        // url: 'https://43cb-175-194-251-236.jp.ngrok.io/api/member/me/id',
+        headers : {
+          'Authorization' : `Bearer ` + token
+        },
+        method: 'GET',
+        withCredentials: true,
+      })
+        .then((result) => {
+          console.log("member/id", result)
+          // localStorage.setItem("id", result.data)
+          setLoginId(result.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.log(error);
+    }
     axios.interceptors.response.use(
       (response) => {
-        setIsLogin(true)  
+        // setIsLogin(true)  
         return response;
       },
       (error) => {
@@ -30,10 +55,13 @@ export default function Nav() {
         if (status === 401) {
           try {
             axios({
-              url: 'http://localhost:8123/refreshtoken',
-              method: 'GET',
+              url: 'http://13.125.74.102:8080/api/token/reissue',
+              // url: 'https://43cb-175-194-251-236.jp.ngrok.io/api/token/reissue',
+              method: 'POST',
               withCredentials: true,
-            });
+            }) .then((res) => {
+              console.log(res)
+            })
           } catch (err) {
             console.log(err);
           }
@@ -43,12 +71,18 @@ export default function Nav() {
     );
     try {
       axios({
-        url: 'http://localhost:8123/login/success',
+        url: 'http://13.125.74.102:8080/api/member/me',
+        // url: 'https://43cb-175-194-251-236.jp.ngrok.io/api/member/me',
+        headers : {
+          'Authorization' : `Bearer ` + token
+        },
         method: 'GET',
         withCredentials: true,
       })
         .then((result) => {
-          if (result.data) {
+          setNick(result.data.nickname)
+          console.log("me", result)
+          if (result) {
             setIsLogin(true);
           }
         })
@@ -84,7 +118,8 @@ export default function Nav() {
             {!isLogin ? (
               <StyledLink to={'Login'}> Login / Sign Up </StyledLink>
             ) : (
-              <StyledLink to={`/myPage/${LOGIN_ID}`}> my-page </StyledLink>
+              // <StyledLink to={`/myPage/${LOGIN_ID}`}> my-page </StyledLink>
+              <a style={{listStyle: "none",textDecoration : "none", color:"black"}} href={`/myPage/${LOGIN_ID}`}> my-page </a>
               )}
           </LoginButton>
         </Navmenu>

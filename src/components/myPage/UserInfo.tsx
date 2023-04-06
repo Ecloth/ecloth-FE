@@ -1,41 +1,39 @@
 import styled from "styled-components";
 import FollowButtonList from "./FollowButtonList";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FollowModal from "./FollowModal";
 import { useEffect, useState } from "react";
 import OptionButton from "./OptionButton";
 import MessageSendButton from "./MessageSendButton";
 import axios from "axios";
 import { FOLLOW_DIRECTION, IFollowMemberInfo } from "../../types/followType";
+import { useRecoilState } from "recoil";
+import { NicknameState } from "../../atoms/Atom";
 
 function UserInfo() {
   const param = useParams().id;
   const memberId = parseInt(param as string, 10);
 
-  // const [nick, setNick] = useRecoilState<string | any>(NicknameState)
-  // const LOGIN_ID = nick
-
   const [userInfo, setUserInfo] = useState<IFollowMemberInfo>();
-  const [nickName, setNickName] = useState(userInfo?.nickname || "");
+  const [nickName, setNickName] = useState("");
+  const [nick, setNick] = useRecoilState<string | any>(NicknameState)
+  const LOGIN_ID = nick
 
-  console.log(nickName);
-  if (nickName) {
-  }
-
+  console.log(LOGIN_ID)
+  console.log(nickName)
   //로그인 한 유저와 param의 유저가 닉네임이 같아야 함 nickName === param의 닉네임값
-  const [isOwner, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(LOGIN_ID === nickName);
   //API 확인
   useEffect(() => {
-    //response : {member_id: 3, nickname: 'test3', profile_image_path: null, follow_cnt: 1, follower_cnt: 1}
+    // response : {member_id: 3, nickname: 'test3', profile_image_path: null, follow_cnt: 1, follower_cnt: 1}
     axios
-      .get(`http://13.125.74.102:80/api/member/${memberId}/follow`)
-      // .get(`http://13.125.74.102:8080/api/member/${memberId}/follow`)
+      .get(`http://13.125.74.102:8080/api/member/${memberId}/follow`)
       .then(function (response) {
-        console.log(response.data);
-        setUserInfo(response.data.nickname);
-        alert(response.data);
+        console.log("res", response)
+        setUserInfo(response.data);
+        setNickName(userInfo.nickname);
       });
-  }, []);
+  },[nick]);
   return (
     <UserWrapper>
       {userInfo && (

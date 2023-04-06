@@ -1,40 +1,48 @@
 import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { CiLock } from 'react-icons/ci';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+export default function ChangePassword() {
+  const [code, setCode] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const navigate = useNavigate()
 
-export default function ResetPasswordPageCode() {
-  const [email, setEmail] = useState<string>("")
-
-  const handleEmail = (e : ChangeEvent <HTMLInputElement>) => {
-    setEmail(e.currentTarget.value)
+  const handleCode = (e : ChangeEvent <HTMLInputElement>) => {
+    setCode(e.currentTarget.value)
+  }
+  const handlePassword = (e : ChangeEvent <HTMLInputElement>) => {
+    setPassword(e.currentTarget.value)
   }
 
   const handleSubmitButton = (e: any) => {
     e.preventDefault();
-    axios.get('http://13.125.74.102:8080/api/member/resetPassword', {
-    // axios.get('https://43cb-175-194-251-236.jp.ngrok.io/api/member/resetPassword ', {
-      params: {
-        email: email
+    axios.post(`http://13.125.74.102:8080/api/member/resetPassword/update?code=${code}&newPassword=${password}`, {
+      data : {
+        code : code,
+        newPassword : password,
       }
     })
     .then(function (response) {
-      console.log(response);
+      console.log(response.data);
+      if(response.data === "비밀번호 변경이 완료되었습니다.") {
+        Swal.fire({
+          text: '비밀번호가 변경되었습니다.',
+          width: 350,
+          padding: 10,
+          confirmButtonText: '확인',
+        })
+        navigate("/Login")
+      }
     })
     .catch(function (error) {
       console.log(error);
     })
     .then(function () {
-      // 항상 실행되는 영역
-    });  
-    Swal.fire({
-      text: `${email}로 임시코드를 보냈습니다.`,
-      width: 350,
-      padding: 10,
-      confirmButtonText: '확인',
-    })  }
+    });
+
+  }
   return (
     <Main>
       <MainRestBox>
@@ -67,11 +75,16 @@ export default function ResetPasswordPageCode() {
                 <form style={{ margin: 0, padding: 0 }} onSubmit={handleSubmitButton}>
               <EmailInfoBox>
                   <EmailInfoLabel>
-                    <EmailInfoInput type='text' placeholder="이메일을 입력해주세요." value={email} onChange={handleEmail}/>
+                    <EmailInfoInput type='text' placeholder="코드번호를 입력해주세요." value={code} onChange={handleCode}/>
+                  </EmailInfoLabel>
+              </EmailInfoBox>
+              <EmailInfoBox>
+                  <EmailInfoLabel>
+                    <EmailInfoInput type='password' placeholder="새로운 비밀번호를 입력해주세요" value={password} onChange={handlePassword}/>
                   </EmailInfoLabel>
               </EmailInfoBox>
               <TemporaryBox>
-                <Temporary type="submit">로그인 임시코드 보내기</Temporary>
+                <Temporary type="submit">비밀번호 변경하기</Temporary>
               </TemporaryBox>
               </form>
               <StraightLineDiv>
@@ -98,7 +111,6 @@ export default function ResetPasswordPageCode() {
     </Main>
   );
 }
-
 const Main = styled.div`
   display: flex;
   flex-direction: column;

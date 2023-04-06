@@ -1,17 +1,40 @@
+import axios from "axios";
+import { useEffect } from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 
 function OptionButton() {
+
+  const profile = () => {
+    try {
+      axios({
+        url: 'http://13.125.74.102:8080/api/member/me',
+        method: 'GET',
+        headers : {
+          'Authorization' : axios.defaults.headers.common["Authorization"]
+        },
+        withCredentials: true,
+      }) .then((res) => {
+        console.log(res)
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+   
+  }, [])
   return (
     <ButtonWrapper>
       <Link to="/profile/edit">
-        <Option>프로필 편집</Option>
+        <Option onClick={profile}>프로필 편집</Option>
       </Link>
     </ButtonWrapper>
   );
 }
 
 export default OptionButton;
+
 const ButtonWrapper = styled.div`
   & button {
     cursor: pointer;

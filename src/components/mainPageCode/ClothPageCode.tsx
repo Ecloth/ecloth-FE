@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import winterImg from "../../assets/images/temp4.jpeg"
 import winterRainImg from "../../assets/images/temp4_rain.jpeg"
@@ -18,10 +18,14 @@ import summerImg from "../../assets/images/temp28~30.jpeg"
 import summerRainImg from "../../assets/images/temp28~30_rain.jpeg"
 import { useRecoilState } from 'recoil';
 import { hourTempaState, precipitationState } from '../../atoms/Atom';
+import axios from 'axios';
 
 export default function ClothPageCode() {
   const [hourTempa, setHourTempa] = useRecoilState(hourTempaState);
   const [precipitation, setPrecipitation] = useRecoilState(precipitationState);
+  const [ClothCommonImg, setCLothCommonImg] = useState()
+  const [ClothRainImg, setCLothRainImg] = useState()
+  console.log(ClothCommonImg, ClothRainImg)
 
   const now = new Date();
   const hours = Number(("0" + now.getHours()).slice(-2) + "00");
@@ -44,7 +48,7 @@ export default function ClothPageCode() {
   const TMPTime = tmpTime.filter((el) => el).find((a) => a)
   const currentTemp : number | any = TMPTime;
   // const currentTemp : number | any = 4;
-  let ClotheImg = "";
+  let ClotheImg : any = "";
   const winter = currentTemp <= 4 ;
   const earlyWinter = currentTemp >= 5 && currentTemp <= 8;
   const boginWinter = currentTemp >= 9 && currentTemp <= 11;
@@ -54,8 +58,32 @@ export default function ClothPageCode() {
   const boginSummer = currentTemp >= 23 && currentTemp <= 27;
   const summer = currentTemp >= 28 && currentTemp <= 30;
 
-  // 비오는 로직 추가
+     useEffect(() => {
+    axios.get('http://13.125.74.102:8080/api/temperature/images', {
+      // axios.get('https://43cb-175-194-251-236.jp.ngrok.io/api/member/resetPassword ', {
+        params: {
+          temperature: currentTemp
+        }
+      })
+      .then(function (response) {
+        setCLothCommonImg(response.data[1])
+        setCLothRainImg(response.data[0])
 
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {
+        // 항상 실행되는 영역
+      });  
+  }, [currentTemp])
+
+  // 비오는 로직 추가
+  // if(PTY === "0") {
+  //   ClotheImg = ClothCommonImg
+  // } else {
+  //   ClotheImg = ClothRainImg
+  // }
   if(winter && PTY === "0") {
     ClotheImg = winterImg;
   } else if(winter && PTY !== "0") {
