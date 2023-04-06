@@ -2,11 +2,11 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import profile from "../../assets/images/profile.png"
 import { useRecoilState } from "recoil";
-import { ImageState } from "../../atoms/Atom";
+import { ImageState, NicknameState } from "../../atoms/Atom";
 
 function EditSideBar() {
-
   const [image, setImage] = useRecoilState(ImageState)
+  const [nick, setNick] = useRecoilState<string | any>(NicknameState)
   const profile = image
 
   const buttonList = [
@@ -19,7 +19,7 @@ function EditSideBar() {
     <SideBarWrapper>
       <Profile src={profile}/>
       <div style={{marginTop: "10px"}}>
-      <span style={{display: "flex", justifyContent: "center", fontSize: "24px"}}>{localStorage.getItem("email")}</span>
+      <span style={{display: "flex", justifyContent: "center", fontSize: "24px"}}>{nick}</span>
       {buttonList.map((item) => {
         return (
               <SelectDiv>
