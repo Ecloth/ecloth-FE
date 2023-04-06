@@ -3,6 +3,21 @@ import {recoilPersist} from "recoil-persist";
 
 const {persistAtom} = recoilPersist();
 
+export const EmailState = atom({
+    key : "EmailState",
+    default : "",
+})
+
+export const RoleState = atom({
+    key : "RoleState",
+    default : false
+})
+
+export const NicknameState = atom({
+    key : "NicknameState",
+    default : "",
+})
+
 export const GridXState = atom({
     key : "GridXState",
     default : null,
@@ -32,4 +47,9 @@ export const precipitationState = atom({
 export const isLoginState = atom({
     key : "isLoginState",
     default: false
+})
+
+export const AccessTokenState = atom({
+    key : "AccessTokenState",
+    default: ""
 })
