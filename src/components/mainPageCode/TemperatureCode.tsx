@@ -45,7 +45,6 @@ export default function TemperatureCode(props: MapSearchProps) {
     now.getHours() < 10 && now.getHours() >= 0
       ? '0' + now.getHours() + '00'
       : now.getHours() + '00';
-
   // solution = baseTime과 가장 가까운 시간;
   const closeHours: number | any =
     now.getHours() < 10 && now.getHours() >= 0
@@ -71,7 +70,6 @@ export default function TemperatureCode(props: MapSearchProps) {
 
   // 금일 날짜 ex) 20230312
   const currentDate = Number(`${year}${month}${date}`);
-
   // 시간당 온도
   const tmpTime = [...hourTempa]
     .map((el) => {
@@ -107,7 +105,6 @@ export default function TemperatureCode(props: MapSearchProps) {
   const test2 = currentY != null ? currentY : gridY;
      // 격자 X Y 값
   const rs = dfs_xy_conv('toXY', test2, test);
-
     remote
       .get(
         `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=AUAtxZM0Y3JjyLVDdxQAvOobhLHtdxSd5MBrSFmUOHFrDfjfEl4TlLcbE6atZvQrSSYwiXIZo%2BOnQJP7j3JUGg%3D%3D&numOfRows=310&pageNo=1&dataType=JSON&base_date=${currentDate}&base_time=${curBaseTime}&nx=${rs.x}&ny=${rs.y}`,

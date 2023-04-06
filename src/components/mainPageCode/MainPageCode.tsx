@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MapSearch from '../../pages/main/MapSearch';
 import WeatherGraph from '../../pages/main/WeatherGraph';
 import Temperature from '../../pages/main/Temperature';
@@ -14,6 +14,7 @@ import ClothePage from '../../pages/main/ClothPage';
 import SeasonBg from '../../pages/main/SeasonBg';
 import TemperatureCode from './TemperatureCode';
 import MapSearchCode from './MapSearchCode';
+import axios from 'axios';
 
 export default function MainPageCode() {
   const [latitude, setLatitude] = useState<number | any>();
