@@ -1,0 +1,27 @@
+{
+  "chat_room_list": [
+    {
+      "chat_room_id": 0,
+      "partner_id": 1,
+      "partner_nickname": "test1",
+      "partner_profile_image_path": "https://www.shutterstock.com/image-photo/portrait-surprised-cat-scottish-straight-260nw-499196506.jpg",
+      "last_message": "RECENT_MSG1",
+      "last_message_date": "2023-03-25 11:10:11"
+    },
+    {
+      "chat_room_id": 1,
+      "partner_id": 2,
+      "partner_nickname": "test2",
+      "partner_profile_image_path": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPj4jA8TYFk8aEbMCexpuvls4PYXcYyqNyQ&usqp=CAU",
+      "last_message": "RECENT_MSG2",
+      "last_message_date": "2021-11-10 11:10:11"
+    }
+  ],
+  "page": {
+    "page": 1,
+    "size": 1,
+    "sortBy": "register_date",
+    "sortOrder": "DESC"
+  },
+  "total": 2
+}

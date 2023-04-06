@@ -3,21 +3,17 @@ import styled from "styled-components";
 import { IChatMessage } from "../../types/chatType";
 import ChatUserItem from "./ChatUserItem";
 
-function ChatSender({sendMessage} : {sendMessage:IChatMessage[]}) {
-
+function ChatSender({ sendMessage }: { sendMessage: IChatMessage }) {
   return (
     <div className="sender">
-    <ChatUserItem nickName={sendMessage[0].sender_id as unknown as string}/>
-    {
-      sendMessage.map((item) => (
-        <SendMessageWrapper>
-        <div className="message send">{item.content}</div>
-        <div className="timeRecord">{dayjs(item.sent_date).format("HH:mm")}</div>
-        </SendMessageWrapper>
-      ))
-    }
-  </div>
-  )
+      <SendMessageWrapper>
+        <div className="message send">{sendMessage.message}</div>
+        <div className="timeRecord">
+          {dayjs(sendMessage.register_date).format("HH:mm")}
+        </div>
+      </SendMessageWrapper>
+    </div>
+  );
 }
 
 export default ChatSender;
@@ -25,6 +21,6 @@ export default ChatSender;
 const SendMessageWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 3px;
+  margin-bottom: 8px;
   align-items: flex-end;
-`
+`;

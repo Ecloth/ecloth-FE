@@ -1,21 +1,25 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-function TitleInput({
+function ImageInput({
   onChange,
-  title,
 }: {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  title: string;
 }) {
   return (
     <>
-      <Input value={title} onChange={onChange} placeholder="제목"></Input>
+      <Input
+        multiple
+        type="file"
+        name="photo"
+        accept="image/*"
+        onChange={onChange}
+      />
     </>
   );
 }
 
-export default TitleInput;
+export default ImageInput;
 
 const Input = styled.input`
   padding: 1%;
@@ -24,5 +28,5 @@ const Input = styled.input`
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.15);
   width: calc(100% - 2% - 10px);
-  height: 6%;
+  height: 35px;
 `;

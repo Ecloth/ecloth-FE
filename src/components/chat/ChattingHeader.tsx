@@ -1,28 +1,56 @@
+import axios from "axios";
 import { useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { TEST_TOKEN } from "../../App";
 import ChatUserItem from "./ChatUserItem";
 
-function ChattingHeader({nickName} : {nickName: string}) {
+function ChattingHeader({
+  nickName,
+  profileImg,
+}: {
+  nickName: string;
+  profileImg: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const naviagate = useNavigate();
+
+  const handleDeleteonClick = () => {
+    const data = {
+      chatMemberId: 9,
+      memberId: 14,
+    };
+    axios
+      .delete(`http://13.125.74.102:8080/api/chat`, {
+        data,
+      })
+      .then(function (response) {
+        console.log(response.data);
+        naviagate("/chat");
+      });
+  };
   return (
     <HeaderWrapper>
-      <ChatUserItem profileImg="" nickName={nickName} memberId={1}/>
+      <ChatUserItem profileImg={profileImg} nickName={nickName} memberId={1} />
       <div className="option">
-    <ButtonWrapper className="buttonWrapper">
-    <BiDotsHorizontalRounded onClick={() => setIsOpen(!isOpen)} className="icon">
-    </BiDotsHorizontalRounded>
-    {isOpen && <OptionWrapper>
-      <ul>
-        <li>
-          <button className="linkItem">나가기
-            </button>
-          </li>
-      </ul>
-    </OptionWrapper>}
-    </ButtonWrapper>
-
+        <ButtonWrapper className="buttonWrapper">
+          <BiDotsHorizontalRounded
+            onClick={() => setIsOpen(!isOpen)}
+            className="icon"
+          ></BiDotsHorizontalRounded>
+          {isOpen && (
+            <OptionWrapper>
+              <ul>
+                <li>
+                  <button className="linkItem" onClick={handleDeleteonClick}>
+                    나가기
+                  </button>
+                </li>
+              </ul>
+            </OptionWrapper>
+          )}
+        </ButtonWrapper>
       </div>
     </HeaderWrapper>
   );
@@ -43,47 +71,45 @@ const HeaderWrapper = styled.span`
   }
 
   .option {
-    margin-right: 5px;
     width: 77px;
-  height: 20px;
+    height: 20px;
   }
 `;
 
 const ButtonWrapper = styled.div`
-text-align: end;
-margin-right: 15px;
+  text-align: end;
 
   cursor: pointer;
-  .icon{
-      width: 30px;
-      font-size: 1.5rem;
-    }
-`
+  .icon {
+    width: 30px;
+    font-size: 1.5rem;
+  }
+`;
 
 const OptionWrapper = styled.span`
   display: block;
+  text-align: right;
   width: 80px;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.3);
 
-  & ul{
+  & ul {
     width: fit-content;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    
-    & li{
+
+    & li {
       padding: 5px;
       margin: 0;
       cursor: pointer;
       z-index: 4;
-      .linkItem{
-        color:#000;
+      .linkItem {
+        color: #000;
         border: 0;
         background: inherit;
       }
     }
-
   }
-`
+`;
