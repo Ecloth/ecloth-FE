@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { TEST_TOKEN } from "../../App";
+import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
 import { PreviewImgsState } from "../../atoms/postAtom";
-import { LOGIN_ID } from "../detailPost/Detail";
 import ItemUser from "../feed/ItemUser";
 import ContentInput from "./ContentInput";
 import ImageInput from "./ImageInput";
@@ -28,7 +27,7 @@ function Writing() {
   }, []);
 
   //login한 userID
-  const memberId = 8;
+  const memberId = TEST_MEMBER_ID;
   const navigator = useNavigate();
 
   const handleContentonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +64,7 @@ function Writing() {
       )
       .then(function (response) {
         console.log(response.data);
-        alert(response.data);
+        navigator('/feed');
       });
     setTitle("");
     setContent("");
@@ -106,7 +105,7 @@ function Writing() {
         <ImagePrint imgUrl={[""]} />
       </ImageWrapper>
       <ContentWrapper encType="multipart/form-data">
-        <ItemUser id={memberId} nickName={LOGIN_ID as string} img={""} />
+        <ItemUser id={memberId} nickName={""} img={""} />
         <TitleInput onChange={handleTitleonChange} title={title} />
         <ImageInput onChange={handleUploadonChange} />
         <ContentInput onChange={handleContentonChange} content={content} />

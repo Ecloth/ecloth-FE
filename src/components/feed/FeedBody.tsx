@@ -15,14 +15,14 @@ function CommunityBody() {
   let selectedList = [];
 
   useEffect(() => {
-    let selectName = "";
-    if (selected[0] === "최신") {
-      selectName = "registerDate";
-    } else if (selected[0] === "좋아요") {
-      selectName = "likeCount";
-    } else {
-      selectName = "viewCount";
-    }
+    let selectName = "registerDate";
+    // if (selected[0] === "최신") {
+    //   selectName = "registerDate";
+    // } else if (selected[0] === "좋아요") {
+    //   selectName = "likeCount";
+    // } else {
+    //   selectName = "viewCount";
+    // }
     setTimeout(() => {
       axios
           .get(`http://13.125.74.102:8080/api/feed/post`, {

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BiDotsHorizontalRounded } from "react-icons/bi";
 import {  useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { TEST_TOKEN } from "../../App";
+import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
 import ChatUserItem from "./ChatUserItem";
 
 function ChattingHeader({
@@ -19,7 +19,7 @@ function ChattingHeader({
   const handleDeleteonClick = () => {
     const data = {
       chatMemberId: 9,
-      memberId: 14,
+      memberId: TEST_MEMBER_ID,
     };
     axios
       .delete(`http://13.125.74.102:8080/api/chat`, {
