@@ -1,33 +1,31 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import axios from 'axios';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { ImBubble } from 'react-icons/im';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LogoImamge from '../../assets/images/LOGO.png'
+import { useRecoilState } from 'recoil';
+import Swal from 'sweetalert2';
 
 export default function SignUpPageCode() {
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string | any>()
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
-  const [nickName, setNickName] = useState<string>();
-  const [phonNumber, setPhonNumber] = useState<string>("");
+  const [nickname, setNickname] = useState<string | any>()
+  const [phonNumber, setPhonNumber] = useState<string | any>();
   const [emailErrorMessage, setemailErrorMessage] = useState<string>('');
   const [PasswordMessage, setePasswordMessage] = useState<string>('');
   const [confirmPasswordMessage, seteconfirmPasswordMessage] = useState<string>('');
   const [isPasswordConfirm, setIsPasswordConfirm] = useState<boolean>(false)
-
+  const navigate = useNavigate()
   const emailRegEx =
     /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
   const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-
-  const onSubmit = (e : FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-  }
   const emailCheck = (email: string) => {
     setemailErrorMessage(
       emailRegEx.test(email) ? '' : '이메일을 확인해주세요.',
     );
   };
-
   const passwordCheck = (password: string) => {
     setePasswordMessage(
       passwordRegEx.test(password)
@@ -56,30 +54,113 @@ export default function SignUpPageCode() {
         setIsPasswordConfirm(true)
       }
   };
-
+  
   const handlePhonNumber = (e: ChangeEvent<HTMLInputElement>) => {
     setPhonNumber(e.currentTarget.value)
+  }
+
+  const handleNickname = (e: ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.currentTarget.value)
   }
   const KAKAO_AUTH_URL = import.meta.env.VITE_APP_KaKaoauthURL
 
   const handleKakaoLogin = () => {
     window.location.href = KAKAO_AUTH_URL;
   };
-  // 회원가입 로직
-  // const signUp = e => {
-  //   e.preventDefault();
-  //   fetch('http://서버IP:3000/auth/signup', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json;charset=utf-8' },
-  //     body: JSON.stringify({
-  //       email: userInput.email,  // 백엔드에서 key를 뭐로 받는지 확인하고 작성 
-  //       password: userInput.password,
-  //     }),
-  //   })
-  //     .then(res => res.json())
-  //     .then(data => console.log(data));
-  // };
 
+  const handleEmailDuplicationButton = () => {
+      fetch('http://13.125.74.102:8080/api/register', {
+      // fetch('https://43cb-175-194-251-236.jp.ngrok.io/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify({
+        email: email,  // 백엔드에서 key를 뭐로 받는지 확인하고 작성 
+      }),
+    })
+      .then(res => res.json())
+      .then((data) => {
+        if(data.message === "이미 가입된 이메일 입니다.") {
+          Swal.fire({
+            text: '이미 가입된 이메일 입니다.',
+            width: 350,
+            padding: 10,
+            confirmButtonText: '확인',
+          })} else if("" === email){
+            Swal.fire({
+              text: '이메일을 입력해주세요.',
+              width: 350,
+              padding: 10,
+              confirmButtonText: '확인',
+            })} else {
+              Swal.fire({
+                text: '사용가능한 이메일 입니다.',
+                width: 350,
+                padding: 10,
+                confirmButtonText: '확인',
+              });        }
+      });
+   }
+  const handleNicknameDuplicationButton = () => {
+      fetch('http://13.125.74.102:8080/api/register', {
+      // fetch('https://43cb-175-194-251-236.jp.ngrok.io/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify({
+        nickname : nickname,  // 백엔드에서 key를 뭐로 받는지 확인하고 작성 
+      }),
+    })
+      .then(res => res.json())
+      .then((data) => {
+        if(data.message === "이미 사용중인 닉네임 입니다.") {
+          Swal.fire({
+            text: '이미 사용중인 닉네임 입니다.',
+            width: 350,
+            padding: 10,
+            confirmButtonText: '확인',
+          })} else if("" === nickname){
+            Swal.fire({
+              text: '닉네임을 입력해주세요.',
+              width: 350,
+              padding: 10,
+              confirmButtonText: '확인',
+            })} else {
+              Swal.fire({
+                text: '사용가능한 닉네임 입니다.',
+                width: 350,
+                padding: 10,
+                confirmButtonText: '확인',
+              })}
+      });
+   }
+
+  // 회원가입 로직
+  const signUp = (e : any) => {
+    e.preventDefault();
+    fetch('http://13.125.74.102:8080/api/register', {
+    // fetch('https://43cb-175-194-251-236.jp.ngrok.io/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify({
+        email: email,  // 백엔드에서 key를 뭐로 받는지 확인하고 작성 
+        nickname: nickname,
+        password: password,
+        phone : phonNumber
+      }),
+    })
+      .then(res => res.json())
+      .then(data => 
+        {
+          console.log("data",data)
+        }
+          );
+      navigate("/login")
+      Swal.fire({
+        text: '회원가입이 완료되었습니다.',
+        width: 350,
+        padding: 10,
+        confirmButtonText: '확인',
+      }); 
+  };
 
   return (
     <Main>
@@ -93,7 +174,7 @@ export default function SignUpPageCode() {
           </LogoDiv>
         </LogoBoxDiv>
         <MemberInfo>
-          <MemberInfoForm onSubmit={onSubmit}>
+          <MemberInfoForm onSubmit={signUp}>
             <TopMent>친구들의 사진과 게시글을 보려면 가입하세요.</TopMent>
             <KaKaoLoginDiv>
               <KakaoLoginButton type="button" onClick={handleKakaoLogin}>
@@ -107,15 +188,15 @@ export default function SignUpPageCode() {
               <StrokDiv />
             </StrokMainDiv>
             <InfoDiv>
-              <Info>
-                <EmailInfoInput
-                  placeholder="이메일을 입력해주세요."
-                  name="signup_id"
+              <NickNameInfo>
+                <EmailInfoInput placeholder="이메일을 입력해주세요."
+                  name="email"
                   type="email"
                   value={email}
-                  onChange={handelEmail}
-                />
-              </Info>
+                  required
+                  onChange={handelEmail}/>
+              </NickNameInfo>
+              <Duplication type='button' onClick={handleEmailDuplicationButton}>중복확인</Duplication>
             </InfoDiv>
             {
               <div
@@ -128,6 +209,7 @@ export default function SignUpPageCode() {
               <Info>
                 <EmailInfoInput
                   type="password"
+                  required
                   placeholder="비밀번호를 입력해주세요"
                   value={password}
                   onChange={handelPassword}
@@ -146,6 +228,7 @@ export default function SignUpPageCode() {
                 {
                   <EmailInfoInput
                     type="password"
+                    required
                     placeholder="비밀번호를 다시 입력해주세요"
                     value={confirmPassword}
                     onChange={handelConfirmPassword}
@@ -162,13 +245,13 @@ export default function SignUpPageCode() {
             }
             <InfoDiv>
               <NickNameInfo>
-                <EmailInfoInput placeholder="닉네임을 입력해주세요." />
+                <EmailInfoInput type="text" required placeholder="닉네임을 입력해주세요." value={nickname} onChange={handleNickname} />
               </NickNameInfo>
-              <Duplication>중복확인</Duplication>
+              <Duplication type='button' onClick={handleNicknameDuplicationButton}>중복확인</Duplication>
             </InfoDiv>
             <InfoDiv>
               <Info>
-                <EmailInfoInput placeholder="전화번호를 입력해주세요." value={phonNumber} onChange={handlePhonNumber} />
+                <EmailInfoInput type="text" name="phone" required placeholder="전화번호를 입력해주세요." value={phonNumber} onChange={handlePhonNumber} />
               </Info>
             </InfoDiv>
             <Condition>
@@ -176,7 +259,7 @@ export default function SignUpPageCode() {
               <input type="checkbox" />
             </Condition>
             <KaKaoLoginDiv>
-              <SignUpButton type="button" onClick={handleKakaoLogin}>
+              <SignUpButton type="submit">
                 <span style={{ fontSize: '14px', color: 'white' }}>
                   가입하기
                 </span>
