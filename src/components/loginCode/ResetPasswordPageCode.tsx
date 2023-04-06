@@ -2,6 +2,8 @@ import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import { CiLock } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function ResetPasswordPageCode() {
   const [email, setEmail] = useState<string>("")
@@ -10,10 +12,29 @@ export default function ResetPasswordPageCode() {
     setEmail(e.currentTarget.value)
   }
 
-  const handleSubmitButton = () => {
-      console.log(email)
-      alert(`${email}로 임시코드를 보냈습니다.`)
-  }
+  const handleSubmitButton = (e: any) => {
+    e.preventDefault();
+    axios.get('http://13.125.74.102:8080/api/member/resetPassword', {
+    // axios.get('https://43cb-175-194-251-236.jp.ngrok.io/api/member/resetPassword ', {
+      params: {
+        email: email
+      }
+    })
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .then(function () {
+      // 항상 실행되는 영역
+    });  
+    Swal.fire({
+      text: `${email}로 임시코드를 보냈습니다.`,
+      width: 350,
+      padding: 10,
+      confirmButtonText: '확인',
+    })  }
   return (
     <Main>
       <MainRestBox>
@@ -46,7 +67,7 @@ export default function ResetPasswordPageCode() {
                 <form style={{ margin: 0, padding: 0 }} onSubmit={handleSubmitButton}>
               <EmailInfoBox>
                   <EmailInfoLabel>
-                    <EmailInfoInput placeholder="이메일을 입력해주세요." value={email} onChange={handleEmail}/>
+                    <EmailInfoInput type='text' placeholder="이메일을 입력해주세요." value={email} onChange={handleEmail}/>
                   </EmailInfoLabel>
               </EmailInfoBox>
               <TemporaryBox>
