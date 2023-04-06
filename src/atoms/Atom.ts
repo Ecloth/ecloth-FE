@@ -8,6 +8,11 @@ export const EmailState = atom({
     default : "",
 })
 
+export const ImageState = atom({
+    key : "ImageState",
+    default : ""
+})
+
 export const RoleState = atom({
     key : "RoleState",
     default : false

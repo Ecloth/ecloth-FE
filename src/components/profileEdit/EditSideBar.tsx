@@ -1,8 +1,14 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import profile from "../../assets/images/profile.png"
+import { useRecoilState } from "recoil";
+import { ImageState } from "../../atoms/Atom";
 
 function EditSideBar() {
+
+  const [image, setImage] = useRecoilState(ImageState)
+  const profile = image
+  console.log("sadas", profile)
 
   const buttonList = [
     { text: '프로필 편집', path: 'profile/edit' },
