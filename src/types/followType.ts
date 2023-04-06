@@ -2,15 +2,12 @@ export const FOLLOW_DIRECTION = {follow: "FOLLOWS", follower: "FOLLOWERS"} as co
 
 type followType = (typeof FOLLOW_DIRECTION)[keyof typeof FOLLOW_DIRECTION];
 
-export interface IFollowMemberInfo{
-  
-    follow_cnt : number;
-    follow_status: boolean;
-    follower_cnt: number;
-    nickName: string;
-    profile_image_path: string;
-    target_id: number;
-  
+export interface IFollowMemberInfo {
+  member_id: number;
+  follow_cnt: number;
+  follower_cnt: number;
+  nickname: string;
+  profile_image_path: string;
 }
 
 //팔로우 요청 or 개인, 타인 팔로우 정보 조회
