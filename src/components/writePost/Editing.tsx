@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { TEST_TOKEN } from "../../App";
+import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
 import { postList, PreviewImgsState } from "../../atoms/postAtom";
 import { IFeed, IPost } from "../../types/postType";
 import PostImage from "../detailPost/PostImage";
@@ -15,34 +15,23 @@ import WriteButtonList from "./WriteButtonList";
 import { MAX_IMAGE_COUNT } from "./Writing";
 
 function Editing() {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [images, setImages] = useState<any>([]);
   const { postId } = useParams();
   const tempPostId = parseInt(postId as string, 10);
-  const [post, setPost] = useState<IPost>();
-  const navigator = useNavigate();
+  const postProp = useLocation().state.post;
   const [tempImages, setImgages] = useRecoilState<string[] | any>(
     PreviewImgsState,
   );
   //수정중
   useEffect(() => {
-    // const data = {
-    //   postingId : tempPostId
-    // }
-    //   axios
-    //     // .get(`http://13.125.74.102:8080/api/feed/post/${tempPostId}`,{
-    //     .get(`http://13.125.74.102:8/0/api/feed/post/${postId}`, data)
-    //     .then(function (response) {
-    //       setPost(response.data);
-    //       alert(response.data);
-    //     });
-
+    if (postProp){
+      setContent(postProp.content);
+      setTitle(postProp.title);
+      setImages(postProp.image_paths);
+    }
   }, [])
-
-  //login한 userID
-  const memberId = 1;
-  if (!post) return<div>div</div>
-  const [title, setTitle] = useState(post.title);
-  const [content, setContent] = useState(post.content);
-  const [images, setImages] = useState<any>([]);
 
   const handleTitleonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -52,28 +41,28 @@ function Editing() {
     setContent(e.target.value);
   };
   const handleSubmitOnClick = async (e: React.FormEvent<HTMLButtonElement>) => {
-    alert(images.length + "/" + images + "/" + content + title);
+    const formData = new FormData();
+    console.log(images);
+    images.forEach((image: any) => {
+      formData.append('images', image);
+    });
+    formData.append('content',  content);
+    formData.append('title',title);
     e.preventDefault();
-
     const headers = {
         "Authorization": TEST_TOKEN,
         "Content-Type": "multipart/form-data",
     }
-    const data =  {
-      title: title,
-      content: content,
-      images: null
-    }
     axios
       .put(`http://13.125.74.102:8080/api/feed/post/${tempPostId}`, 
-          data,
+          {data : formData, tempPostId},
         {headers : headers}
       )
       .then(function (response) {
         console.log("EDITING" ,response.data);
       });
     setContent("");
-    setImages({});
+    // setImages({});
   };
   const url: string[] = [];
   const handleUploadonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,20 +85,20 @@ function Editing() {
   };
   const handleCancelOnClick = () => {
     console.log("cancel");
-    navigator("/feed");
+    // navigator("/feed");
   };
   return (
     <WritingWrapper>
-      {post && 
+      {postProp && 
       <>
       <ImageWrapper>
-        <PostImage imgs={post!.image_paths} />
+        <PostImage imgs={images} />
       </ImageWrapper>
-      <ContentWrapper>
+      <ContentWrapper encType="multipart/form-data">
         <ItemUser
-          id={post!.member.member_id}
-          nickName={post!.member.nickname}
-          img={post!.member.profile_image_path}
+          id={postProp.member.member_id}
+          nickName={postProp.member.nickname}
+          img={postProp.member.profile_image_path}
           />
         <TitleInput onChange={handleTitleonChange} title={title} />
         <ImageInput onChange={handleUploadonChange} />

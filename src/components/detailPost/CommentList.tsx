@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { TEST_MEMBER_ID } from "../../App";
 import { ICommentList } from "../../types/postType";
 import CommentItem from "./CommentItem";
 import ReplyInput from "./ReplyInput";
@@ -12,9 +13,9 @@ function CommentList({ memberId }: { memberId: number }) {
   const postId = parseInt(id as string, 10);
   const [commentsList, setCommentList] = useState<ICommentList>();
 
+
   //로그인 한 유저와 게시글 작성자가 같으면 답글 달기 활성화
-  const loginId = 1;
-  const isLogin = true;
+  const isLogin = TEST_MEMBER_ID === memberId;
 
   useEffect(() => {
     axios
@@ -31,7 +32,7 @@ function CommentList({ memberId }: { memberId: number }) {
         commentsList.comment_list.map((comment) => (
           <>
             <CommentItem comment={comment} key={comment.commentId} />
-            {comment.reply && <ReplyItem comment={comment.reply} />}
+            {comment.reply && !comment.reply.reply_id && <ReplyItem comment={comment.reply} />}
             {isLogin && <ReplyInput commentId={comment.commentId} />}
           </>
         ))}

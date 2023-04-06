@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import DetailOption from "./DetailOption";
 import { IPost } from "../../types/postType";
 import axios from "axios";
+import { TEST_MEMBER_ID } from "../../App";
 
 export const LOGIN_ID = localStorage.getItem("email");
 
@@ -18,8 +19,6 @@ function Detail() {
   const { id } = useParams();
   const postId = parseInt(id as string, 10);
   const [post, setPost] = useState<IPost>();
-
-  const [isLogin, setIsLogin] = useState(true);
 
   useEffect(() => {
     axios
@@ -46,8 +45,8 @@ function Detail() {
                 img={post.member.profile_image_path}
                 nickName={post.member.nickname}
               />
-              {isLogin ? (
-                <DetailOption postId={post.posting_id}/>
+              {post.member.member_id === TEST_MEMBER_ID ? (
+                <DetailOption postId={post.posting_id} propItem = {post}/>
               ) : (
                 <FollowButtonList memberId={post.member.member_id} />
               )}
