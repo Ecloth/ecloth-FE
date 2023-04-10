@@ -8,7 +8,7 @@ import MessageSendButton from "./MessageSendButton";
 import axios from "axios";
 import { FOLLOW_DIRECTION, IFollowMemberInfo } from "../../types/followType";
 import { useRecoilState } from "recoil";
-import { NicknameState } from "../../atoms/Atom";
+import { ImageState, NicknameState } from "../../atoms/Atom";
 
 function UserInfo() {
   const param = useParams().id;
@@ -17,10 +17,10 @@ function UserInfo() {
   const [userInfo, setUserInfo] = useState<IFollowMemberInfo>();
   const [nickName, setNickName] = useState("");
   const [nick, setNick] = useRecoilState<string | any>(NicknameState)
+  const [image, setImage] = useRecoilState(ImageState)
   const LOGIN_ID = nick
+  console.log(image)
 
-  console.log(LOGIN_ID)
-  console.log(nickName)
   //로그인 한 유저와 param의 유저가 닉네임이 같아야 함 nickName === param의 닉네임값
   const [isOwner, setIsOwner] = useState(LOGIN_ID === nickName);
   //API 확인
@@ -29,6 +29,7 @@ function UserInfo() {
     axios
       .get(`http://13.125.74.102:8080/api/member/${memberId}/follow`)
       .then(function (response) {
+        setImage(response.data.profile_image_path)
         console.log("res", response)
         setUserInfo(response.data);
         setNickName(userInfo.nickname);

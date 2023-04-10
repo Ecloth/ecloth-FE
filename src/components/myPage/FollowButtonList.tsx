@@ -1,42 +1,31 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import {useState} from "react";
 import axios from "axios";
 
-function FollowButtonList({ memberId }: { memberId: number }) {
-  const [isFollow, setIsFollow] = useState(false);
-  useEffect(() => {
-    const params = { targetId: 1 };
-    axios
-      .get(`http://13.125.74.102:8080/api/member/${memberId}/follow/status`, {
-        params,
-      })
-      .then(function (response) {
-        console.log(response.data);
-        setIsFollow(response.data);
-      });
-  }, []);
+function FollowButtonList({following, memberId}: {following: boolean, memberId: number}) {
+  const [isFollow, setIsFollow] = useState(following);
 
-  const handleFollowonClick = () => {
-    const data = { targetId: 1 };
-    axios
-    .post(`http://13.125.74.102:8080/api/member/${memberId}/follow`, data)
-    .then(function (response) {
-      console.log(response.data);
-      setIsFollow(!isFollow);
-      });
-  };
+  const handleFollowonClick =() =>{
+    setIsFollow(!isFollow);
+    // axios({
+    //   method: 'post',
+    //   url: `/api/member/${memberId}/follow`,
+    //   data: [],
+    // baseURL: 'http://localhost:8080'
 
-  const handleUnFollowonClick = () => {
-    const data = { target_id: 1 };
-    axios
-    .delete(`http://13.125.74.102:8080/api/member/${memberId}/follow`, {
-      data,
-    })
-    .then(function (response) {
-      console.log(response);
-      setIsFollow(!isFollow);
-      });
-  };
+    // })
+
+  }
+  const handleUnFollowonClick =() =>{
+    setIsFollow(!isFollow);
+    // axios({
+    //   method: 'delete',
+    //   url: `/api/member/${memberId}/follow`,
+    // baseURL: 'http://localhost:8080'
+
+    // })
+
+  }
 
   return (
     <ButtonWrapper className="buttonWrapper">

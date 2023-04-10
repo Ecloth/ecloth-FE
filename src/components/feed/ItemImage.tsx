@@ -1,5 +1,6 @@
 import styled from "styled-components";
 function ItemImage({images, postId}: {images: string[]; postId: number}) {
+  console.log(images[0]);
   return (
     <ImageWrapper>
       <img alt="image" src={images[0]} className="itemImage"></img>

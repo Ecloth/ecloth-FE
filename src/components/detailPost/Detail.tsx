@@ -20,7 +20,6 @@ function Detail() {
   const postId = parseInt(id as string, 10);
   const [post, setPost] = useState<IPost>();
 
-  const testId = TEST_MEMBER_ID;
   useEffect(() => {
     axios
       .get(`http://13.125.74.102:8080/api/feed/post/${postId}`,{
@@ -46,7 +45,7 @@ function Detail() {
                 img={post.member.profile_image_path}
                 nickName={post.member.nickname}
               />
-              {post.member.member_id === testId ? (
+              {post.member.member_id === TEST_MEMBER_ID ? (
                 <DetailOption postId={post.posting_id} propItem = {post}/>
               ) : (
                 <FollowButtonList memberId={post.member.member_id} />

@@ -359,7 +359,6 @@ const LogoImg = styled.i`
   background-position: 0px -52px;
   background-size: auto;
   width: 175px;
-  height: 51px;
   background-repeat: no-repeat;
   display: inline-block;
 `;

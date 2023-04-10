@@ -5,36 +5,35 @@ export interface ICreateChat {
 }
 
 export interface IChatMessage {
-  chat_room_id: number;
-  writer_id: number;
-  message: string;
-  register_date: Date;
+  sender_id: number;
+  receiver_id: number;
+  content: string;
+  sent_date: string;
 }
 
 export interface IPage {
-  page: number;
-  size: number;
+  page:number;
+  size:number;
   sortBy: string;
   sortOrder: string;
 }
 
 export interface IAllChatMessage {
-  message_list: IChatMessage[];
-  page: IPage;
-  total: number;
+  message_list: IChatMessage[]
+  page:IPage;
+  total:number;
 }
 
 export interface IChatRoom {
   chat_room_id: number;
-  partner_id: number;
-  partner_nickname: string;
-  partner_profile_image_path: string;
-  last_message: string | null;
-  last_message_date: Date;
+  nickName: string;
+  profile_image_path : string;
+  recent_msg: string | null;
+  recent_msg_date: Date;
 }
 
 export interface IChatList {
   total: number;
   page: IPage;
-  chat_room_list: IChatRoom[];
+  chat_list: IChatRoom[];
 }

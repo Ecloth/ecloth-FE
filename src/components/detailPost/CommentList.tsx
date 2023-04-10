@@ -1,41 +1,50 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import styled from "styled-components";
-import { TEST_MEMBER_ID } from "../../App";
-import { ICommentList } from "../../types/postType";
+import {IComment} from "../../types/postType";
 import CommentItem from "./CommentItem";
+import { LOGIN_ID } from "./Detail";
 import ReplyInput from "./ReplyInput";
-import ReplyItem from "./ReplyItem";
 
-function CommentList({ memberId }: { memberId: number }) {
-  const { id } = useParams();
-  const postId = parseInt(id as string, 10);
-  const [commentsList, setCommentList] = useState<ICommentList>();
+export const dummyCommentList: IComment[] = [
+  {
+    comment_id: 1,
+    member_id: 2,
+    post_id: 1,
+    content: "옷이 예뻐요.",
+    create_date: new Date("2023-03-25 13:10:11"),
+    update_date: "2023.03.18",
+  },
+  {
+    comment_id: 2,
+    member_id: 3,
+    post_id: 1,
+    content: "옷이 너무너무 예뻐요.",
+    create_date: new Date("2023-03-13 16:56:11"),
+    update_date: "2023.03.18",
+  },
+  {
+    comment_id: 3,
+    member_id: 1,
+    post_id: 3,
+    content: "옷 어디 브랜드인가요?",
+    create_date: new Date("2023-03-19 12:36:11"),
+    update_date: "2023.03.18",
+  },
+];
 
-
-  //로그인 한 유저와 게시글 작성자가 같으면 답글 달기 활성화
-  const isLogin = TEST_MEMBER_ID === memberId;
-
-  useEffect(() => {
-    axios
-      .get(`http://13.125.74.102:8080/api/feed/post/${postId}/comment`, {})
-      .then(function (response) {
-        console.log(response.data);
-        setCommentList(response.data);
-      });
-  }, []);
-
+function CommentList({commentList}: {commentList: IComment[]}) {
+  const {id} = useParams();
+  const isLogin = id==="1"
   return (
     <ListWrapper>
-      {commentsList &&
-        commentsList.comment_list.map((comment) => (
-          <>
-            <CommentItem comment={comment} key={comment.commentId} />
-            {comment.reply && !comment.reply.reply_id && <ReplyItem comment={comment.reply} />}
-            {isLogin && <ReplyInput commentId={comment.commentId} />}
-          </>
-        ))}
+      {commentList.map(comment => (
+        <>
+        <CommentItem comment={comment} key={comment.comment_id} />
+        {/* {isHasReply ? <></> : } */}
+        {isLogin && <ReplyInput />}
+        </>
+      ))}
     </ListWrapper>
   );
 }
@@ -50,7 +59,4 @@ const ListWrapper = styled.ul`
   padding-top: 5px;
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;

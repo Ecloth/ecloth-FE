@@ -1,16 +1,15 @@
-import { useState } from "react";
+import {useState} from "react";
 import styled from "styled-components";
 
-function TitleInput({
-  onChange,
-  title,
-}: {
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  title: string;
-}) {
+function TitleInput({value} : {value?:string}) {
+  const [title, setTitle] = useState("");
+
+  const handleSetTitleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
   return (
     <>
-      <Input value={title} onChange={onChange} placeholder="제목"></Input>
+      <Input value={value || title} onChange={handleSetTitleOnChange} placeholder="제목"></Input>
     </>
   );
 }

@@ -1,31 +1,27 @@
 import styled from "styled-components";
-import { AiTwotoneHeart } from "react-icons/ai";
-import { AiOutlineComment } from "react-icons/ai";
-import { AiFillEye } from "react-icons/ai";
-import { IPost } from "../../types/postType";
-import { Link } from "react-router-dom";
+import {AiTwotoneHeart} from "react-icons/ai";
+import {AiOutlineComment} from "react-icons/ai";
+import {AiFillEye} from "react-icons/ai";
+import {IPost} from "../../types/postType";
+import {Link} from "react-router-dom";
 
-function TopFiveItem({ itemProps }: { itemProps: IPost }) {
+function TopFiveItem({itemProps}: {itemProps: IPost}) {
   return (
     <ItemWrapper>
-      <Link to={`/feed/${itemProps.posting_id}`} className="image">
-        <img
-          alt="image"
-          src={itemProps.image_paths[0]}
-          className="fiveImage"
-        ></img>
+      <Link to={`/feed/${itemProps.post_id}`} className="image">
+        <img alt="image" src={itemProps.images[0]} className="fiveImage"></img>
         <Icons className="iconList">
           <Icon className="icon">
             <AiTwotoneHeart className="icon"></AiTwotoneHeart>
-            <div>{itemProps.like_count}</div>
+            <div>{itemProps.like}</div>
           </Icon>
           <Icon className="icon">
             <AiOutlineComment className="icon"></AiOutlineComment>
-            <div>{itemProps.like_count}</div>
+            <div>{itemProps.comment}</div>
           </Icon>
           <Icon className="icon">
             <AiFillEye className="icon"></AiFillEye>
-            <div>{itemProps.view_count}</div>
+            <div>{itemProps.view}</div>
           </Icon>
         </Icons>
       </Link>
@@ -47,7 +43,7 @@ const ItemWrapper = styled.div`
     height: 250px;
   }
 
-  .fiveImage:hover {
+   .fiveImage:hover {
     opacity: 0.7;
     transition: all 0.3s ease;
     cursor: pointer;

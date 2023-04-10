@@ -1,20 +1,16 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import {Link} from "react-router-dom";
 import styled from "styled-components";
+import { LOGIN_ID } from "../detailPost/Detail";
 
-function ItemUser({
-  id,
-  img,
-  nickName,
-}: {
-  id: number;
-  img: string;
-  nickName: string;
-}) {
+function ItemUser({id, img}: {id: number; img: string}) {
+  const [nickName, setNickName] = useState("");
+
   return (
     <UserInfo>
       <Link to={`/myPage/${id}`} className="linkItem">
         <img className="profile" alt="profile" src={img}></img>
-        <UserNickName>{nickName}</UserNickName>
+        <UserNickName>{id}</UserNickName>
       </Link>
     </UserInfo>
   );
@@ -22,12 +18,7 @@ function ItemUser({
 
 export default ItemUser;
 
-const UserInfo = styled.div`
-  height: 50px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 5px;
+const UserInfo = styled.span`
   & .linkItem {
     display: block;
     display: flex;

@@ -1,60 +1,32 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { SelectedTopFiveFilterState } from "../../atoms/postAtom";
 import { IPost } from "../../types/postType";
-import LoadTopFive from "./LoadTopFive";
+import {dummy} from "../feed/FeedBody";
+import { filterItems } from "./TopFiveFilter";
 
 import TopFiveItem from "./TopFiveItem";
 
 function TopFiveBody() {
-  const selected = useRecoilState<string>(SelectedTopFiveFilterState);
-  let [selectedList, setSelectedList] = useState<IPost[]>();
+  const selected = useRecoilState<string>(SelectedTopFiveFilterState)[0];
 
-  let selectFilter = "likeCount";
-
-
+  console.log(selected)
+  let selectedList: IPost[] = [];
+  if (selected === filterItems[0]) {
+    selectedList = dummy.sort((a, b) => b.like - a.like).slice(0,4);
+    console.log(selectedList)
+  } else if (selected === filterItems[1]) {
+    selectedList = dummy.sort((a, b) => b.view - a.view).slice(0,4);
+  }
   useEffect(() => {
-    if (selected[0] === "좋아요") {
-      selectFilter = "likeCount";
-    } else if (selected[0] === "조회수") {
-      selectFilter = "viewCount";
-    }
-    setTimeout(() => {
-      axios
-        .get(`http://13.125.74.102:8080/api/feed/post`, {
-          params: {
-            page: 1,
-            size: 4,
-            sortBy: selectFilter,
-            sortOrder: "DESC",
-          },
-        })
-        .then(function (response) {
-          console.log(response.data);
-          setSelectedList(response.data.posting_list);
-        }),
-        1000;
-    });
-  }, []);
 
-  // if (selectedList && selected[0] === filterItems[1]) {
-  //   selectedList = selectedList
-  //     .sort((a, b) => b.like_count - a.like_count)
-  //     .slice(0, 4);
-  // } else if (selected[0] === filterItems[0]) {
-  //   selectedList = selectedList
-  //     .sort((a, b) => b.view_count - a.view_count)
-  //     .slice(0, 4);
-  // }
+  },[selected])
   return (
     <ItemWrppaer>
-      {selectedList
-        ? selectedList.map((item) => (
-            <TopFiveItem key={item.posting_id} itemProps={item} />
-          ))
-        : new Array(4).fill("").map(() => <LoadTopFive />)}
+      {selectedList.map((item) => (
+        <TopFiveItem key={item.post_id} itemProps={item} />
+      ))}
     </ItemWrppaer>
   );
 }
