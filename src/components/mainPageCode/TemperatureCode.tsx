@@ -122,16 +122,41 @@ export default function TemperatureCode(props: MapSearchProps) {
   }, [gridX, currentX]);
 
   return (
-    <TempDiv>
-      <TempForm>
-        <CiTempHigh size={'70px'} color={'white'} />
-        {tmpTime}
-        <TbTemperatureCelsius size={'70px'} color={'white'} />
-      </TempForm>
-      <TempSpan>
-        {PTYForm.map((el) => {
+    // <TempDiv>
+    //   <TempForm>
+    //     <CiTempHigh size={'70px'} color={'white'} />
+    //     {tmpTime}
+    //     <TbTemperatureCelsius size={'70px'} color={'white'} />
+    //   </TempForm>
+    //   <TempSpan>
+    //     {PTYForm.map((el) => {
+    //       if (el === '맑음') {
+    //         return <AiFillCloud size={'70px'} color={'white'} />;
+    //       } else if (el === '비') {
+    //         return <BsFillCloudDrizzleFill size={'70px'} color={'white'} />;
+    //       } else if (el === '비 또는 눈') {
+    //         return <BsCloudSleetFill size={'70px'} color={'white'} />;
+    //       } else if (el === '눈') {
+    //         return <BsFillCloudSnowFill size={'70px'} color={'white'} />;
+    //       }
+    //     }).find((a) => a)}{' '}
+    //     <br></br>
+    //   </TempSpan>
+    // </TempDiv>
+        <div class="container mx-auto w-screen">
+        <div class="flex items-center justify-center">
+            <div class="bg-white shadow-2xl p-6 rounded-2xl border-2 border-gray-50">
+                <div class="flex flex-col">
+                    <div>
+                        <h2 class="font-bold text-gray-600 text-center">{localStorage.getItem('location')}</h2>
+                    </div>
+                    <div class="my-6">
+                        <div class="flex flex-row space-x-4 items-center ml-2">
+                            <div id="icon">
+                                <span>
+                          {PTYForm.map((el) => {
           if (el === '맑음') {
-            return <AiFillCloud size={'70px'} color={'white'} />;
+            return <AiFillCloud size={'70px'} color={'white'} style={{backgroundColor: "skyblue", borderRadius: "10px"} }/>;
           } else if (el === '비') {
             return <BsFillCloudDrizzleFill size={'70px'} color={'white'} />;
           } else if (el === '비 또는 눈') {
@@ -140,9 +165,20 @@ export default function TemperatureCode(props: MapSearchProps) {
             return <BsFillCloudSnowFill size={'70px'} color={'white'} />;
           }
         }).find((a) => a)}{' '}
-        <br></br>
-      </TempSpan>
-    </TempDiv>
+
+                                </span>
+                            </div>
+                            <div id="temp">
+                                <h4 class="text-4xl">{tmpTime}&deg;C</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full place-items-end text-right border-t-2 border-gray-100 mt-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   );
 }
 const TempDiv = styled.div`

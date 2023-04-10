@@ -1,28 +1,25 @@
+import {useState} from "react";
 import styled from "styled-components";
-import { BiSliderAlt } from "react-icons/bi";
+import {BiSliderAlt} from "react-icons/bi";
+import { dummy } from "./FeedBody";
+import { IPost } from "../../types/postType";
 import { useRecoilState } from "recoil";
 import { SelectedFilterState } from "../../atoms/postAtom";
-import { useEffect } from "react";
+export const selectList = ["", "최신", "좋아요", "조회수", "댓글"];
 
-export const selectList = ["최신", "좋아요", "조회수"];
+interface Item {
+  productSlice: {
+    loadingState: string;
+    productList: any;
+  };
+}
 
 function FeedFilter() {
-  const [selected, setSelected] = useRecoilState<string | any>(
-    SelectedFilterState,
-  );
-
-  useEffect(() => {
-    // axios
-    //   .get(`http://13.125.74.102:80/api/feed/post`)
-    //   // .get(`http://13.125.74.102:8080/api/feed/post`)
-    //   .then(function (response) {
-    //     console.log(response.data);
-    //     setPostsList(response.data);
-    //   });
-  }, []);
+  const [selected, setSelected] = useRecoilState<string | any>(SelectedFilterState);
 
   const handleSelect = (e: any) => {
     setSelected(e.target.value as string);
+    console.log(selected)
   };
 
   return (

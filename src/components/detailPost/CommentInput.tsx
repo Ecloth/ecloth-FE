@@ -1,53 +1,24 @@
 import styled from "styled-components";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
+import {AiOutlinePlusCircle} from "react-icons/ai";
+import React, {useState} from "react";
 
 function CommentInput() {
   const [comment, setComment] = useState("");
-  const { id } = useParams();
-  const tempPostId = parseInt(id as string, 10);
-  const navigator = useNavigate();
+  const handleCommemtonChange = (e: React.ChangeEvent<HTMLInputElement>) => setComment(e.target.value);
+  // const handleCommentonClick = () => {};
 
-  const handleCommemtonChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setComment(e.target.value);
-    
-  //로그인 한 memberId
-  const memberId = TEST_MEMBER_ID;
-
-  const handleCommentonSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCommentonSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(comment);
     if (comment === "") {
       return;
     }
-    const headers = {
-      "Authorization": TEST_TOKEN,
-    };
-    const data = {
-      memberId: memberId,
-      postingId: tempPostId,
-      content: comment,
-    };
-    axios
-      .post(
-        `http://13.125.74.102:8080/api/feed/post/${tempPostId}/comment`,
-        data,
-        { headers: headers },
-      )
-      .then(function (response) {
-        console.log(response.data);
-        alert(response.data);
-      });
-
+    // setCommentArray(commentValueList => [comment, ...commentValueList]);
+    console.log(comment);
     setComment("");
-    navigator(0);
   };
   return (
     <Wrapper>
-      <form className="commentWrap">
+      <form className="commentWrap" onSubmit={handleCommentonSubmit}>
         <input
           type="text"
           placeholder="Type a Comment"
@@ -55,7 +26,7 @@ function CommentInput() {
           value={comment}
           onChange={handleCommemtonChange}
         ></input>
-        <button className="commetBtn" onClick={handleCommentonSubmit}>
+        <button className="commetBtn">
           <AiOutlinePlusCircle className="icon" />
         </button>
       </form>
@@ -76,7 +47,7 @@ const Wrapper = styled.div`
     justify-content: center;
     & .commetBtn {
       position: absolute;
-      top: 45%;
+      top: 40%;
       right: 10%;
       transform: translateY(-50%);
       border: 0;

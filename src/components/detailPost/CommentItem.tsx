@@ -1,18 +1,14 @@
 import styled from "styled-components";
-import { IComment } from "../../types/postType";
+import {IComment} from "../../types/postType";
 import RecordTime from "../commons/RecordTime";
 import ItemUser from "../feed/ItemUser";
 
-function CommentItem({ comment }: { comment: IComment }) {
+function CommentItem({comment}: {comment: IComment}) {
   return (
     <CommentWrapper>
-      <ItemUser
-        id={comment.writerId}
-        img={comment.profileImagePath}
-        nickName={comment.nickname}
-      />
+      <ItemUser id={comment.member_id} img="" />
       <Comment>{comment.content}</Comment>
-      <RecordTime date={comment.registerDate} />
+      <RecordTime date={comment.create_date} />
     </CommentWrapper>
   );
 }
@@ -25,7 +21,11 @@ const CommentWrapper = styled.li`
   flex-direction: row;
   align-items: center;
   width: 100%;
+<<<<<<< Updated upstream
+  justify-content: space-evenly;
+=======
   justify-content: space-around;
+>>>>>>> Stashed changes
   margin: 3px 0;
 `;
 const Comment = styled.span`

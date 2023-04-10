@@ -52,7 +52,7 @@ export default function MainPageDevelop() {
             {/* <h1 class="my-6 text-3xl">날씨</h1> */}
 
             <div class="mt-4 space-y-3 md:flex md:space-y-0">
-              <div class="ml-auto h-25 rounded-md bg-gradient-to-r bg-sky-400 p-3 absolute right-14 top-40">
+              <div class="ml-auto h-25 rounded-md bg-gradient-to-r p-3 absolute -right-80 ">
                   <Temperature
                     latitude={currentY}
                     longitude={currentX}
@@ -67,10 +67,19 @@ export default function MainPageDevelop() {
             </div>
           </div>
 
-          <div class="mx-6">
+          <div class=" mt-4 ">
 
-            <h1 class="my-6 text-center text-3xl">오늘은 이 옷 어때?</h1>
-
+            {/* <h1 class="my-6 text-center text-3xl">오늘은 이 옷 어때?</h1> */}
+  <div class="ml-72 w-80 h-28 p-6 bg-white flex items-center space-x-6 rounded-lg hover:scale-105 transition transform duration-500 cursor-pointer">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+      </svg>
+    </div>
+    <div>
+      <h1 class="text-xl font-bold text-gray-700 mb-2">오늘은 이옷 어때?</h1>
+  </div>
+</div>
             <div class="mt-4 space-y-3 md:space-y-0">
               <Clothing>
                 <ClothPage />

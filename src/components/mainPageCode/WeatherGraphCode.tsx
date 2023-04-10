@@ -49,7 +49,7 @@ export default function WeatherGraphCode() {
     ))
   return (
     <>
-    <HorizontalScroll style={{top: "35px", width:2000}}>
+    <HorizontalScroll style={{top: "30px", width:2000}}>
     <GraphSpan>
     <ResponsiveContainer width={3000} height={30}>
     <LineChart data={data} margin={{ top: 0, left: 60 }}>
@@ -78,6 +78,6 @@ export default function WeatherGraphCode() {
 const GraphSpan = styled.div`
   /* margin-right: 150px; */
   position : relative;
-  right: 420px;
+  right: 520px;
   /* left: 100px; */
 `;

@@ -1,116 +1,28 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { TEST_MEMBER_ID, TEST_TOKEN } from "../../App";
-import { postList, PreviewImgsState } from "../../atoms/postAtom";
-import { IFeed, IPost } from "../../types/postType";
-import PostImage from "../detailPost/PostImage";
+import {LOGIN_ID} from "../detailPost/Detail";
+import { dummy } from "../feed/FeedBody";
 import ItemUser from "../feed/ItemUser";
-import ContentInput from "./ContentInput";
-import ImageInput from "./ImageInput";
+import ImagePrint from "./ImagePrint";
+import PostEditor from "./PostEditor";
 import TitleInput from "./TitleInput";
 import WriteButtonList from "./WriteButtonList";
-import { MAX_IMAGE_COUNT } from "./Writing";
 
 function Editing() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [images, setImages] = useState<any>([]);
-  const { postId } = useParams();
-  const tempPostId = parseInt(postId as string, 10);
-  const postProp = useLocation().state.post;
-  const [tempImages, setImgages] = useRecoilState<string[] | any>(
-    PreviewImgsState,
-  );
-  //수정중
-  useEffect(() => {
-    if (postProp){
-      setContent(postProp.content);
-      setTitle(postProp.title);
-      setImages(postProp.image_paths);
-    }
-  }, [])
-
-  const handleTitleonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
-  };
-
-  const handleContentonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setContent(e.target.value);
-  };
-  const handleSubmitOnClick = async (e: React.FormEvent<HTMLButtonElement>) => {
-    const formData = new FormData();
-    console.log(images);
-    images.forEach((image: any) => {
-      formData.append('images', image);
-      console.log(image)
-    });
-    formData.append('content',  content);
-    formData.append('title',title);
-    e.preventDefault();
-    const headers = {
-      "Content-Type":"multipart/form-data",
-        "Authorization": TEST_TOKEN,
-    }
-    axios
-      .post(`http://13.125.74.102:8080/api/feed/post/${tempPostId}`, 
-        formData,
-        {headers : headers}
-      )
-      .then(function (response) {
-        console.log("EDITING" ,response.data);
-      });
-    setContent("");
-    // setImages({});
-  };
-  const url: string[] = [];
-  const handleUploadonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (e.target.files === null) return
-    const files = e.target.files;
-    // setImages([...images ,...files]);
-
-    let file;
-    let filesLength =
-      files.length > MAX_IMAGE_COUNT ? MAX_IMAGE_COUNT : files.length;
-
-    for (let i = 0; i < filesLength; i++) {
-      file = files[i];
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      url.push(window.URL.createObjectURL(file));
-      setImgages([...url]);
-    }
-  };
-  const handleCancelOnClick = () => {
-    console.log("cancel");
-    // navigator("/feed");
-  };
+  const {postId} = useParams();
+  const posting = dummy.filter((item) => item.post_id === parseInt(postId as string, 10));
+  console.log(parseInt(postId as string, 10)-1)
   return (
     <WritingWrapper>
-      {postProp && 
-      <>
       <ImageWrapper>
-        <PostImage imgs={images} />
+        <ImagePrint imgUrl={posting[0].images}/>
       </ImageWrapper>
-      <ContentWrapper encType="multipart/form-data">
-        <ItemUser
-          id={postProp.member.member_id}
-          nickName={postProp.member.nickname}
-          img={postProp.member.profile_image_path}
-          />
-        <TitleInput onChange={handleTitleonChange} title={title} />
-        <ImageInput onChange={handleUploadonChange} />
-        <ContentInput onChange={handleContentonChange} content={content} />
-        <WriteButtonList
-          handleCancelonClick={handleCancelOnClick}
-          handleSubmitonClick={handleSubmitOnClick}
-          />
+      <ContentWrapper>
+        <ItemUser id={LOGIN_ID} img="" />
+        <TitleInput value={posting[0].title}/>
+        <PostEditor />
+        <WriteButtonList />
       </ContentWrapper>
-          </>
-  }
     </WritingWrapper>
   );
 }
