@@ -46,7 +46,7 @@ export default function SeasonBgCode() {
       <Content>
         지역을 설정하면 날씨를 확인할 수 있습니다.
         </Content>
-        <BounceLoader color="#6aafe6" style={{position: "absolute", left: "600px", top:"270px"}} size="100"/>
+        <BounceLoader color="#6aafe6" style={{position: "absolute", left: "500px", top:"270px"}} size="100"/>
       </Background>
     )
   }
@@ -61,7 +61,7 @@ const Img = styled.img`
 const Background = styled.div`
   background-color: white;
   width: 100%;
-  height: 100%;
+  height: 88%;
   z-index: 1;
   position: absolute;
 `
@@ -77,5 +77,5 @@ const Content = styled.div`
   border-radius: 50px;
   font-size: 30px;
   margin-top: 80px;
-  margin-left: 350px;
+  margin-left: 250px;
 `

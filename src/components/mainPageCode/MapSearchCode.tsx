@@ -129,14 +129,14 @@ export default function MapSearchCode(props: MapSearchProps) {
     <>
       <RegionSearchText>{fullAddress ? fullAddress : locationText}</RegionSearchText>
       <SlMagnifierButon type="button" onClick={handleClick}>
-        <SlMagnifier />
+        <SlMagnifier style={{display: "inline", marginBottom: "4px"}}/>
       </SlMagnifierButon>
       <SlMagnifierButon type="button" onClick={handleLocationButton}>
-        <BiCurrentLocation />
+        <BiCurrentLocation style={{display: "inline", marginBottom: "4px"}}/>
       </SlMagnifierButon>
-      <ClothesnText>
-        <span>오늘의 옷 추천!</span>
-      </ClothesnText>
+      {/* <ClothesnText> */}
+        {/* <span>오늘의 옷 추천!</span> */}
+      {/* </ClothesnText> */}
     </>
   );
 }
@@ -147,13 +147,13 @@ const RegionSearchText = styled.section`
   box-sizing: border-box;
   margin-left: 10px;
   margin-right: 10px;
-  min-width: 40%;
+  min-width: 50%;
   width: auto;
-  background: #6aafe6;
+  background: rgb(243,244,246);
   border: none;
   border-radius: 5px;
-  color: white;
-  height: 50px;
+  color: black;
+  /* height: 50px; */
   ::placeholder {
     color: white;
   }
@@ -182,7 +182,7 @@ const ClothesnText = styled.section`
 const SlMagnifierButon = styled.button`
   margin-right: 10px;
   width: 50px;
-  height: 50px;
+  height: 53px;
   padding: 0px;
   border-radius: 10px;
   background-color: #d4dfe6;
